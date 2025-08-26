@@ -4,20 +4,20 @@ title: |
   
   con Quarto-Typst
 author: Marta García González
-# resumen: |
-#   Este trabajo presenta una metodología de optimización para la toma de decisiones ...
+resumen: |
+  Este trabajo presenta una metodología de optimización para la toma de decisiones ...
 
-#   Las conclusiones principales han sido ...
-# palabras-clave: [Quarto, Typst, formato]  
-# abstract: |
-#   This work presents an optimization methodology for decision-making ...
+  Las conclusiones principales han sido ...
+palabras-clave: [Quarto, Typst, formato]  
+abstract: |
+  This work presents an optimization methodology for decision-making ...
 
-#   The main conclusions have been ...
-# keywords: [Quarto, Typst, format]
-# agradecimientos: |
-#   En primer lugar, quiero expresar mi más sincero agradecimiento a todas las personas que han hecho posible la realización de este trabajo. Sin su apoyo, orientación y comprensión, este proyecto no habría llegado a buen término.
+  The main conclusions have been ...
+keywords: [Quarto, Typst, format]
+agradecimientos: |
+  En primer lugar, quiero expresar mi más sincero agradecimiento a todas las personas que han hecho posible la realización de este trabajo. Sin su apoyo, orientación y comprensión, este proyecto no habría llegado a buen término.
 
-#   Agradezco especialmente a mi tutor por sus comentarios y sugerencias han sido fundamentales para el desarrollo y mejora de esta investigación. Asimismo, extiendo mi gratitud a los profesores y compañeros que, de una u otra forma, han contribuido con sus conocimientos y experiencias durante mi formación académica.
+  Agradezco especialmente a mi tutor por sus comentarios y sugerencias han sido fundamentales para el desarrollo y mejora de esta investigación. Asimismo, extiendo mi gratitud a los profesores y compañeros que, de una u otra forma, han contribuido con sus conocimientos y experiencias durante mi formación académica.
 lang: es
 date: today
 date-format: full
