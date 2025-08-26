@@ -1,0 +1,38 @@
+---
+format: 
+  memoriatfetypst-typst: 
+    toc: false
+    portada: false
+---
+
+
+# Últimas palabras
+
+Este capítulo se ha incluido con ayuda del chunk con el parámetro `child` en el fichero principal del tfg: `template.qmd` (otra posibilidad podría haber sido escribir el contenido de este capítulo directamente en el fichero principal):
+
+`````markdown
+
+```{{r}}
+#| child: "capitulo03.qmd"
+#| echo: false
+```
+
+`````
+
+Hice esta plantilla para trabajos fin de estudios, por lo que puede no ser adecuada para otros usos. Podría mejorarla con ayuda de sus comentarios y sugerencias para este tipo de trabajos académicos.
+
+Se puede presentar una tabla creada con R sin mostrar el código R, usando `echo: false`, como la @tbl-summary-mtcars-A creada con el paquete `knitr` y la función `kable()`.
+
+```{r}
+#| label: tbl-summary-mtcars-A
+#| tbl-cap: "**Primeras filas de mtcars**. Presentados con la función kable del paquete knitr."
+#| echo: false
+
+library(knitr)
+mtcars |>
+    head(6) |>
+    kable()
+```
+
+
+

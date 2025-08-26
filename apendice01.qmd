@@ -1,0 +1,218 @@
+---
+format: 
+  memoriatfetypst-typst: 
+    toc: false
+    portada: false
+---
+
+# Figuras Complementarias
+
+Este apéndice se ha incluido con ayuda del shortcode: `appendix` en el documento principal `template.qmd` y un chunk que use el parámetro `child`:
+
+````` markdown
+
+{{{< appendix >}}}
+
+```{{r}}
+#| child: "apendice01.qmd"
+#| echo: false
+```
+
+
+`````
+
+## Gráfico
+
+La numeración de las figuras se reiniciará como "A.1", "A.2", etc., para que quede claro que estas figuras son parte del apéndice.
+
+```{r}
+#| label: fig-scatter-car
+#| fig-cap: "**Gráfico de Dispersión de Datos de Coches**. El eje x muestra el peso del coche, y el eje y muestra las millas por galón."
+
+plot(mtcars$wt, mtcars$mpg)
+```
+
+En la @fig-scatter-car (distinta a la @fig-hist-mpg), se observa la relación entre el peso del coche y las millas por galón.
+
+## Documentación
+
+La documentación completa de este proyecto incluye tanto los aspectos teóricos como los procedimientos metodológicos empleados en el desarrollo de la investigación. Se han utilizado diversas herramientas y tecnologías para garantizar la reproducibilidad y trazabilidad del trabajo, incluyendo sistemas de control de versiones, entornos de desarrollo integrados y plataformas de análisis estadístico. Toda la documentación técnica se encuentra estructurada de manera que facilite tanto la comprensión del proceso investigativo como la replicación de los resultados obtenidos.
+
+El código fuente, los datos utilizados y los scripts de análisis están disponibles en el repositorio del proyecto, organizados siguiendo las mejores prácticas de ciencia reproducible. La documentación incluye comentarios detallados en el código, archivos README explicativos, y esta memoria técnica que describe el marco teórico, la metodología aplicada y los resultados obtenidos. Asimismo, se proporciona información sobre las dependencias del software, los requisitos del sistema y las instrucciones paso a paso para la instalación y ejecución del proyecto.
+
+
+## Código Fuente
+
+El código fuente que aparece en el capítulo 2 es el siguiente:
+
+- El código de la @fig-hist-mpg
+
+```{r}
+#| label: fig-hist-mpg
+#| echo: true
+#| eval: false
+#| fanced: true
+```
+
+
+- El código de la @fig-boxplot-mpg
+
+
+```{r}
+#| label: fig-boxplot-mpg
+#| echo: true
+#| eval: false
+#| fanced: true
+```
+
+
+
+- El código de la @tbl-mtcars-head
+
+```{r}
+#| label: Atbl-mtcars-head-a
+#| ref.label: 'tbl-mtcars-head'
+#| eval: false
+#| echo: true
+```
+
+
+
+
+- El código de la @tbl-regression
+
+```{r}
+#| label: Atbl-regression-a
+#| ref.label: 'tbl-regression'
+#| eval: false
+#| echo: true
+```
+
+
+**Nota Importante**. También se podría haber guardado con ayuda de `save()` y cargarlo con `load()`, o con `saveRDS()`y `readRDS()`, pero de la forma anterior es más sencillo para el lector. El código fuente para usar estas parejas de funciones se muestran en el siguiente chunk (no es necesario ejecutarlo, ya que el fichero `tbl-regression-externa.rds` ya está creado, o podría estar en un fichero de script R aparte):
+
+
+```{r}
+#| include: false
+#| eval: false
+library(modelsummary)
+r2 = modelsummary::msummary(
+  list(
+    lm(mpg ~ wt + hp, data = mtcars),
+    lm(mpg ~ wt + hp + qsec, data = mtcars)
+  ),
+  output = "markdown",
+  fmt = 2,
+  coef_rename = c("wt" = "Peso", "hp" = "Caballos de Fuerza", "qsec" = "Tiempo en 1/4 de Milla"),
+  gof_map = c("nobs", "r.squared", "adj.r.squared"),
+  statistic = "{std.error} ({statistic})",
+  notes = "_Notas_: Esta tabla muestra los resultados de la regresión del conjunto de datos mtcars."
+)
+#save(r2, file = "tbl-regression-externa.RData")
+saveRDS(r2, file = "tbl-regression-externa.rds")
+```
+
+```{r}
+#| label: tbl-regression-externa
+#| tbl-cap: Resultados de Regresión del Conjunto de Datos mtcars
+#| echo: false
+library(modelsummary) # puede no ser necesario cargarlo, 
+# el fichero rds ya tiene la información necesaria
+#load("tbl-regression-externa.RData")
+r2 = readRDS("tbl-regression-externa.rds")
+r2
+```
+
+
+El código de la @tbl-regression-externa que carga el fichero `tbl-regression-externa.rds` y el código de generación-grabación es el siguiente:
+
+`````markdown
+
+```{{r}}
+#| include: false
+#| eval: false
+library(modelsummary)
+r2 = modelsummary::msummary(
+  list(
+    lm(mpg ~ wt + hp, data = mtcars),
+    lm(mpg ~ wt + hp + qsec, data = mtcars)
+  ),
+  output = "markdown",
+  fmt = 2,
+  coef_rename = c("wt" = "Peso", "hp" = "Caballos de Fuerza", "qsec" = "Tiempo en 1/4 de Milla"),
+  gof_map = c("nobs", "r.squared", "adj.r.squared"),
+  statistic = "{std.error} ({statistic})",
+  notes = "_Notas_: Esta tabla muestra los resultados de la regresión del conjunto de datos mtcars."
+)
+#save(r2, file = "tbl-regression-externa.RData")
+saveRDS(r2, file = "tbl-regression-externa.rds")
+```
+
+```{{r}}
+#| label: tbl-regression-externa
+#| tbl-cap: Resultados de Regresión del Conjunto de Datos mtcars
+#| echo: false
+library(modelsummary) # puede no ser necesario cargarlo, 
+# el fichero rds ya tiene la información necesaria
+#load("tbl-regression-externa.RData")
+r2 = readRDS("tbl-regression-externa.rds")
+r2
+```
+
+`````
+
+
+
+## Tablas multipágina
+
+
+
+```{=typst}
+#show figure: set block(breakable: true)
+```
+
+```{r}
+#| tbl-cap: "blah blah blah"
+#| label: tbl-blah
+library(tinytable)
+tt(head(iris, 50))
+```
+
+```{=typst}
+#show figure: set block(breakable: false)
+```
+
+El código de la @tbl-blah que necesita de múltiples páginas para generar la salida "Typst" usa el siguiente truco (uso de `#show figure: set block(breakable: true)` antes y después de la tabla, para no afectar al resto del documento): 
+
+
+``````markdown
+
+```{{=typst}}
+#show figure: set block(breakable: true)
+```
+
+```{{r}}
+#| tbl-cap: "blah blah blah"
+#| label: tbl-blah
+library(tinytable)
+tt(head(iris, 50))
+```
+
+```{{=typst}}
+#show figure: set block(breakable: false)
+```
+
+``````
+
+
+## Curiosidades
+
+- **Ejemplo 1**:
+
+Se puede obtener: [Conclusiones]{style="background-color:green; font-size: 16pt"}
+
+
+```markdown
+Se puede obtener: [Conclusiones]{style="background-color:green; font-size: 16pt"}
+```
+
