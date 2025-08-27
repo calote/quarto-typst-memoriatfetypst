@@ -109,16 +109,32 @@
    ]
 }
 
-#let cabecera-capitulo-estilo03(it,nums,nombre-capitulo) = {
+#let cabecera-capitulo-estilo03(it,nums,nombre-capitulo,author) = {
     
-    align(left)[
-        #text(size: 25pt, weight: "bold", tracking: 2pt)[#nombre-capitulo #nums.at(0)]
-        #v(1.5em)
-        #text(size: 26pt, weight: "bold")[#it.body]
-        #v(1em)
-        #line(length: 50%, stroke: 2pt + gray)
-    ]
-    v(3em)
+    //debug("nombre-capitulo", nombre-capitulo)
+    //debug("nombre-capitulo", nombre-capitulo == "--" )
+    if nombre-capitulo == "--" {
+      // Si el nombre del capítulo es "--", no mostramos nada
+      align(left)[
+          #text(size: 26pt, weight: "bold")[#it.body]
+          #v(1em)
+          #text(size: 16pt, weight: "bold", tracking: -1pt, style: "italic")[#author]
+          #v(1em)
+          #line(length: 50%, stroke: 2pt + gray)
+      ]
+      v(3em)
+
+    } else {
+      align(left)[
+          #text(size: 25pt, weight: "bold", tracking: 2pt)[#nombre-capitulo #nums.at(0)]
+          #v(1.5em)
+          #text(size: 26pt, weight: "bold")[#it.body]
+          #v(1em)
+          #line(length: 50%, stroke: 2pt + gray)
+      ]
+      v(3em)
+
+    }
 
 }
 
@@ -298,7 +314,8 @@
 
   cabecera-capitulo-state.update(str(cabecera-capitulo))
 //let nombre-capitulo = "CAPÍTULO"
-let nombre-capitulo = [#nombre-capitulo]  //"TEMA"
+//let nombre-capitulo = [#nombre-capitulo]  //"TEMA"
+let nombre-capitulo = nombre-capitulo  //"TEMA"
 
 apendice-portada-state.update(str(apendice-portada))
 apendice-nombre-state.update(str(apendice-nombre))
@@ -414,7 +431,7 @@ if estilo == "estilo01" {
   let nums = counter(heading).at(it.location())
   if nums.len() > 0 and nums.at(0) > 0 {
     pagebreak(weak: true)
-    cabecera-capitulo-estilo03(it, nums, nombre-capitulo)   
+    cabecera-capitulo-estilo03(it, nums, nombre-capitulo, author)   
     } else {
     it
     }
