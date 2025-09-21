@@ -14,4 +14,4 @@ README.qmd
 .release.timestamp
 .nojekyll
 _variables.yml
-!logo.png
+*.Rproj
