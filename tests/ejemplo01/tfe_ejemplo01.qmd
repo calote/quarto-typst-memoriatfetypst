@@ -1,0 +1,715 @@
+---
+title: |
+  Análisis Estadísticos 
+  
+  con Quarto-Typst
+author: Marta García González
+resumen: |
+  Este trabajo presenta una metodología de optimización para la toma de decisiones ...
+
+  Las conclusiones principales han sido ...
+palabras-clave: [Quarto, Typst, formato]  
+abstract: |
+  This work presents an optimization methodology for decision-making ...
+
+  The main conclusions have been ...
+keywords: [Quarto, Typst, format]
+agradecimientos: |
+  En primer lugar, quiero expresar mi más sincero agradecimiento a todas las personas que han hecho posible la realización de este trabajo. Sin su apoyo, orientación y comprensión, este proyecto no habría llegado a buen término.
+
+  Agradezco especialmente a mi tutor por sus comentarios y sugerencias han sido fundamentales para el desarrollo y mejora de esta investigación. Asimismo, extiendo mi gratitud a los profesores y compañeros que, de una u otra forma, han contribuido con sus conocimientos y experiencias durante mi formación académica.
+lang: es
+date: today
+date-format: full
+bibliography: referencias.bib
+#csl: apa
+#csl: chicago-author-date
+format:
+  memoriatfetypst-typst: 
+    toc: true
+    #keep-typ: true
+    tofiguras: true
+    totablas: true
+    papersize: a4
+    portada: true
+    logo: "logo.png"
+    facultad: "Facultad de Matemáticas"
+    universidad: "Universidad de Sevilla"
+    tutor-TFG: "Tutor: Pedro L. Luque"
+    fecha-TFG: "Sevilla, Junio de 2026"
+    nombre-capitulo: "CAPÍTULO"
+    apendice-portada: "Apéndice"
+    apendice-nombre: "Apéndice"
+    referencias-nombre: "Referencias"
+    cabecera-capitulo: "estilo01"
+    # margin: 
+    #   x: 2cm 
+    #   y: 2cm
+    toccapitulos: false
+    bibliografia-completa: false
+  html:
+    toc: true
+    toc-title: "Tabla de Contenidos"
+    number-sections: true
+    code-tools: 
+      source: true
+    embed-resources: true
+execute:
+  warning: false
+  message: false
+---
+
+
+# Introducción al uso de `Quarto-Typst`
+
+Este documento muestra un ejemplo mínimo de la plantilla. Para más información, consulta la [demo completa](https://kazuyanagimoto.com/quarto-academic-typst/template-full.pdf) y su [código fuente](https://kazuyanagimoto.com/quarto-academic-typst/template-full.qmd).  
+
+
+## Sección como Encabezado Nivel 2 {#sec-level-2-ejemplo}
+
+Puedes usar expresiones matemáticas en LaTeX:
+
+$$
+Y_{it} = \alpha_i + \lambda_t + \sum_{k \neq -1} \tau_h \mathbb{1}\{E_i + k = t\} +
+\varepsilon_{it}.
+$$
+
+### Sección como Encabezado Nivel 3
+
+No uso ni recomiendo usar niveles de encabezado 3 o inferiores, pero funciona. También se pueden hacer referencias cruzadas a secciones: como la anterior @sec-level-2-ejemplo (se ha escrito del siguiente modo: `@sec-level-2-ejemplo`).
+
+## Citas
+
+Puedes citar una referencia como esta [@katsushika1831] o @horst2020 (se ha escrito del siguiente modo: `como esta [@katsushika1831] o @horst2020`).
+
+## Más sobre matemáticas
+
+Se puede usar matemáticas resaltadas (centradas) al escribir una pareja de dos símbolos de dólar: `$$`.
+
+$$
+i^2 = j^2 = k^2 = ijk = −1
+$$
+
+$$
+x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
+$$
+
+$$
+\sum_{i = 1}^{n}{(\bar{x} - x_i)^2}
+$$
+
+Las anteriores ecuaciones, se han obtenido al escribir el código LaTeX siguiente:
+
+```
+$$
+i^2 = j^2 = k^2 = ijk = −1
+$$
+
+$$
+x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
+$$
+
+$$
+\sum_{i = 1}^{n}{(\bar{x} - x_i)^2}
+$$
+```
+
+
+
+La @eq-bayes muestra el Teorema de Bayes y la @eq-regresion muestra una fórmula usada en regresión lineal (se ha incluido referencias a estas fórmulas):
+
+$$
+Pr(\theta | y) = \frac{Pr(y | \theta) Pr(\theta)}{Pr(y)}
+$$ {#eq-bayes}
+
+
+$$
+Y \sim \beta_0 + \beta_1 X + \epsilon
+$$ {#eq-regresion}
+
+
+Se han obtenido al escribir:
+
+```
+$$
+Pr(\theta | y) = \frac{Pr(y | \theta) Pr(\theta)}{Pr(y)}
+$$ {#eq-bayes}
+
+
+$$
+Y \sim \beta_0 + \beta_1 X + \epsilon
+$$ {#eq-regresion}
+
+```
+
+Se pueden añadir definiciones y teoremas matemáticos, como se muestran a continuación con la @def-variable-aleatoria, el @thm-ley-grandes-numeros y también un ejemplo @exm-espacio-muestral.
+
+::: {#def-variable-aleatoria}
+##### Variable aleatoria
+
+Una variable aleatoria es una función que asigna un valor numérico a cada resultado en el espacio muestral de un experimento aleatorio.
+:::
+
+::: {#thm-ley-grandes-numeros}
+##### Ley de los grandes números
+
+Sea $X_1, X_2, \ldots, X_n$ una secuencia de variables aleatorias independientes e idénticamente distribuidas con media $\mu$ y varianza finita $\sigma^2$. Entonces, para cualquier $\epsilon > 0$,
+$$
+\lim_{n \to \infty} P\left( \left| \frac{1}{n} \sum_{i=1}^{n} X_i - \mu \right| < \epsilon \right) = 1.
+$$
+:::
+
+::: {#exm-espacio-muestral}
+##### Espacio muestral
+
+El espacio muestral de lanzar un dado es $\{1, 2, 3, 4, 5, 6\}$.
+:::
+
+::: {#exr-ejercicio-1} 
+Calcula la media y la varianza de la variable aleatoria que representa el lanzamiento de un dado justo de seis caras.
+:::
+
+::: {.solution}
+##### @exr-ejercicio-1
+
+ Sea $X$ la variable aleatoria que representa el lanzamiento de un dado justo de seis caras. Los posibles valores de $X$ son $1, 2, 3, 4, 5, 6$, cada uno con probabilidad $\frac{1}{6}$.
+
+La media de una variable aleatoria discreta se calcula como el valor esperado:
+$$
+E(X) = \sum_{i=1}^{n} x_i P(X = x_i)
+$$
+Para un dado justo de seis caras, cada cara tiene una probabilidad de $\frac{1}{6}$. Por lo tanto, la media es:
+$$
+E(X) = \sum_{i=1}^{6} i \cdot \frac{1}{6} = \frac{1 + 2 + 3 + 4 + 5 + 6}{6} = \frac{21}{6} = 3.5
+$$
+La varianza se calcula como:
+$$
+Var(X) = E(X^2) - [E(X)]^2
+$$
+Calculamos primero $E(X^2)$:
+$$
+E(X^2) = \sum_{i=1}^{6} i^2 \cdot \frac{1}{6} = \frac{1^2 + 2^2 + 3^2 + 4^2 + 5^2 + 6^2}{6} = \frac{91}{6}
+$$
+Luego, la varianza es:
+$$
+Var(X) = \frac{91}{6} - \left(\frac{21}{6}\right)^2 = \frac{91}{6} - \frac{441}{36} = \frac{35}{12} \approx 2.9167
+$$
+:::
+
+
+En el @exr-ejercicio-1 se muestra un ejercicio con su solución.
+
+::: {.callout-important}
+
+##### **Nota Importante**: Prefijos para las etiquetas de bloques matemáticos
+
+El código markdown utilizado se muestra a continuación, donde se ha usado `:::` para crear un bloque y se ha añadido un identificador con `{#etiqueta}` para poder referenciarlo después si se necesita (no es obligatorio), donde la etiqueta además de ser única, debe empezar por una letra y puede contener letras, números, guiones y guiones bajos. Para los resultados matemáticos **lo importante es que deben empezar** por 
+
+- `def-` para definiciones, 
+- `thm-` para teoremas, 
+- `lem-` para lemas, 
+- `cor-` para corolarios, 
+- `prp-` para proposiciones, 
+- `exm-` para ejemplos,
+- `exr-` para ejercicios,
+
+
+Para demostraciones de teoremas, lemas, corolarios y proposiciones, se usa el entorno `.proof`, que no necesita etiqueta. Y para las soluciones de ejercicios, se usa el entorno `.solution`, que debe tener la etiqueta del ejercicio correspondiente en el título.
+:::
+
+
+::: {.proof}
+La demostración se deja como ejercicio para el lector.
+:::
+
+
+
+```markdown
+::: {#def-variable-aleatoria}
+##### Variable aleatoria
+
+Una variable aleatoria es una función que asigna un valor numérico a cada resultado en el espacio muestral de un experimento aleatorio.
+:::
+
+::: {#thm-ley-grandes-numeros}
+##### Ley de los grandes números
+
+Sea $X_1, X_2, \ldots, X_n$ una secuencia de variables aleatorias independientes e idénticamente distribuidas con media $\mu$ y varianza finita $\sigma^2$. Entonces, para cualquier $\epsilon > 0$,
+$$
+\lim_{n \to \infty} P\left( \left| \frac{1}{n} \sum_{i=1}^{n} X_i - \mu \right| < \epsilon \right) = 1.
+$$
+:::
+
+::: {#exm-espacio-muestral}
+##### Espacio muestral
+
+El espacio muestral de lanzar un dado es $\{1, 2, 3, 4, 5, 6\}$.
+:::
+
+::: {#exr-ejercicio-1} 
+Calcula la media y la varianza de la variable aleatoria que representa el lanzamiento de un dado justo de seis caras.
+:::
+
+
+::: {.proof}
+La demostración se deja como ejercicio para el lector.
+:::
+
+
+```
+
+
+
+# Figuras y Tablas
+
+## Figuras
+
+Como muestra @fig-hist-mpg, el pie de figura se muestra debajo de la figura.  
+En el pie de figura (`fig-cap`), uso texto en **negrita** para el título y texto normal para la descripción.
+
+```{r}
+#| label: fig-hist-mpg
+#| fig-cap: "**Histograma de Millas por Galón**. El eje x muestra las millas por galón, y el eje y muestra la frecuencia."
+#| echo: false
+
+hist(mtcars$mpg)
+```
+
+También se puede presentar una figura creada con R sin mostrar el código R, usando `echo: false`, como la @fig-boxplot-mpg.
+```{r}
+#| label: fig-boxplot-mpg
+#| fig-cap: "**Diagrama de Caja de Millas por Galón**. El eje y muestra las millas por galón."
+#| echo: false
+
+boxplot(mtcars$mpg, horizontal = TRUE, col = "lightblue")
+```
+
+## Gráficos externos
+
+También se pueden incluir ficheros gráficos externos (png o jpg), descargados, capturados o creados por nosotros mismos. Hay varias formas de hacerlo, pero la más sencilla es usar el siguiente código (con ayuda de R y el paquete "knitr") en la que además incluye una leyenda o explicación de la figura y una etiqueta para poder referenciarla antes o después: @fig-external-image.
+
+```{r}
+#| label: fig-external-image
+#| fig-cap: "**Imagen Externa**. Esta imagen se ha incluido desde un fichero externo."
+#| echo: false
+#| out.width: "50%"
+#| fig-align: "center"
+#| fig-alt: "Descripción alternativa de la imagen externa"
+#| fig-pos: "H"
+
+knitr::include_graphics("logo.png")
+```
+
+El código necesario para incluir la imagen externa anterior es el siguiente:
+
+```{{r}}
+#| label: fig-external-image
+#| fig-cap: "**Imagen Externa**. Esta imagen se ha incluido desde un fichero externo."
+#| echo: false
+#| out.width: "50%"
+#| fig-align: "center"
+#| fig-alt: "Descripción alternativa de la imagen externa"
+#| fig-pos: "H"
+
+knitr::include_graphics("logo.png")
+```
+
+
+También es posible utilizar código markdown para incluir la imagen externa, como se muestra a continuación en la @fig-external-image-2 (con las mismas opciones que el código anterior):
+
+```markdown
+![**Imagen Externa 2**. Esta imagen se ha incluido desde un fichero externo usando markdown.](logo.png){#fig-external-image-2 width="50%" fig-alt="Descripción alternativa de la imagen externa" fig-cap="Descripción alternativa de la imagen externa" fig-pos="H"}
+```
+
+![**Imagen Externa 2**. Esta imagen se ha incluido desde un fichero externo usando markdown.](logo.png){#fig-external-image-2 width="50%" fig-alt="Descripción alternativa de la imagen externa" fig-pos="H"}
+
+Y también es posible incluir una imagen externa usando el primer método (no funciona con el segundo método), pero sin mostrar ninguna leyenda ni añadiendo ninguna etiqueta para referenciarla, como se muestra a continuación:
+
+```{r}
+#| echo: false
+#| out.width: "20%"
+#| fig-align: "right"
+
+knitr::include_graphics("logo.png")
+```
+
+El código necesario para incluir la imagen externa anterior es el siguiente:
+
+```{{r}}
+#| echo: false
+#| out.width: "20%"
+#| fig-align: "right"
+knitr::include_graphics("logo.png")
+```
+
+#### Gráficos externos generados con R
+
+También es posible guardar un gráfico generado con R en un fichero externo (png o jpg) y luego incluirlo en el documento, como se muestra a continuación en la @fig-external-image-3. Se debe aclarar que el gráfico se ha generado con R, ggplot2 y se ha guardado en un fichero externo. El código se ha incluido en este documento, pero no se evalúa ni se muestra (`eval: false` y `echo: false`), ya que el gráfico ya se ha generado y guardado en un fichero externo. Pero se podría haber guardado el código en otro fichero R distinto y ejecutarlo por separado para generar el gráfico y guardarlo en el fichero externo.
+
+```{r}
+#| include: false
+#| eval: false
+library(ggplot2)
+# Crear el gráfico
+p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
+  geom_point() +
+  labs(title = "Relación entre Peso y Millas por Galón",
+       x = "Peso (1000 lbs)",
+       y = "Millas por Galón") +
+  theme_minimal()
+# Guardar el gráfico en un archivo externo
+ggsave("scatterplot_mtcars.png", plot = p, width = 6, height = 4)
+```
+
+```{r}
+#| label: fig-external-image-3
+#| fig-cap: "**Imagen Externa 3**. Esta imagen se ha generado con R, ggplot2 y se ha guardado en un fichero externo."
+#| echo: false
+#| out.width: "50%"
+#| fig-align: "center"
+#| fig-alt: "Descripción alternativa de la imagen externa"
+knitr::include_graphics("scatterplot_mtcars.png")
+```
+
+El código necesario para incluir la imagen externa anterior es el siguiente:
+
+```{{r}}
+#| include: false
+#| eval: false
+library(ggplot2)
+# Crear el gráfico
+p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
+  geom_point() +
+  labs(title = "Relación entre Peso y Millas por Galón",
+       x = "Peso (1000 lbs)",
+       y = "Millas por Galón") +
+  theme_minimal()
+# Guardar el gráfico en un archivo externo
+ggsave("scatterplot_mtcars.png", plot = p, width = 6, height = 4)
+```
+
+```{{r}}
+#| label: fig-external-image-3
+#| fig-cap: "**Imagen Externa 3**. Esta imagen se ha generado con R, ggplot2 y se ha guardado en un fichero externo."
+#| echo: false
+#| out.width: "50%"
+#| fig-align: "center"
+#| fig-alt: "Descripción alternativa de la imagen externa"
+knitr::include_graphics("scatterplot_mtcars.png")
+```
+
+::: {.callout-note}
+- Esta estrategia de guardar un gráfico generado con R o Python en un fichero de script externo y luego incluirlo en el documento es útil cuando se desea reutilizar el gráfico en múltiples documentos o cuando se quiere mantener el código de generación del gráfico separado del documento principal.
+
+- También **acelera el tiempo de compilación del documento Quarto**, ya que el gráfico no necesita ser regenerado cada vez que se compila el documento, sino que simplemente se incluye la imagen ya generada.
+
+- También sería posible incluir tablas (u otro tipo de objetos, como: `summary()`, ...) generadas con R en ficheros externos y luego incluirlas en el documento Quarto. Con ayuda de las funciones `save()` y `load()` de R, se pueden guardar y cargar objetos R, incluyendo data frames que representan tablas. Pero en este caso no es necesario, ya que las tablas generadas con R se pueden incluir directamente en el documento Quarto, como se muestra en la siguiente sección.
+:::
+
+
+
+## Tablas
+
+Puedes usar [tinytable](https://vincentarelbundock.github.io/tinytable/) para tablas generales y [modelsummary](https://vincentarelbundock.github.io/modelsummary/) para tablas de regresión.^[Dado que el backend predeterminado de `modelsummary` es `tinytable`, puedes usar las opciones de personalización de `tinytable` para `modelsummary`.]  
+
+Como muestra @tbl-mtcars-head, el pie de tabla se muestra encima de la tabla. Las notas de la tabla pueden añadirse con el argumento `notes` de la función `tinytable::tt()`.
+
+```{r}
+#| label: tbl-mtcars-head
+#| tbl-cap: Encabezado del Conjunto de Datos mtcars
+#| echo: false
+library(tinytable)
+nt <- "_Notas_: Esta tabla muestra las primeras seis filas del conjunto de datos mtcars."
+mtcars[1:5, 1:5] |>
+  tinytable::tt(width = 0.8, notes = nt)         
+```
+
+### Tablas con `knitr::kable()`
+
+También es posible usar `knitr::kable()` para crear tablas simples, como la @tbl-summary-mtcars-AA.
+
+```{r}
+#| label: tbl-summary-mtcars-AA
+#| tbl-cap: "**Primeras filas de mtcars**. Presentados con la función kable del paquete knitr."
+#| echo: false
+#| tbl-align: "center"
+library(knitr)
+mtcars[,(1:4)] |>
+    head(6) |>
+    kable()
+```
+
+Incluyendo el siguiente código:
+
+```{{r}}
+#| label: tbl-summary-mtcars-AA
+#| tbl-cap: "**Primeras filas de mtcars**. Presentados con la función kable del paquete knitr."
+#| echo: false
+#| tbl-align: "center"
+library(knitr)
+mtcars[,(1:4)] |>
+    head(6) |>
+    kable()
+```
+
+También es posible no añadir una leyenda ni una etiqueta para referenciarla, como se muestra a continuación (al igual que en las figuras), aunque esto no es recomendable, ya que las tablas deben tener siempre una leyenda y una etiqueta para referenciarlas.
+
+```{r}
+#| echo: false
+#| results: "asis"
+#| tbl-align: "left"
+library(knitr)
+mtcars[,c(1:4,7,6)] |>
+    tail(6) |>
+    kable()
+```
+
+
+El código necesario para crear la tabla anterior es el siguiente:
+
+```{{r}}
+#| echo: false
+#| results: "asis"
+#| tbl-align: "left"
+library(knitr)
+mtcars[,c(1:4,7,6)] |>
+    tail(6) |>
+    kable()
+```
+
+
+### Tablas con código markdown
+
+También es posible usar código markdown para crear tablas simples (se pueden justificar de forma independiente las columnas), como la @tbl-summary-mtcars-AAA.
+
+::: {#tbl-summary-mtcars-AAA}
+
+| mpg | cyl | disp | hp |
+|-----|:-----|------:|:----:|
+| 21  | 6   | 160  | 110|
+| 22.8| 4   | 108  | **93** |
+| 21.4| 6   | 258  | 110|
+| 18.7| 8   | 360  | 175|
+| 18.1| 6   | 225  | 105|
+
+: **Primeras filas de mtcars**. Presentados con código markdown. {tbl-colwidths: [25,25,25,25]}
+
+:::
+
+El código necesario para crear la tabla anterior es el siguiente:
+
+``````markdown
+::: {#tbl-summary-mtcars-AAA}
+
+| mpg | cyl | disp | hp |
+|-----|:-----|------:|:----:|
+| 21  | 6   | 160  | 110|
+| 22.8| 4   | 108  | **93** |
+| 21.4| 6   | 258  | 110|
+| 18.7| 8   | 360  | 175|
+| 18.1| 6   | 225  | 105|
+
+: "**Primeras filas de mtcars**. Presentados con código markdown." {tbl-align="left"}
+
+:::
+``````
+
+### Subtablas
+
+
+::: {#tbl-panel layout-ncol=2}
+| Col1 | Col2 | Col3 |
+|------|------|------|
+| A    | B    | C    |
+| E    | F    | G    |
+| A    | G    | G    |
+
+: Primera tabla {#tbl-primera}
+
+| Col1 | Col2 | Col3 |
+|------|------|------|
+| A    | B    | C    |
+| E    | F    | G    |
+| A    | G    | G    |
+
+: Segunda Tabla {#tbl-segunda}
+
+Leyenda común a ambas tablas.
+:::
+
+Vea @tbl-panel para detalles, especialmente @tbl-segunda.
+
+El código necesario para crear la tabla anterior es el siguiente:
+
+``````markdown
+::: {#tbl-panel layout-ncol=2}
+| Col1 | Col2 | Col3 |
+|------|------|------|
+| A    | B    | C    |
+| E    | F    | G    |
+| A    | G    | G    |
+
+: Primera tabla {#tbl-primera}
+
+| Col1 | Col2 | Col3 |
+|------|------|------|
+| A    | B    | C    |
+| E    | F    | G    |
+| A    | G    | G    |
+
+: Segunda Tabla {#tbl-segunda}
+
+Leyenda común a ambas tablas.
+:::
+``````
+
+También se podría presentar una tabla frente a una imagen, como se muestra a continuación:
+
+::: {#tbl-fig-panel layout-ncol=2}
+| Col1 | Col2 | Col3 |
+|------|------|------|
+| A    | B    | C    |
+| E    | F    | G    |
+| A    | G    | G    |
+: Primera tabla {#tbl-primera-fig}
+
+```{r}
+#| echo: false
+#| out.width: "2cm"
+#| label: fig-segunda-fig
+#| cap-location: top
+#| fig-cap: "**Logo**. Imagen de fichero externo."
+
+knitr::include_graphics("logo.png")
+```
+Leyenda común a ambas tabla-figura.
+:::
+
+
+El código necesario para crear la tabla-figura anterior es el siguiente:
+
+
+`````markdown
+::: {#tbl-fig-panel layout-ncol=2}
+| Col1 | Col2 | Col3 |
+|------|------|------|
+| A    | B    | C    |
+| E    | F    | G    |
+| A    | G    | G    |
+: Primera tabla {#tbl-primera-fig}
+
+```{{r}}
+#| echo: false
+#| out.width: "2cm"
+#| label: fig-segunda-fig
+#| cap-location: top
+#| fig-cap: "**Logo**. Imagen de fichero externo."
+
+knitr::include_graphics("logo.png")
+```
+Leyenda común a ambas tabla-figura.
+:::
+`````
+
+### Tablas markdown con método grid 
+
+La @tbl-grid muestra una tabla creada con el método grid.
+
++-----------+-----------+--------------------+
+| Fruta     | Precio    | Ventajas           |
++===========+===========+:===================+
+| Bananas   | $1.34     | - fácil de pelar   |
+|           |           | - color brillante  |
++-----------+-----------+--------------------+
+| Naranjas  | $2.10     | - cura el escorbuto|
+|           |           | - sabrosa          |
++-----------+-----------+--------------------+
+
+: Ejemplo de tabla grid {#tbl-grid tbl-align="center"}
+
+El código necesario para crear la tabla anterior es el siguiente:
+
+`````markdown
++-----------+-----------+--------------------+
+| Fruta     | Precio    | Ventajas           |
++===========+===========+:===================+
+| Bananas   | $1.34     | - fácil de pelar   |
+|           |           | - color brillante  |
++-----------+-----------+--------------------+
+| Naranjas  | $2.10     | - cura el escorbuto|
+|           |           | - sabrosa          |
++-----------+-----------+--------------------+
+
+: Ejemplo de tabla grid {#tbl-grid tbl-align="center"}
+`````
+
+### Tablas y Figuras en salidas Typst no logra el posicionamiento LaTeX
+
+:::{.callout-note}
+Las tablas y figuras en Quarto con salida Typst no pueden usar directamente los códigos de posicionamiento de LaTeX (t, b, H, etc.). Estos son específicos de LaTeX y no tienen equivalente directo en Typst.
+:::
+
+
+
+
+### Tablas de Regresión
+
+Puedes usar `modelsummary` para crear tablas de regresión.
+
+```{r}
+#| label: tbl-regression
+#| tbl-cap: Resultados de Regresión del Conjunto de Datos mtcars
+#| warning: false
+#| echo: false
+
+library(modelsummary)
+r1 = modelsummary::msummary(
+  list(
+    lm(mpg ~ wt + hp, data = mtcars),
+    lm(mpg ~ wt + hp + qsec, data = mtcars)
+  ),
+  output = "markdown",
+  fmt = 2,
+  coef_rename = c("wt" = "Peso", "hp" = "Caballos de Fuerza", "qsec" = "Tiempo en 1/4 de Milla"),
+  gof_map = c("nobs", "r.squared", "adj.r.squared"),
+  statistic = "{std.error} ({statistic})",
+  notes = "_Notas_: Esta tabla muestra los resultados de la regresión del conjunto de datos mtcars."
+)
+r1
+```
+
+
+
+
+
+<!-- {{{< include capitulo03.qmd >}}} -->
+
+```{r}
+#| child: "capitulo03.qmd"
+#| echo: false
+```
+
+
+
+
+{{< pagebreak >}}
+
+<!-- ## Conclusiones  {.unnumbered} -->
+
+## Conclusiones
+
+
+Este documento ha presentado una plantilla mínima para trabajos académicos utilizando Quarto y Typst. Se han mostrado ejemplos de cómo incluir matemáticas, figuras, tablas y referencias bibliográficas. La plantilla está diseñada para ser fácil de usar y personalizar según las necesidades específicas del usuario.
+
+
+
+
+{{< appendix >}}
+
+<!-- {{{< include apendice01.qmd >}}} -->
+
+```{r}
+#| child: "apendice01.qmd"
+#| echo: false
+```
+
