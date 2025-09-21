@@ -11,6 +11,7 @@ docs/
 tests/
 NEWS.md
 README.md
+README.qmd
 .release.timestamp
 .nojekyll
 _variables.yml
