@@ -10,11 +10,11 @@ lang: es
 date: today
 date-format: full
 bibliography: referencias.bib
-#csl: apa
-#csl: chicago-author-date
 format:
   memoriatfetypst-typst: 
     toc: true
+    #bibliographystyle: apa
+    #bibliographystyle: chicago-author-date
     #keep-typ: true
     tofiguras: true
     totablas: true
