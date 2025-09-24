@@ -1,11 +1,11 @@
 ---
-title: Tú título aquí
-author: Tú nombre-apellidos aquí
-resumen: Tú resumen aquí
+title: Tu título aquí
+author: Tu nombre-apellidos aquí
+resumen: Tu resumen aquí
 palabras-clave: [Palabra01, Palabra02]  
-abstract: Tú resumen en inglés aquí
+abstract: Tu resumen en inglés aquí
 keywords: [Word01, Word02]
-agradecimientos: Tús agradecimientos aquí
+agradecimientos: Tus agradecimientos aquí
 lang: es
 date: today
 date-format: full
@@ -23,7 +23,7 @@ format:
     logo: "logo.png"
     facultad: "Facultad de Matemáticas"
     universidad: "Universidad de Sevilla"
-    tutor-TFG: "Tutor: Nombre de tú tutor aquí"
+    tutor-TFG: "Tutor: Nombre de tu tutor aquí"
     fecha-TFG: "Sevilla, Junio de 2026"
     nombre-capitulo: "CAPÍTULO"
     apendice-portada: "Apéndice"
