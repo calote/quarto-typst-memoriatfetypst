@@ -32,7 +32,7 @@ format:
     totablas: true
     papersize: a4
     portada: true
-    logo: "logo.png"
+    logo-file: "logo.png"
     facultad: "Facultad de Matemáticas"
     universidad: "Universidad de Sevilla"
     tutor-TFG: "Tutor: Pedro L. Luque"
