@@ -89,8 +89,8 @@ $endif$
 $if(universidad)$
   universidad: "$universidad$",
 $endif$
-$if(logo)$
-  logo: "$logo$",
+$if(logo-file)$
+  logo: "$logo-file$",
 $endif$
 $if(fecha-TFG)$
   fecha-TFG: "$fecha-TFG$",
