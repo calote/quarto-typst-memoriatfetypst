@@ -347,30 +347,67 @@ let is-first-page-of-bibliography() = {
 }
 
 
-  set page(header: context {
-    let bib-query = query(bibliography)
-    let in-bib = if bib-query.len() > 0 {
-      here().page() >= bib-query.first().location().page()
-    } else {
-      false
-    }
+  set page(
+    header: context {
+      let bib-query = query(bibliography)
+      let in-bib = if bib-query.len() > 0 {
+        here().page() >= bib-query.first().location().page()
+      } else {
+        false
+      }
 
-    if in-bib {
-      if here().page() > bib-query.first().location().page() {
-        align(right, emph([#referencias-nombre]))
+      if in-bib {
+        if here().page() > bib-query.first().location().page() {
+          align(right, text(size: 0.85em, tracking: 0.5pt)[#upper(referencias-nombre)])
+          line(length: 100%)
+        }
+      } else if not is-first-page-of-section() {
+        // Sección activa; si no hay sección todavía, se usa el capítulo como fallback
+        let sec = hydra(2)
+        let content = if sec != none { sec } else { hydra(1) }
+        align(right, text(size: 0.85em, tracking: 0.5pt)[#upper(content)])
         line(length: 100%)
       }
-    } else if is-first-page-of-section() {
-      // No header on the first page of a chapter
-    } else {
-      if calc.odd(here().page()) {
-         align(right, emph(hydra(1)))
+    },
+    footer: context {
+      let bib-query = query(bibliography)
+      let in-bib = if bib-query.len() > 0 {
+        here().page() >= bib-query.first().location().page()
       } else {
-         align(left, emph(hydra(2)))
+        false
       }
-      line(length: 100%)
+
+      if in-bib {
+        // Bibliografía: solo número de página
+        line(length: 100%)
+        align(right, text(size: 0.85em)[#counter(page).display()])
+      } else if is-first-page-of-section() {
+        // Primera página de capítulo: solo número de página centrado
+        align(center, text(size: 0.85em)[#counter(page).display()])
+      } else {
+        // hydra() no funciona en footer; se usa query() para obtener el capítulo activo
+        let chapters = query(heading.where(level: 1))
+        let current-chapter = chapters.rev().find(h => h.location().page() <= here().page())
+        line(length: 100%)
+        if current-chapter != none {
+          let nums = counter(heading).at(current-chapter.location())
+          grid(
+            columns: (1fr, auto),
+            text(size: 0.85em, tracking: 0.5pt)[
+              #if nums.len() > 0 and nums.at(0) > 0 {
+                upper([#nombre-capitulo #str(nums.at(0)). #current-chapter.body])
+              } else {
+                upper(current-chapter.body)
+              }
+            ],
+            text(size: 0.85em)[#counter(page).display()]
+          )
+        } else {
+          align(right, text(size: 0.85em)[#counter(page).display()])
+        }
+      }
     }
-  })
+  )
 
 
   
