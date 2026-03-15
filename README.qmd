@@ -29,15 +29,35 @@ rm img/template-full-*.png
 
 ## Install
 
-If you would like to add the clean theme to an existing directory:
+If you would like to add the extension to an existing directory:
 
 ```{.bash}
-quarto install extension calote/quarto-typst-memoriatfetypst
+quarto add calote/quarto-typst-memoriatfetypst
 ```
 
-or you can use a Quarto template that bundles a .qmd starter file:
+To overwrite an existing installation without interactive prompts:
+
+```{.bash}
+quarto add calote/quarto-typst-memoriatfetypst --no-prompt
+```
+
+Or use a Quarto template that bundles a `.qmd` starter file:
 
 ```{.bash}
 quarto use template calote/quarto-typst-memoriatfetypst
+```
+
+## Features
+
+### Centered block equations in lists (`centrar-matematicas`)
+
+Block equations (`$$ ... $$`) inside indented environments (numbered lists, bullet lists, etc.) are automatically re-centered relative to the full text column width, compensating for the list indentation. This is enabled by default.
+
+To disable it:
+
+```yaml
+format:
+  memoriatfetypst-typst:
+    centrar-matematicas: false
 ```
 

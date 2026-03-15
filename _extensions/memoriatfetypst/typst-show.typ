@@ -74,6 +74,7 @@ $endif$
 $if(toccapitulos)$
   toccapitulos: $toccapitulos$,
 $endif$
+  centrar-matematicas: $if(centrar-matematicas)$$centrar-matematicas$$else$false$endif$,
 $if(tipo-TFG)$
   tipo-TFG: "$tipo-TFG$",
 $endif$
