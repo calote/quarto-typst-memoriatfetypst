@@ -10,3 +10,4 @@ _site/
 .vscode/
 .Renviron
 /.luarc.json
+.positai

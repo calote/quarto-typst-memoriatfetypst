@@ -13,6 +13,7 @@ bibliography: referencias.bib
 format:
   memoriatfetypst-typst: 
     toc: true
+    centrar-matematicas: true
     #bibliographystyle: apa
     #bibliographystyle: chicago-author-date
     #keep-typ: true

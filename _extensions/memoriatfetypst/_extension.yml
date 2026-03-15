@@ -8,6 +8,7 @@ contributes:
       fig-format: "png"
       portada: true
       toc: true
+      centrar-matematicas: true
       shortcodes:
         - shortcodes.lua
       template-partials:
