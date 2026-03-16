@@ -438,9 +438,12 @@ let is-first-page-of-bibliography() = {
       } else { margin }
       let sangria = here().position().x - ml  // indentación acumulada de la lista
       let ancho = page.width - ml - mr        // ancho total de la columna de texto
+      // block(width: auto) hace que el bloque interior se ajuste al contenido,
+      // evitando que \boxed{} u otros decoradores hereden el ancho del contenedor.
+      // align(center, ...) centra ese bloque de ancho natural dentro de la columna.
       move(
         dx: -sangria,
-        block(width: ancho, align(center, it))
+        block(width: ancho, align(center, block(width: auto, it)))
       )
     } else {
       it
