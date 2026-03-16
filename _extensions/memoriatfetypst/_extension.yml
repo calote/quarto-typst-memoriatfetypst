@@ -14,3 +14,6 @@ contributes:
       template-partials:
         - typst-template.typ
         - typst-show.typ
+      filters:
+        - boxed-filter.lua
+        
