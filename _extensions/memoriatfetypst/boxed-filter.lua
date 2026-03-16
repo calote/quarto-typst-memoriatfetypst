@@ -1,3 +1,4 @@
+print("DEBUG: El filtro boxed-filter.lua se está ejecutando")
 -- boxed-filter.lua
 
 local function extract_boxed(mathstr)
@@ -83,18 +84,22 @@ function Para(el)
 end
 
 function Math(el)
-  if el.mathtype ~= "InlineMath" then return el end
   if not has_boxed(el.text) then return el end
+  local is_inline = (el.mathtype == "InlineMath")
   local segments = extract_boxed(el.text)
   local parts = {}
   for _, seg in ipairs(segments) do
     if seg.type == "text" and seg.content ~= "" then
-      parts[#parts + 1] = latex_to_typst(seg.content, "InlineMath")
+      parts[#parts + 1] = latex_to_typst(seg.content, el.mathtype)
     elseif seg.type == "boxed" then
       local inner = latex_to_typst(seg.content, "InlineMath")
-      parts[#parts + 1] = make_rect(inner, true)
+      parts[#parts + 1] = make_rect(inner, is_inline)
     end
   end
-  -- Sin espacios alrededor para inline
-  return pandoc.RawInline("typst", "$" .. table.concat(parts, " ") .. "$")
+  if is_inline then
+    return pandoc.RawInline("typst", "$" .. table.concat(parts, " ") .. "$\n")
+  else
+    -- DisplayMath embebido en párrafo mixto (sin línea en blanco previa en el .qmd)
+    return pandoc.RawInline("typst", "$ " .. table.concat(parts, " ") .. " $")
+  end
 end
