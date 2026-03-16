@@ -396,7 +396,12 @@ let is-first-page-of-bibliography() = {
             columns: (1fr, auto),
             text(size: 0.85em, tracking: 0.5pt)[
               #if nums.len() > 0 and nums.at(0) > 0 {
-                upper([#nombre-capitulo #str(nums.at(0)). #current-chapter.body])
+                // "--" = sin etiqueta (coherente con cabecera-capitulo-estilo03)
+                if nombre-capitulo == "--" {
+                  upper(current-chapter.body)
+                } else {
+                  upper([#nombre-capitulo #str(nums.at(0)). #current-chapter.body])
+                }
               } else {
                 upper(current-chapter.body)
               }
