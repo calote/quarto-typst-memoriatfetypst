@@ -1,6 +1,3 @@
----
-format: gfm
----
 
 # Quarto-Typst-MemoriaTFEtypst
 
@@ -9,6 +6,8 @@ format: gfm
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Quarto ≥ 1.6.0](https://img.shields.io/badge/Quarto-%E2%89%A5%201.6.0-1f77b4)](https://quarto.org)
 
+> **🇪🇸 Spanish version: [LEEME.md](LEEME.md)** — Documentación en español.
+>
 > A [Quarto](https://quarto.org) + [Typst](https://typst.app) format for
 > **Trabajos Fin de Estudios (TFE)** — final degree projects, master's
 > theses and similar academic memoirs — built on top of the
@@ -131,6 +130,16 @@ quarto --list-extensions
 ```
 
 The extension requires Quarto ≥ 1.6.0.
+
+### Install a specific version
+
+To pin a particular release, append the tag to the repository reference:
+
+```bash
+quarto add calote/quarto-typst-memoriatfetypst@v1.0.0
+```
+
+Available tags are listed in the [GitHub Tags](../../tags) page.
 
 ---
 
