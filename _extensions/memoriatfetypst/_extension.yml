@@ -9,6 +9,7 @@ contributes:
       portada: true
       toc: true
       centrar-matematicas: true
+      heading-style: true
       shortcodes:
         - shortcodes.lua
       template-partials:
