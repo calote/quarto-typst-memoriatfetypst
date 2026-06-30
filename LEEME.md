@@ -1,0 +1,484 @@
+
+# Quarto-Typst-MemoriaTFEtypst
+
+[![Quarto extension](https://img.shields.io/badge/Quarto-extension-1f77b4)](https://quarto.org/docs/extensions/)
+[![Typst](https://img.shields.io/badge/Typst-239DAD?logo=typst&logoColor=white)](https://typst.app)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Quarto ≥ 1.6.0](https://img.shields.io/badge/Quarto-%E2%89%A5%201.6.0-1f77b4)](https://quarto.org)
+
+> **🇬🇧 English version: [README.md](README.md)** — Documentation in English.
+>
+> Un formato de [Quarto](https://quarto.org) + [Typst](https://typst.app) para
+> **Trabajos Fin de Estudios (TFE)** — TFG, TFM, tesis y memorias académicas
+> similares — construido sobre el motor
+> [Typst](https://quarto.org/docs/output-formats/typst.html) en lugar de LaTeX.
+
+Esta extensión envuelve Typst con un diseño tipo libro predefinido que
+produce un PDF listo para impresión de una memoria académica, con
+portada, prefacio, capítulos numerados, índices de figuras/tablas,
+resúmenes en español e inglés, agradecimientos opcionales y apéndices
+renumerados con letras (`A.1`, `A.2`, …).
+
+Ver la demostración renderizada:
+
+- PDF: [template.pdf](template.pdf) · [tfe_ejemplo01.pdf](tests/ejemplo01/tfe_ejemplo01.pdf)
+- Código fuente: [template.qmd](template.qmd) ·
+  [tfe_ejemplo01.qmd](tests/ejemplo01/tfe_ejemplo01.qmd)
+
+---
+
+## Índice
+
+- [¿Por qué Typst para un TFE?](#por-qué-typst-para-un-tfe)
+- [Características](#características)
+- [Instalación](#instalación)
+- [Inicio rápido](#inicio-rápido)
+- [Referencia de opciones YAML](#referencia-de-opciones-yaml)
+  - [Metadatos del documento](#metadatos-del-documento)
+  - [Maquetación y tipografía](#maquetación-y-tipografía)
+  - [Prefacio y navegación](#prefacio-y-navegación)
+  - [Portada](#portada)
+  - [Estilo de cabecera de capítulo](#estilo-de-cabecera-de-capítulo)
+  - [Apéndices](#apéndices)
+  - [Matemáticas](#matemáticas)
+  - [Bibliografía](#bibliografía)
+- [Shortcodes](#shortcodes)
+- [El ejemplo más completo](#el-ejemplo-más-completo)
+- [Arquitectura](#arquitectura)
+- [Solución de problemas](#solución-de-problemas)
+- [Hoja de ruta e ideas](#hoja-de-ruta-e-ideas)
+- [Contribuir](#contribuir)
+- [Licencia](#licencia)
+
+---
+
+## ¿Por qué Typst para un TFE?
+
+- **Compilación más rápida** que LaTeX (a menudo 10-50×).
+- **Compilaciones reproducibles** — los paquetes de Typst están fijados
+  en la extensión y se resuelven a través del registro de paquetes de Typst.
+- **Valores predeterminados limpios** — no es necesario instalar una
+  distribución de TeX.
+- **Integración con Quarto** — mantén tu flujo de trabajo `.qmd`,
+  bloques de código (R / Python / Julia), referencias cruzadas, citas,
+  callouts y teoremas.
+
+El formato fue diseñado para *Trabajo Fin de Grado* (TFG) y *Trabajo
+Fin de Máster* (TFM) de universidades españolas, pero está totalmente
+parametrizado y se puede adaptar a otros idiomas y convenciones a
+través de las [opciones YAML](#referencia-de-opciones-yaml).
+
+---
+
+## Características
+
+| Área | Qué proporciona la extensión |
+|---|---|
+| **Portada** | Logo de la universidad, titulación, facultad, universidad, tipo de trabajo, título, autor, tutor, fecha — todo configurable; se puede desactivar. |
+| **Prefacio** | `resumen` + `palabras-clave` en español, `abstract` + `keywords` en inglés, `agradecimientos` opcionales, todo en páginas dedicadas (sin numerar). |
+| **Índices** | Índice general, lista de figuras, lista de tablas, y un mini-índice *opcional* por capítulo. |
+| **Cabeceras de capítulo** | Tres diseños diferentes (`estilo01`, `estilo02`, `estilo03`) seleccionables por documento. |
+| **Apéndices** | Un shortcode `{{< appendix >}}` reinicia la numeración de figuras/tablas/encabezados a `A.1`, `A.2`, … con una página divisoria dedicada. |
+| **Matemáticas** | Sintaxis LaTeX (con `$$ … $$`), más re-centrado automático de ecuaciones en bloque dentro de listas, y un filtro Lua que convierte `\boxed{}` de LaTeX a cajas de Typst. |
+| **Bloques de código** | Cajas de colores diferenciadas para código R, Python, genérico y Markdown. |
+| **Referencias cruzadas** | Sintaxis estándar de Quarto para secciones, figuras (`@fig-…`), tablas (`@tbl-…`), ecuaciones (`@eq-…`) y teoremas (`@thm-…`). |
+| **Bibliografía** | BibLaTeX/BibTeX con estilos CSL `apa` y `chicago-author-date`, y opción para imprimir la bibliografía completa en una sola página. |
+| **Gemelo HTML** | El mismo `.qmd` puede renderizarse a una versión HTML autónoma con código plegable. |
+
+---
+
+## Instalación
+
+Elige **uno** de los tres modos de instalación.
+
+### A) Instalar en un proyecto Quarto existente
+
+```bash
+quarto add calote/quarto-typst-memoriatfetypst
+```
+
+Para sobrescribir una instalación anterior sin avisos interactivos:
+
+```bash
+quarto add calote/quarto-typst-memoriatfetypst --no-prompt
+```
+
+Esto copia `_extensions/memoriatfetypst/` en tu proyecto.
+
+### B) Usar la plantilla de GitHub
+
+```bash
+quarto use template calote/quarto-typst-memoriatfetypst
+```
+
+Esto clona el repositorio, te sitúa en una carpeta llamada
+`quarto-typst-memoriatfetypst/`, y te da un `template.qmd` funcional
+para empezar.
+
+### C) Instalación manual
+
+```bash
+git clone https://github.com/calote/quarto-typst-memoriatfetypst.git
+cp -r quarto-typst-memoriatfetypst/_extensions TU_PROYECTO/
+```
+
+### Verificar la instalación
+
+```bash
+quarto --list-extensions
+# memoriatfetypst   …   TU_PROYECTO/_extensions/memoriatfetypst
+```
+
+La extensión requiere Quarto ≥ 1.6.0.
+
+### Instalar una versión concreta
+
+Para fijar una versión específica, añade la etiqueta (tag) a la
+referencia del repositorio:
+
+```bash
+quarto add calote/quarto-typst-memoriatfetypst@v1.0.0
+```
+
+Las etiquetas disponibles se listan en la página de
+[Tags de GitHub](../../tags).
+
+---
+
+## Inicio rápido
+
+`.qmd` mínimo que usa todas las características del prefacio:
+
+```yaml
+---
+title: |
+  Análisis Estadístico
+
+  con Quarto-Typst
+author: Marta García González
+resumen: |
+  Este trabajo presenta una metodología de optimización para la toma
+  de decisiones en problemas de clasificación binaria …
+palabras-clave: [Quarto, Typst, formato]
+abstract: |
+  This work presents an optimisation methodology for decision-making
+  in binary classification problems …
+keywords: [Quarto, Typst, format]
+agradecimientos: |
+  A mi tutor, por sus comentarios y sugerencias …
+lang: es
+date: today
+bibliography: referencias.bib
+format:
+  memoriatfetypst-typst:
+    portada: true
+    toc: true
+    tofiguras: true
+    totablas: true
+    logo-file: "logo.png"
+    titulacion: "Grado en Estadística"
+    facultad: "Facultad de Matemáticas"
+    universidad: "Universidad de Sevilla"
+    tutor-TFG: "Tutor: Pedro L. Luque"
+    fecha-TFG: "Sevilla, Junio de 2026"
+    cabecera-capitulo: "estilo01"
+    nombre-capitulo: "CAPÍTULO"
+    toccapitulos: false
+  html:
+    embed-resources: true
+execute:
+  warning: false
+  message: false
+---
+
+# Introducción
+
+Texto del primer capítulo …
+
+# Metodología
+
+Texto del segundo capítulo …
+
+{{< appendix >}}
+
+# Código fuente
+
+Apéndice con el código R completo …
+```
+
+Compilar con:
+
+```bash
+quarto render mi-tfe.qmd --to memoriatfetypst-typst
+quarto render mi-tfe.qmd --to html      # versión HTML
+```
+
+---
+
+## Referencia de opciones YAML
+
+Todas las opciones están bajo la clave `format.memoriatfetypst-typst`
+a menos que se indique lo contrario. Las opciones heredadas del formato
+Typst estándar de Quarto también se incluyen por completitud.
+
+### Metadatos del documento
+
+| Opción | Tipo | Por defecto | Descripción |
+|---|---|---|---|
+| `title` | string | — | Título del documento. Usa el bloque escalar YAML (`\|`) para títulos multilínea. |
+| `subtitle` | string | — | Subtítulo opcional. |
+| `author` | string | — | Nombre del autor. |
+| `date` | string / date | `today` | Fecha del documento. |
+| `date-format` | string | `full` | Formato de fecha estilo R / `format()` (`full`, `long`, `medium`, `short` o un patrón personalizado). |
+| `lang` | string | `es` | Etiqueta de idioma BCP-47 (también se usa para la separación silábica). |
+| `region` | string | `ES` | Región BCP-47. |
+| `abstract` | string | — | Resumen en inglés (aparece en una página no numerada dedicada etiquetada *Abstract*). |
+| `abstract-title` | string | `RESUMEN` | Texto del encabezado en la página de resumen en inglés. |
+| `keywords` | list | — | Palabras clave en inglés que se muestran tras el abstract. |
+| `resumen` | string | — | Resumen en español (aparece en su propia página). |
+| `palabras-clave` | list | — | Palabras clave en español que se muestran tras el resumen. |
+| `agradecimientos` | string | — | Párrafo de agradecimientos en una página no numerada dedicada. |
+| `bibliography` | string | — | Ruta a un archivo `.bib` (BibTeX o BibLaTeX). |
+| `csl` | string | — | Archivo CSL opcional (p.ej. `apa`, `chicago-author-date`). Cuando se omite, se usa el estilo de bibliografía nativo de Typst. |
+
+### Maquetación y tipografía
+
+| Opción | Tipo | Por defecto | Descripción |
+|---|---|---|---|
+| `papersize` | string | `a4` | Tamaño de papel. Cualquier nombre de papel de Typst (`a4`, `us-letter`, `a5`, …). |
+| `margin` | dict | `{x: 2.5cm, y: 2.5cm}` | Márgenes de página. Acepta notación abreviada `{x, y}` o `{top, bottom, left, right}` en cualquier unidad de longitud. |
+| `mainfont` | string | `libertinus serif` | Fuente del cuerpo. |
+| `sansfont` | string | `Helvetica` | Fuente sans-serif (usada en la portada). |
+| `mathfont` | string | `New Computer Modern Math` | Fuente para matemáticas. |
+| `fontsize` | length | `11pt` | Tamaño base del cuerpo. |
+| `link-color` | colour | `rgb("#483d8b")` | Color de enlaces internos y externos. |
+| `section-numbering` | string | `1.1.1` | Patrón de numeración de secciones (p.ej. `1.1.1.1` para cuatro niveles). |
+| `page-numbering` | string | `1` | Estilo de numeración de páginas. El prefacio siempre usa números romanos (`i`, `ii`, …) independientemente. |
+
+### Prefacio y navegación
+
+| Opción | Tipo | Por defecto | Descripción |
+|---|---|---|---|
+| `portada` | bool | `true` | Renderizar la portada. |
+| `toc` | bool | `true` | Renderizar el índice general. |
+| `tofiguras` | bool | `true` | Renderizar la lista de figuras. |
+| `totablas` | bool | `true` | Renderizar la lista de tablas. |
+| `toccapitulos` | bool | `false` | Renderizar un pequeño recuadro "en este capítulo" al inicio de cada capítulo. |
+| `bibliografia-completa` | bool | `false` | Cuando es `true`, imprime toda la bibliografía en una sola página en lugar del diseño multilínea predeterminado. |
+
+### Portada
+
+| Opción | Tipo | Por defecto | Descripción |
+|---|---|---|---|
+| `logo-file` | string | — | Ruta a un logo (PNG/SVG/JPG). Se muestra a 7 cm de ancho en la portada. |
+| `titulacion` | string | `Grado en Estadística` | Nombre de la titulación. |
+| `facultad` | string | — | Facultad / escuela (opcional). |
+| `universidad` | string | — | Nombre de la universidad (opcional). |
+| `tutor-TFG` | string | — | Línea del tutor, p.ej. `Tutor: Dr. Juan Pérez`. |
+| `fecha-TFG` | string | `Sevilla, Junio de 2025` | Línea de lugar + fecha al pie de la portada. |
+| `tipo-TFG` | string | `TRABAJO FIN DE GRADO` | Tipo de trabajo (`TRABAJO FIN DE MÁSTER`, `TESIS DOCTORAL`, …). |
+
+### Estilo de cabecera de capítulo
+
+| Opción | Tipo | Por defecto | Descripción |
+|---|---|---|---|
+| `cabecera-capitulo` | string | `estilo01` | Uno de `estilo01`, `estilo02`, `estilo03` (ver más abajo). |
+| `nombre-capitulo` | string | `CAPÍTULO` | Etiqueta impresa junto al número de capítulo (usa `--` para ocultar la etiqueta por completo en `estilo03`). |
+| `referencias-nombre` | string | `Referencias` | Texto del encabezado de la sección de bibliografía. |
+| `apendice-portada` | string | `APÉNDICE` | Texto grande en la página divisoria de apéndices. |
+| `apendice-nombre` | string | `APÉNDICE` | Etiqueta impresa junto al número de apéndice. |
+
+Los tres estilos de capítulo son:
+
+- **`estilo01`** — Número gris translúcido grande en la esquina
+  superior derecha de la página del capítulo, con el título del
+  capítulo alineado a la derecha y una regla horizontal corta. El
+  valor predeterminado, adecuado para la mayoría de los TFG.
+- **`estilo02`** — Banners compacto alineado a la derecha con un
+  degradado de color (`color.map.crest`) y texto blanco. Más gráfico.
+- **`estilo03`** — Alineado a la izquierda, sin marca de agua de
+  número. Usa `nombre-capitulo: "--"` para imprimir solo el título,
+  útil para una monografía de un solo capítulo o un capítulo de
+  "Bibliografía" sin número.
+
+### Apéndices
+
+No hay una opción YAML para los apéndices — se activan mediante el
+shortcode [`{{< appendix >}}`](#shortcodes). Una vez que se encuentra
+el shortcode:
+
+- la numeración de encabezados se reinicia en `1` y se prefija con `A`
+  (`A.1`, `A.1.1`, …),
+- la numeración de figuras se prefija con `A` (`A.1`, `A.2`, …),
+- la numeración de tablas se prefija con `A` (`A.1`, `A.2`, …),
+- se inserta una página divisoria con el texto de `apendice-portada`.
+
+### Matemáticas
+
+| Opción | Tipo | Por defecto | Descripción |
+|---|---|---|---|
+| `centrar-matematicas` | bool | `true` | Vuelve a centrar las ecuaciones `$$ … $$` que aparecen dentro de entornos indentados (listas, citas en bloque, …) para que estén visualmente centradas en la columna de texto completa, no en la columna indentada. Pon `false` para desactivar. |
+
+Adicionalmente, el `boxed-filter.lua` incluido traduce las expresiones
+`\boxed{…}` de LaTeX (tanto en línea como en display) a
+`#box(stroke: 0.5pt, inset: 7pt, baseline: 0.55em)[$…$]` de Typst.
+La función se aplica automáticamente — no se necesita ninguna opción.
+
+### Bibliografía
+
+| Opción | Tipo | Por defecto | Descripción |
+|---|---|---|---|
+| `bibliography` | string | — | Ruta a un archivo `.bib`. |
+| `csl` | string | — | Archivo CSL opcional. Ejemplos usados en el proyecto: `apa.csl`, `chicago-author-date.csl`. |
+| `bibliografia-completa` | bool | `false` | Cuando es `true`, imprime toda la bibliografía en una sola página en lugar de dejar que fluya. |
+
+La bibliografía se titula automáticamente con `referencias-nombre` y
+su cabecera/pie de página se reemplazan con ese título (sin número de
+capítulo, en mayúsculas).
+
+---
+
+## Shortcodes
+
+| Shortcode | Propósito |
+|---|---|
+| `{{< appendix >}}` | Marca el inicio de los apéndices. Inserta una página divisoria y cambia la numeración de encabezados/figuras/tablas a `A.1`, `A.2`, … |
+| `{{< pagebreak >}}` | Inserta un salto de página forzado. Útil entre secciones que no deberían compartir página (p.ej. antes de las conclusiones). |
+
+Ambos shortcodes están definidos en `_extensions/memoriatfetypst/shortcodes.lua`.
+
+---
+
+## El ejemplo más completo
+
+El ejemplo funcional más completo está en
+[`tests/ejemplo01/`](tests/ejemplo01). Demuestra:
+
+- Un proyecto **multiarchivo**: `tfe_ejemplo01.qmd` (el archivo
+  principal) más dos hijos — `capitulo03.qmd` y `apendice01.qmd` —
+  incluidos con `{{< include … >}}` y el parámetro `child` del chunk.
+- **Prefacio bilingüe** (`resumen` + `palabras-clave` y `abstract` +
+  `keywords`) y una página de `agradecimientos`.
+- **Tres figuras** generadas con código R (histograma, boxplot, ggplot
+  de dispersión guardado a PNG y re-incluido), más una imagen externa
+  y un `logo.png` reutilizado en todo el documento.
+- **Seis estilos de tabla**: `tinytable`, `knitr::kable()`, Markdown
+  nativo, `layout-ncol` multipanel, paneles mixtos tabla/figura,
+  tablas grid de Pandoc, y una `tinytable` larga renderizada con
+  `breakable: true`.
+- **Una tabla de regresión** con `modelsummary::msummary()` y una
+  versión alternativa cargada desde un `.rds` preguardado (útil para
+  reconstrucciones más rápidas).
+- **Teoremas matemáticos** (`def-`, `thm-`, `exm-`, `exr-`) usando la
+  convención de que el **identificador del bloque debe comenzar con el
+  prefijo** de su tipo para que las referencias cruzadas funcionen
+  correctamente.
+- **Una tabla larga multipágina** usando el truco de Typst
+  `#show figure: set block(breakable: true)` para permitir saltos de
+  página dentro de una tabla.
+- **Un apéndice** generado a través del shortcode `{{< appendix >}}`,
+  con numeración estilo `A.1`.
+
+Para compilarlo localmente:
+
+```bash
+git clone https://github.com/calote/quarto-typst-memoriatfetypst.git
+cd quarto-typst-memoriatfetypst/tests/ejemplo01
+quarto render tfe_ejemplo01.qmd --to memoriatfetypst-typst
+quarto render tfe_ejemplo01.qmd --to html
+open tfe_ejemplo01.pdf
+```
+
+---
+
+## Arquitectura
+
+```
+_extensions/memoriatfetypst/
+├── _extension.yml          # Manifiesto de la extensión de Quarto
+├── typst-template.typ      # Función `article` principal de Typst
+├── typst-show.typ          # Puente de parámetros Quarto → Typst
+├── shortcodes.lua          # Shortcodes `appendix` y `pagebreak`
+└── boxed-filter.lua        # Filtro LaTeX \boxed{} → Typst #box()
+```
+
+- **`_extension.yml`** declara el formato, requiere Quarto ≥ 1.6.0,
+  incluye los dos parciales Typst, el archivo Lua de shortcodes y el
+  filtro. También establece los valores predeterminados del formato
+  (`portada: true`, `toc: true`, `centrar-matematicas: true`,
+  `fig-format: png`).
+- **`typst-template.typ`** define una única función `article()` que
+  recibe todos los parámetros, configura la geometría de página,
+  cabeceras/pies de página, estilos de capítulo numerados, páginas de
+  prefacio y la bibliografía. La función `appendix()` al final
+  reinicia la numeración e inserta una página divisoria.
+- **`typst-show.typ`** es la *plantilla show* que Quarto invoca;
+  reenvía cada clave YAML soportada a la función `article()` con la
+  conversión de tipo Typst correcta (`$if(...)$ … $endif$`).
+- **`shortcodes.lua`** proporciona los dos shortcodes. Emiten Typst
+  crudo que activa el comportamiento correspondiente en
+  `typst-template.typ`.
+- **`boxed-filter.lua`** recorre el AST después de la conversión de
+  Pandoc → Typst y reescribe cualquier nodo `Math` que contenga
+  `\boxed{…}` en una llamada `#box()` / `#rect()` de Typst, ya que el
+  conversor nativo de Pandoc a Typst no implementa `\boxed`.
+
+---
+
+## Solución de problemas
+
+| Síntoma | Causa probable | Solución |
+|---|---|---|
+| `unknown variable: nombre-capitulo` | Falta `nombre-capitulo` al usar `estilo03` | Pon `nombre-capitulo: "--"` o cualquier cadena no vacía. |
+| Ecuaciones en bloque quedan indentadas dentro de listas | `centrar-matematicas: false` | Ponlo a `true` (valor predeterminado). |
+| La página de bibliografía está vacía | No se encuentra el archivo CSL | Asegúrate de que la ruta en `csl:` es correcta, o elimina la clave `csl:` para usar el estilo Typst predeterminado. |
+| Tablas largas desbordan una sola página | Las figuras de Typst no son rompibles por defecto | Envuelve la tabla en ` ```{=typst} #show figure: set block(breakable: true) ``` ` y restablece después con `breakable: false`. Ver `apendice01.qmd` para un ejemplo. |
+| La portada se imprime sin logo | La ruta de `logo-file` es relativa a la raíz del proyecto, no al archivo `.qmd` | Usa una ruta relativa al directorio desde el que ejecutas `quarto render`. |
+| `quarto add` falla interactivamente | — | Vuelve a ejecutar con `--no-prompt`. |
+| Los estilos CSL de BibTeX se ven mal | Quarto usa el procesador CSL, no el nativo de Typst | O mantén el flujo de trabajo CSL o elimina la clave `csl:` y deja que Typst renderice de forma nativa. |
+
+---
+
+## Hoja de ruta e ideas
+
+Consulta el [archivo de propuestas](PROPOSALS.md) (o el
+[rastreador de incidencias](../../issues)) para la lista completa.
+Aspectos destacados:
+
+- Permitir que `margin` sea una longitud simple (p.ej. `margin: 2cm`)
+  además de la forma de diccionario.
+- Aceptar `bibliografia-completa` como un booleano real en lugar de
+  una cadena comparada con `"true"`.
+- Añadir una opción para inyectar código Typst adicional
+  (`include-in-header`) desde el YAML, p.ej. para estilos de teoremas
+  personalizados tipo LaTeX.
+- Documentar y distribuir un tercer (y cuarto) estilo de cabecera de
+  capítulo (`estilo04` con barra lateral, `estilo05` con título
+  centrado).
+- Proporcionar un ejemplo de `_metadata.yml` para proyectos libro
+  multidocumento.
+- Añadir un flujo de trabajo de GitHub Actions que renderice el
+  ejemplo en cada PR.
+- Añadir una traducción al español del README.
+- Eliminar el `print("DEBUG: …")` sobrante en `boxed-filter.lua`.
+
+---
+
+## Contribuir
+
+Las incidencias y las solicitudes de cambio son bienvenidas. Si
+planeas un cambio no trivial, abre una incidencia primero para
+discutir el diseño. Al enviar un PR:
+
+1. Renderiza `tests/ejemplo01/tfe_ejemplo01.qmd` y confirma que el
+   PDF sigue compilando.
+2. Si cambias una opción YAML, actualiza tanto este LEEME como los
+   archivos de ejemplo.
+3. Si cambias la plantilla Typst, verifica que los tres estilos de
+   capítulo (`estilo01/02/03`) siguen renderizando.
+
+---
+
+## Licencia
+
+Publicado bajo la [Licencia MIT](LICENSE). © 2025-2026 Pedro Luque.
