@@ -6,6 +6,10 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Quarto ≥ 1.6.0](https://img.shields.io/badge/Quarto-%E2%89%A5%201.6.0-1f77b4)](https://quarto.org)
 
+📚 **Documentación adicional:** [web.destio.synology.me/calvo/Qdescargas/memoriatfetypst/](https://web.destio.synology.me/calvo/Qdescargas/memoriatfetypst/)
+
+▶️ **Vídeo de instalación:** [videoInstalacionMemoriaTFETypstRStudio.html](https://web.destio.synology.me/calvo/Qdescargas/memoriatfetypst/videoInstalacionMemoriaTFETypstRStudio.html)
+
 > **🇬🇧 English version: [README.md](README.md)** — Documentation in English.
 >
 > Un formato de [Quarto](https://quarto.org) + [Typst](https://typst.app) para

@@ -6,6 +6,10 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Quarto ≥ 1.6.0](https://img.shields.io/badge/Quarto-%E2%89%A5%201.6.0-1f77b4)](https://quarto.org)
 
+📚 **Additional documentation:** [web.destio.synology.me/calvo/Qdescargas/memoriatfetypst/](https://web.destio.synology.me/calvo/Qdescargas/memoriatfetypst/)
+
+▶️ **Installation video:** [videoInstalacionMemoriaTFETypstRStudio.html](https://web.destio.synology.me/calvo/Qdescargas/memoriatfetypst/videoInstalacionMemoriaTFETypstRStudio.html)
+
 > **🇪🇸 Spanish version: [LEEME.md](LEEME.md)** — Documentación en español.
 >
 > A [Quarto](https://quarto.org) + [Typst](https://typst.app) format for
