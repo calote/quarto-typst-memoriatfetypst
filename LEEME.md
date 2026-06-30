@@ -468,6 +468,27 @@ Aspectos destacados:
 
 ---
 
+## Paquetes R complementarios
+
+Los siguientes paquetes de R **no son necesarios** para usar esta
+extensión, pero resultan muy útiles porque soportan de forma nativa la
+salida **Typst** y se integran perfectamente con documentos Quarto.
+
+| Paquete | Versión instalada | Descripción |
+|---|---|---|
+| [`tinytable`](https://vincentarelbundock.github.io/tinytable/) | 0.16.0.14 | Renderizado flexible de tablas con salida Typst nativa (`plugin: "typst"`). Soporta multipágina, títulos, encabezados combinados y más. |
+| [`modelsummary`](https://vincentarelbundock.github.io/modelsummary/) | 2.6.0.4 | Resúmenes de modelos, tablas de regresión y gráficos de coeficientes. Exporta directamente a Typst mediante `output = "typst"` o a través de `tinytable`. |
+
+Para instalar la versión de desarrollo más reciente desde GitHub:
+
+```r
+# install.packages("remotes")
+remotes::install_github("vincentarelbundock/tinytable")
+remotes::install_github("vincentarelbundock/modelsummary")
+```
+
+---
+
 ## Contribuir
 
 Las incidencias y las solicitudes de cambio son bienvenidas. Si
