@@ -317,6 +317,44 @@ el shortcode:
 - la numeración de tablas se prefija con `A` (`A.1`, `A.2`, …),
 - se inserta una página divisoria con el texto de `apendice-portada`.
 
+### Resaltado de sintaxis / bloques de código
+
+Desde **Quarto ≥ 1.9**, la extensión requiere la siguiente clave
+**descomentada explícitamente** en el YAML del documento para usar
+el estilo personalizado de bloques de código (cajas coloreadas por
+lenguaje con fondos a juego):
+
+```yaml
+format:
+  memoriatfetypst-typst:
+    highlight-style: idiomatic   # ← debe estar activa para bloques personalizados
+```
+
+| Opción | Tipo | Por defecto | Descripción |
+|---|---|---|---|
+| `highlight-style` | string | — (Pandoc Skylighting) | Pon `idiomatic` para usar el resaltador nativo de Typst y la apariencia personalizada de la extensión. |
+
+Si **omites o comentas** esta clave, el resaltador Skylighting de
+Pandoc toma el control y puedes usar cualquiera de los temas estándar
+de Quarto. Por ejemplo:
+
+```yaml
+format:
+  memoriatfetypst-typst:
+    syntax-highlighting: arrow      # Predeterminado, optimizado para accesibilidad
+    # syntax-highlighting: github   # Estilo GitHub
+    # syntax-highlighting: dracula  # Fondo oscuro
+    # syntax-highlighting: monokai  # Fondo oscuro
+    # syntax-highlighting: solarized
+    # syntax-highlighting: nord
+    # syntax-highlighting: gruvbox
+    # syntax-highlighting: vs       # Estilo Visual Studio
+```
+
+Con Skylighting los colores sintácticos cambian pero se pierde el
+fondo personalizado por lenguaje. Elige la opción que mejor se adapte
+al aspecto de tu documento.
+
 ### Matemáticas
 
 | Opción | Tipo | Por defecto | Descripción |

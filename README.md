@@ -313,6 +313,44 @@ encountered:
 - table numbering is prefixed with `A` (`A.1`, `A.2`, …),
 - a divider page is inserted with the text from `apendice-portada`.
 
+### Syntax highlighting / code blocks
+
+Since **Quarto ≥ 1.9**, the extension requires the following key to
+be **explicitly uncommented** in your document YAML in order to use
+the extension's custom code block styling (coloured boxes per
+language with matching background tints):
+
+```yaml
+format:
+  memoriatfetypst-typst:
+    highlight-style: idiomatic   # ← must be active for custom code blocks
+```
+
+| Option | Type | Default | Description |
+|---|---|---|---|
+| `highlight-style` | string | — (Pandoc Skylighting) | Set to `idiomatic` to use the Typst native highlighter and the extension's custom code block appearance. |
+
+If you **omit or comment out** this key, Pandoc's Skylighting
+highlighter takes over and you can use any of the standard Quarto
+themes instead. For example:
+
+```yaml
+format:
+  memoriatfetypst-typst:
+    syntax-highlighting: arrow      # Default, accessibility-optimised
+    # syntax-highlighting: github   # GitHub style
+    # syntax-highlighting: dracula  # Dark background
+    # syntax-highlighting: monokai  # Dark background
+    # syntax-highlighting: solarized
+    # syntax-highlighting: nord
+    # syntax-highlighting: gruvbox
+    # syntax-highlighting: vs       # Visual Studio style
+```
+
+With Skylighting the syntax colours change but the custom per-language
+block background is lost. Choose whichever best fits your document's
+look.
+
 ### Math
 
 | Option | Type | Default | Description |
