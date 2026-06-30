@@ -256,6 +256,7 @@ Typst format are also listed for completeness.
 | `link-color` | colour | `rgb("#483d8b")` | Colour of internal & external links. |
 | `section-numbering` | string | `1.1.1` | Numbering pattern for sections (e.g. `1.1.1.1` for four levels). |
 | `page-numbering` | string | `1` | Page numbering style. Front matter is always roman (`i`, `ii`, …) regardless. |
+| `heading-style` | bool | `true` | Apply LaTeX-style heading sizes and spacing to sub-sections (H2–H6). Set to `false` to use the default Typst heading proportions. |
 
 ### Front matter & navigation
 

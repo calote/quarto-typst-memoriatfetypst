@@ -258,6 +258,7 @@ Typst estándar de Quarto también se incluyen por completitud.
 | `link-color` | colour | `rgb("#483d8b")` | Color de enlaces internos y externos. |
 | `section-numbering` | string | `1.1.1` | Patrón de numeración de secciones (p.ej. `1.1.1.1` para cuatro niveles). |
 | `page-numbering` | string | `1` | Estilo de numeración de páginas. El prefacio siempre usa números romanos (`i`, `ii`, …) independientemente. |
+| `heading-style` | bool | `true` | Aplica tamaños y espaciados de sección (H2–H6) tipo LaTeX. Pon `false` para usar las proporciones predeterminadas de Typst. |
 
 ### Prefacio y navegación
 
