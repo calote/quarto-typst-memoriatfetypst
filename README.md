@@ -8,6 +8,8 @@
 
 📚 **Additional documentation:** [web.destio.synology.me/calvo/Qdescargas/memoriatfetypst/](https://web.destio.synology.me/calvo/Qdescargas/memoriatfetypst/)
 
+That site provides the complete extension manual beyond these READMEs: a detailed YAML option reference with usage examples and linked PDF outputs, a section on advanced Quarto-Typst usage (raw Typst code, bibliography with CSL vs. Typst, Jupyter notebooks, Python + R integration), and a collection of curated external resources (alternative Quarto-Typst extensions, Typst guides, useful Positron plugins). It also hosts installation videos (RStudio & Positron), multiple worked examples with downloadable source files, and a Typst cheatsheet.
+
 ▶️ **Installation video:** [videoInstalacionMemoriaTFETypstRStudio.html](https://web.destio.synology.me/calvo/Qdescargas/memoriatfetypst/videoInstalacionMemoriaTFETypstRStudio.html)
 
 > **🇪🇸 Spanish version: [LEEME.md](LEEME.md)** — Documentación en español.
@@ -82,6 +84,7 @@ via the [YAML options](#yaml-options-reference).
 | **Front matter** | Spanish `resumen` + `palabras-clave`, English `abstract` + `keywords`, optional `agradecimientos`, all with dedicated (unnumbered) pages. |
 | **Tables of contents** | Master TOC, list of figures, list of tables, and an *optional* per-chapter mini-TOC. |
 | **Chapter headers** | Three different designs (`estilo01`, `estilo02`, `estilo03`) selectable per document. |
+| **Article / report mode** | Set `nombre-capitulo: "--"` to hide chapter labels and produce an article- or report-style document (ideal for shorter works, informes, or papers). |
 | **Appendices** | A `{{< appendix >}}` shortcode resets figure/table/heading numbering to `A.1`, `A.2`, … with a dedicated divider page. |
 | **Math** | LaTeX syntax (with `$$ … $$`), plus automatic re-centering of block equations inside lists, and a Lua filter that converts LaTeX `\boxed{}` to Typst boxes. |
 | **Code blocks** | Distinct coloured boxes for R, Python, generic and Markdown code. |
@@ -258,6 +261,24 @@ Typst format are also listed for completeness.
 | `page-numbering` | string | `1` | Page numbering style. Front matter is always roman (`i`, `ii`, …) regardless. |
 | `heading-style` | bool | `true` | Apply LaTeX-style heading sizes and spacing to sub-sections (H2–H6). Set to `false` to use the default Typst heading proportions. |
 
+To customize the values (font size, spacing above/below, etc.), set `heading-style: false` and create your own `mis-secciones.typ` file with custom show rules, then include it via `include-in-header`:
+
+```yaml
+heading-style: false
+include-in-header: ["mis-secciones.typ"]
+```
+
+```typst
+// mis-secciones.typ — custom heading sizes and spacing
+#show heading.where(level: 2): set text(size: 1.5em)
+#show heading.where(level: 2): it => block(above: 3em, below: 2em, it)
+#show heading.where(level: 3): set text(size: 1.3em)
+#show heading.where(level: 3): it => block(above: 2.5em, below: 1.5em, it)
+// ... repeat for levels 4–6 as needed
+```
+
+> **Note:** the rules from `include-in-header` are placed at document level (before `#show: doc => …`), so `heading-style` must be `false` to avoid conflicts with the extension's defaults.
+
 ### Front matter & navigation
 
 | Option | Type | Default | Description |
@@ -286,7 +307,7 @@ Typst format are also listed for completeness.
 | Option | Type | Default | Description |
 |---|---|---|---|
 | `cabecera-capitulo` | string | `estilo01` | One of `estilo01`, `estilo02`, `estilo03` (see below). |
-| `nombre-capitulo` | string | `CAPÍTULO` | Label printed next to the chapter number (use `--` to hide the label entirely in `estilo03`). |
+| `nombre-capitulo` | string | `CAPÍTULO` | Label printed next to the chapter number. Use `--` to switch to article/report mode (no chapter labels, titles only). |
 | `referencias-nombre` | string | `Referencias` | Heading text of the bibliography section. |
 | `apendice-portada` | string | `APÉNDICE` | Large text on the appendix divider page. |
 | `apendice-nombre` | string | `APÉNDICE` | Label printed next to the appendix number. |

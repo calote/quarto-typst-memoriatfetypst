@@ -8,6 +8,8 @@
 
 📚 **Documentación adicional:** [web.destio.synology.me/calvo/Qdescargas/memoriatfetypst/](https://web.destio.synology.me/calvo/Qdescargas/memoriatfetypst/)
 
+Ese sitio contiene el manual completo de la extensión más allá de estos README: una referencia detallada de opciones YAML con ejemplos de uso y enlaces a los PDFs resultantes, una sección sobre uso avanzado de Quarto-Typst (código Typst raw, bibliografía con CSL vs. Typst, cuadernos Jupyter, integración Python + R), y una colección de recursos externos seleccionados (extensiones Quarto-Typst alternativas, guías de Typst, plugins útiles para Positron). También incluye vídeos de instalación (RStudio y Positron), múltiples ejemplos resueltos con ficheros fuente descargables y una chuleta de Typst.
+
 ▶️ **Vídeo de instalación:** [videoInstalacionMemoriaTFETypstRStudio.html](https://web.destio.synology.me/calvo/Qdescargas/memoriatfetypst/videoInstalacionMemoriaTFETypstRStudio.html)
 
 > **🇬🇧 English version: [README.md](README.md)** — Documentation in English.
@@ -82,6 +84,7 @@ través de las [opciones YAML](#referencia-de-opciones-yaml).
 | **Prefacio** | `resumen` + `palabras-clave` en español, `abstract` + `keywords` en inglés, `agradecimientos` opcionales, todo en páginas dedicadas (sin numerar). |
 | **Índices** | Índice general, lista de figuras, lista de tablas, y un mini-índice *opcional* por capítulo. |
 | **Cabeceras de capítulo** | Tres diseños diferentes (`estilo01`, `estilo02`, `estilo03`) seleccionables por documento. |
+| **Modo artículo / informe** | Usa `nombre-capitulo: "--"` para ocultar las etiquetas de capítulo y obtener un documento tipo artículo o informe (ideal para trabajos cortos, informes o papers). |
 | **Apéndices** | Un shortcode `{{< appendix >}}` reinicia la numeración de figuras/tablas/encabezados a `A.1`, `A.2`, … con una página divisoria dedicada. |
 | **Matemáticas** | Sintaxis LaTeX (con `$$ … $$`), más re-centrado automático de ecuaciones en bloque dentro de listas, y un filtro Lua que convierte `\boxed{}` de LaTeX a cajas de Typst. |
 | **Bloques de código** | Cajas de colores diferenciadas para código R, Python, genérico y Markdown. |
@@ -260,6 +263,24 @@ Typst estándar de Quarto también se incluyen por completitud.
 | `page-numbering` | string | `1` | Estilo de numeración de páginas. El prefacio siempre usa números romanos (`i`, `ii`, …) independientemente. |
 | `heading-style` | bool | `true` | Aplica tamaños y espaciados de sección (H2–H6) tipo LaTeX. Pon `false` para usar las proporciones predeterminadas de Typst. |
 
+Para personalizar los valores (tamaño de fuente, espaciado superior/inferior, etc.), pon `heading-style: false` y crea tu propio `mis-secciones.typ` con reglas `show` personalizadas, e inclúyelo con `include-in-header`:
+
+```yaml
+heading-style: false
+include-in-header: ["mis-secciones.typ"]
+```
+
+```typst
+// mis-secciones.typ — tamaños y espaciados personalizados
+#show heading.where(level: 2): set text(size: 1.5em)
+#show heading.where(level: 2): it => block(above: 3em, below: 2em, it)
+#show heading.where(level: 3): set text(size: 1.3em)
+#show heading.where(level: 3): it => block(above: 2.5em, below: 1.5em, it)
+// ... repetir para niveles 4–6 según se necesite
+```
+
+> **Nota:** las reglas de `include-in-header` se colocan a nivel de documento (antes de `#show: doc => …`), por lo que `heading-style` debe estar en `false` para evitar conflictos con los valores por defecto de la extensión.
+
 ### Prefacio y navegación
 
 | Opción | Tipo | Por defecto | Descripción |
@@ -288,7 +309,7 @@ Typst estándar de Quarto también se incluyen por completitud.
 | Opción | Tipo | Por defecto | Descripción |
 |---|---|---|---|
 | `cabecera-capitulo` | string | `estilo01` | Uno de `estilo01`, `estilo02`, `estilo03` (ver más abajo). |
-| `nombre-capitulo` | string | `CAPÍTULO` | Etiqueta impresa junto al número de capítulo (usa `--` para ocultar la etiqueta por completo en `estilo03`). |
+| `nombre-capitulo` | string | `CAPÍTULO` | Etiqueta impresa junto al número de capítulo. Usa `--` para modo artículo/informe (sin etiquetas de capítulo, solo títulos). |
 | `referencias-nombre` | string | `Referencias` | Texto del encabezado de la sección de bibliografía. |
 | `apendice-portada` | string | `APÉNDICE` | Texto grande en la página divisoria de apéndices. |
 | `apendice-nombre` | string | `APÉNDICE` | Etiqueta impresa junto al número de apéndice. |
