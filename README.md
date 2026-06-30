@@ -457,6 +457,27 @@ for the full list. Highlights:
 
 ---
 
+## Complementary R packages
+
+The following R packages are **not required** to use this extension,
+but they are particularly useful because they natively support
+**Typst** output and integrate seamlessly with Quarto documents.
+
+| Package | Version installed | Description |
+|---|---|---|
+| [`tinytable`](https://vincentarelbundock.github.io/tinytable/) | 0.16.0.14 | Flexible table rendering with native Typst output (`plugin: "typst"`). Supports multi-page, captions, spanning headers, and more. |
+| [`modelsummary`](https://vincentarelbundock.github.io/modelsummary/) | 2.6.0.4 | Model summaries, regression tables, and coefficient plots. Exports directly to Typst via `output = "typst"` or through `tinytable`. |
+
+To install the latest development version of either package from GitHub:
+
+```r
+# install.packages("remotes")
+remotes::install_github("vincentarelbundock/tinytable")
+remotes::install_github("vincentarelbundock/modelsummary")
+```
+
+---
+
 ## Contributing
 
 Issues and pull requests are welcome. If you plan a non-trivial
