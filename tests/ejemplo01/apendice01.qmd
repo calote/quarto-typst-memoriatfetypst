@@ -101,7 +101,8 @@ r2 = modelsummary::msummary(
     lm(mpg ~ wt + hp, data = mtcars),
     lm(mpg ~ wt + hp + qsec, data = mtcars)
   ),
-  output = "markdown",
+  #output = "markdown",
+  #output = "tinytable",
   fmt = 2,
   coef_rename = c("wt" = "Peso", "hp" = "Caballos de Fuerza", "qsec" = "Tiempo en 1/4 de Milla"),
   gof_map = c("nobs", "r.squared", "adj.r.squared"),
@@ -137,7 +138,8 @@ r2 = modelsummary::msummary(
     lm(mpg ~ wt + hp, data = mtcars),
     lm(mpg ~ wt + hp + qsec, data = mtcars)
   ),
-  output = "markdown",
+  #output = "markdown",
+  #output = "tinytable",
   fmt = 2,
   coef_rename = c("wt" = "Peso", "hp" = "Caballos de Fuerza", "qsec" = "Tiempo en 1/4 de Milla"),
   gof_map = c("nobs", "r.squared", "adj.r.squared"),
@@ -215,4 +217,11 @@ Se puede obtener: [Conclusiones]{style="background-color:green; font-size: 16pt"
 ```markdown
 Se puede obtener: [Conclusiones]{style="background-color:green; font-size: 16pt"}
 ```
+
+## Condiciones en los que se generó este documento
+
+```{r}
+sessionInfo()
+```
+
 

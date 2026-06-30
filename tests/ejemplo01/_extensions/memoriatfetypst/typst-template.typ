@@ -293,6 +293,7 @@
   totablas: true,
   portada: true,
   toccapitulos: false,
+  centrar-matematicas: true,
   cabecera-capitulo: "estilo01",
   nombre-capitulo: "CAPÍTULO", // "TEMA"
   referencias-nombre: "Referencias",
@@ -347,30 +348,72 @@ let is-first-page-of-bibliography() = {
 }
 
 
-  set page(header: context {
-    let bib-query = query(bibliography)
-    let in-bib = if bib-query.len() > 0 {
-      here().page() >= bib-query.first().location().page()
-    } else {
-      false
-    }
+  set page(
+    header: context {
+      let bib-query = query(bibliography)
+      let in-bib = if bib-query.len() > 0 {
+        here().page() >= bib-query.first().location().page()
+      } else {
+        false
+      }
 
-    if in-bib {
-      if here().page() > bib-query.first().location().page() {
-        align(right, emph([#referencias-nombre]))
+      if in-bib {
+        if here().page() > bib-query.first().location().page() {
+          align(right, text(size: 0.85em, tracking: 0.5pt)[#upper(referencias-nombre)])
+          line(length: 100%)
+        }
+      } else if not is-first-page-of-section() {
+        // Sección activa; si no hay sección todavía, se usa el capítulo como fallback
+        let sec = hydra(2)
+        let content = if sec != none { sec } else { hydra(1) }
+        align(right, text(size: 0.85em, tracking: 0.5pt)[#upper(content)])
         line(length: 100%)
       }
-    } else if is-first-page-of-section() {
-      // No header on the first page of a chapter
-    } else {
-      if calc.odd(here().page()) {
-         align(right, emph(hydra(1)))
+    },
+    footer: context {
+      let bib-query = query(bibliography)
+      let in-bib = if bib-query.len() > 0 {
+        here().page() >= bib-query.first().location().page()
       } else {
-         align(left, emph(hydra(2)))
+        false
       }
-      line(length: 100%)
+
+      if in-bib {
+        // Bibliografía: solo número de página
+        line(length: 100%)
+        align(right, text(size: 0.85em)[#counter(page).display()])
+      } else if is-first-page-of-section() {
+        // Primera página de capítulo: solo número de página centrado
+        align(center, text(size: 0.85em)[#counter(page).display()])
+      } else {
+        // hydra() no funciona en footer; se usa query() para obtener el capítulo activo
+        let chapters = query(heading.where(level: 1))
+        let current-chapter = chapters.rev().find(h => h.location().page() <= here().page())
+        line(length: 100%)
+        if current-chapter != none {
+          let nums = counter(heading).at(current-chapter.location())
+          grid(
+            columns: (1fr, auto),
+            text(size: 0.85em, tracking: 0.5pt)[
+              #if nums.len() > 0 and nums.at(0) > 0 {
+                // "--" = sin etiqueta (coherente con cabecera-capitulo-estilo03)
+                if nombre-capitulo == "--" {
+                  upper(current-chapter.body)
+                } else {
+                  upper([#nombre-capitulo #str(nums.at(0)). #current-chapter.body])
+                }
+              } else {
+                upper(current-chapter.body)
+              }
+            ],
+            text(size: 0.85em)[#counter(page).display()]
+          )
+        } else {
+          align(right, text(size: 0.85em)[#counter(page).display()])
+        }
+      }
     }
-  })
+  )
 
 
   
@@ -382,6 +425,35 @@ let is-first-page-of-bibliography() = {
     size: fontsize,
   )
   show math.equation: set text(font: mathfont)
+
+  // Centrado de ecuaciones en bloque corrigiendo la indentación de listas.
+  // page.margin no expone .left/.right cuando el margen es uniforme; se lee
+  // directamente del parámetro `margin` de la función, que sí está en el closure.
+  show math.equation.where(block: true): it => context {
+    if centrar-matematicas {
+      let ml = if type(margin) == dictionary {
+        if "left" in margin { margin.left }
+        else if "x" in margin { margin.x }
+        else { 2.5cm }
+      } else { margin }
+      let mr = if type(margin) == dictionary {
+        if "right" in margin { margin.right }
+        else if "x" in margin { margin.x }
+        else { 2.5cm }
+      } else { margin }
+      let sangria = here().position().x - ml  // indentación acumulada de la lista
+      let ancho = page.width - ml - mr        // ancho total de la columna de texto
+      // block(width: auto) hace que el bloque interior se ajuste al contenido,
+      // evitando que \boxed{} u otros decoradores hereden el ancho del contenedor.
+      // align(center, ...) centra ese bloque de ancho natural dentro de la columna.
+      move(
+        dx: -sangria,
+        block(width: ancho, align(center, block(width: auto, it)))
+      )
+    } else {
+      it
+    }
+  }
   set heading(numbering: sectionnumbering)
   show heading: set text(weight: "semibold")
 
