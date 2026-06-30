@@ -294,7 +294,6 @@
   portada: true,
   toccapitulos: false,
   centrar-matematicas: true,
-  heading-style: true,
   cabecera-capitulo: "estilo01",
   nombre-capitulo: "CAPÍTULO", // "TEMA"
   referencias-nombre: "Referencias",
@@ -457,19 +456,6 @@ let is-first-page-of-bibliography() = {
   }
   set heading(numbering: sectionnumbering)
   show heading: set text(weight: "semibold")
-
-  if heading-style {
-    show heading.where(level: 2): set text(size: 1.35em)
-    show heading.where(level: 3): set text(size: 1.2em)
-    show heading.where(level: 4): set text(size: 1.1em)
-    show heading.where(level: 5): set text(size: 1.0em)
-    show heading.where(level: 6): set text(size: 0.95em)
-    show heading.where(level: 2): it => block(above: 2.5em, below: 1.5em, it)
-    show heading.where(level: 3): it => block(above: 2.5em, below: 1.5em, it)
-    show heading.where(level: 4): it => block(above: 2em, below: 1.2em, it)
-    show heading.where(level: 5): it => block(above: 1.5em, below: 1.em, it)
-    show heading.where(level: 6): it => block(above: 1.5em, below: 1.em, it)
-  }
 
 show raw.where(block: true): set block(
     fill: luma(245),
