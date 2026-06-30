@@ -14,6 +14,7 @@ format:
   memoriatfetypst-typst: 
     toc: true
     centrar-matematicas: true
+    highlight-style: idiomatic # resaltar código, descomentar para Quarto >= 1.9
     #bibliographystyle: apa
     #bibliographystyle: chicago-author-date
     #keep-typ: true

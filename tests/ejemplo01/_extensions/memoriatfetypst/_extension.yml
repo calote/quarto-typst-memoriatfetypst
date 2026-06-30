@@ -8,8 +8,12 @@ contributes:
       fig-format: "png"
       portada: true
       toc: true
+      centrar-matematicas: true
       shortcodes:
         - shortcodes.lua
       template-partials:
         - typst-template.typ
         - typst-show.typ
+      filters:
+        - boxed-filter.lua
+        

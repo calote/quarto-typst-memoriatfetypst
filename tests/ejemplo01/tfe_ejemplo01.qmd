@@ -27,6 +27,7 @@ bibliography: referencias.bib
 format:
   memoriatfetypst-typst: 
     toc: true
+    highlight-style: idiomatic # resaltar código, descomentar para Quarto >= 1.9
     #keep-typ: true
     tofiguras: true
     totablas: true
@@ -668,7 +669,8 @@ r1 = modelsummary::msummary(
     lm(mpg ~ wt + hp, data = mtcars),
     lm(mpg ~ wt + hp + qsec, data = mtcars)
   ),
-  output = "markdown",
+  #output = "markdown",
+  #output = "tinytable",
   fmt = 2,
   coef_rename = c("wt" = "Peso", "hp" = "Caballos de Fuerza", "qsec" = "Tiempo en 1/4 de Milla"),
   gof_map = c("nobs", "r.squared", "adj.r.squared"),

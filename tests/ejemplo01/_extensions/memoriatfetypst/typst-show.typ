@@ -74,6 +74,7 @@ $endif$
 $if(toccapitulos)$
   toccapitulos: $toccapitulos$,
 $endif$
+  centrar-matematicas: $if(centrar-matematicas)$$centrar-matematicas$$else$false$endif$,
 $if(tipo-TFG)$
   tipo-TFG: "$tipo-TFG$",
 $endif$
@@ -89,8 +90,8 @@ $endif$
 $if(universidad)$
   universidad: "$universidad$",
 $endif$
-$if(logo)$
-  logo: "$logo$",
+$if(logo-file)$
+  logo: "$logo-file$",
 $endif$
 $if(fecha-TFG)$
   fecha-TFG: "$fecha-TFG$",
