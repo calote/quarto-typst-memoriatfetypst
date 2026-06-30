@@ -48,6 +48,7 @@ format:
     #   y: 2cm
     toccapitulos: false
     bibliografia-completa: false
+    heading-style: true
   html:
     toc: true
     toc-title: "Tabla de Contenidos"

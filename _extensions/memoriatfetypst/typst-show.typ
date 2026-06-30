@@ -1,3 +1,17 @@
+$if(heading-style)$
+// heading-style.typ — estilo de subsecciones H2..H6
+#show heading.where(level: 2): set text(size: 1.35em)
+#show heading.where(level: 3): set text(size: 1.2em)
+#show heading.where(level: 4): set text(size: 1.1em)
+#show heading.where(level: 5): set text(size: 1.0em)
+#show heading.where(level: 6): set text(size: 0.95em)
+#show heading.where(level: 2): it => block(above: 2.5em, below: 1.5em, it)
+#show heading.where(level: 3): it => block(above: 2.5em, below: 1.5em, it)
+#show heading.where(level: 4): it => block(above: 2em, below: 1.2em, it)
+#show heading.where(level: 5): it => block(above: 1.5em, below: 1em, it)
+#show heading.where(level: 6): it => block(above: 1.5em, below: 1em, it)
+$endif$
+
 #show: doc => article(
 $if(title)$
   title: [$title$],
@@ -75,7 +89,6 @@ $if(toccapitulos)$
   toccapitulos: $toccapitulos$,
 $endif$
   centrar-matematicas: $if(centrar-matematicas)$$centrar-matematicas$$else$false$endif$,
-  heading-style: $if(heading-style)$$heading-style$$else$true$endif$,
 $if(tipo-TFG)$
   tipo-TFG: "$tipo-TFG$",
 $endif$
