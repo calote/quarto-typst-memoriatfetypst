@@ -11,6 +11,50 @@ $if(heading-style)$
 #show heading.where(level: 5): it => block(above: 1.5em, below: 1em, it)
 #show heading.where(level: 6): it => block(above: 1.5em, below: 1em, it)
 $endif$
+$if(theorem-style)$
+// Colores para cada tipo de teorema
+#let thm-col-def   = rgb("#1565C0")
+#let thm-col-thm   = rgb("#C62828")
+#let thm-col-exm   = rgb("#2E7D32")
+#let thm-col-exr   = rgb("#E65100")
+#let thm-col-proof = rgb("#6A1B9A")
+#let thm-col-sol   = rgb("#00695C")
+
+// Show rules para suprimir el número del figure envolvente
+// (el contador sigue activo para #ref(), pero no se muestra visualmente)
+#show figure.where(kind: "def-wrap"): it => it.body
+#show figure.where(kind: "thm-wrap"): it => it.body
+#show figure.where(kind: "exm-wrap"): it => it.body
+#show figure.where(kind: "exc-wrap"): it => it.body
+
+// Auxiliar: envuelve en figure para que #ref() funcione.
+// Cada tipo de teorema tiene su propio kind de figure para que
+// los contadores sean independientes y coincidan 1 a 1 con los
+// contadores de theorion.
+#let thm-style(body, col, kind) = figure(
+  kind: kind, supplement: [], caption: [], numbering: "1",
+  rect(
+    width: 100%, stroke: (left: 4pt + col), fill: col.lighten(90%),
+    inset: (x: 0.8em, y: 0.6em), radius: 2pt,
+  )[
+    #set align(left)
+    #set par(justify: true)
+    #body
+  ],
+)
+// Helper: normaliza title (none → "") para evitar paréntesis vacíos en Theorion
+#let _normalize-title(t) = if t == none or t == "" { "" } else { t }
+
+// Sobreescribir funciones de teoremas
+#let _thm-old-def = definition
+#let definition(title: none, body) = thm-style(_thm-old-def(title: _normalize-title(title), body), thm-col-def, "def-wrap")
+#let _thm-old-thm = theorem
+#let theorem(title: none, body) = thm-style(_thm-old-thm(title: _normalize-title(title), body), thm-col-thm, "thm-wrap")
+#let _thm-old-exm = example
+#let example(title: none, body) = thm-style(_thm-old-exm(title: _normalize-title(title), body), thm-col-exm, "exm-wrap")
+#let _thm-old-exc = exercise
+#let exercise(title: none, body) = thm-style(_thm-old-exc(title: _normalize-title(title), body), thm-col-exr, "exc-wrap")
+$endif$
 
 #show: doc => article(
 $if(title)$
@@ -124,6 +168,9 @@ $if(sidebar-color2)$
 $endif$
 $if(sidebar-dx)$
   sidebar-dx: $sidebar-dx$,
+$endif$
+$if(theorem-style)$
+  theorem-style: "$theorem-style$",
 $endif$
 $if(referencias-nombre)$
   referencias-nombre: "$referencias-nombre$",

@@ -174,6 +174,38 @@
 #let sidebar-dx-state = state("sidebar-dx", 0.5cm)
 #let apendice-activo-state = state("apendice-activo", false)
 
+// Estado para el estilo de teoremas/definiciones (default = sin modificar)
+#let theorem-style-state = state("theorem-style", "default")
+
+// Paleta de colores para teoremas (estilo modern)
+#let thm-col-def   = rgb("#1565C0")
+#let thm-col-thm   = rgb("#C62828")
+#let thm-col-exm   = rgb("#2E7D32")
+#let thm-col-exr   = rgb("#E65100")
+#let thm-col-proof = rgb("#6A1B9A")
+#let thm-col-sol   = rgb("#00695C")
+
+// Renderizado moderno para teoremas (barra lateral coloreada)
+#let thm-render(body, label, num, title, color) = {
+  block(
+    width: 100%,
+    stroke: (left: 4pt + color),
+    fill: color.lighten(90%),
+    inset: (x: 0.8em, y: 0.6em),
+    radius: 2pt,
+  )[
+    #set align(left)
+    #set par(justify: true)
+    #text(weight: "bold", fill: color, size: 0.9em)[#label #num.]
+    #if title != [] {
+      linebreak()
+      text(style: "italic", size: 0.95em)[#title]
+    }
+    #v(0.3em)
+    #body
+  ]
+}
+
 // Función principal para TOC por capítulo
 #let chapter-contents() = {
   context {
@@ -355,6 +387,7 @@
   sidebar-first-color: "#1a365d",
   sidebar-second-color: "#2c5282",
   sidebar-dx: 0.5cm,
+  theorem-style: "default",
   logo: none,
   tipo-TFG: "TRABAJO FIN DE GRADO",
   fecha-TFG: "Sevilla, Junio de 2025", //Sevilla, Octubre de 2025
@@ -390,6 +423,8 @@ let norm-color(c) = {
 sidebar-c1-state.update(norm-color(sidebar-first-color))
 sidebar-c2-state.update(norm-color(sidebar-second-color))
 sidebar-dx-state.update(sidebar-dx)
+
+theorem-style-state.update(str(theorem-style))
 
   set page(
     paper: paper,
@@ -982,7 +1017,9 @@ counter(page).update(1)
     }
   }
 
-  
+  // Show rule para teoremas/definiciones con estilo modern
+  // (las show rules se definen al final del fichero, fuera de article)
+
   doc
    
 }

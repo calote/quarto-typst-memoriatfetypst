@@ -87,6 +87,7 @@ través de las [opciones YAML](#referencia-de-opciones-yaml).
 | **Modo artículo / informe** | Usa `nombre-capitulo: "--"` para ocultar las etiquetas de capítulo y obtener un documento tipo artículo o informe (ideal para trabajos cortos, informes o papers). |
 | **Apéndices** | Un shortcode `{{< appendix >}}` reinicia la numeración de figuras/tablas/encabezados a `A.1`, `A.2`, … con una página divisoria dedicada. |
 | **Matemáticas** | Sintaxis LaTeX (con `$$ … $$`), más re-centrado automático de ecuaciones en bloque dentro de listas, y un filtro Lua que convierte `\boxed{}` de LaTeX a cajas de Typst. |
+| **Teoremas** | `theorem-style: "modern"` opcional activa cajas coloreadas para teoremas (definition, theorem, lemma, corollary, example, exercise). Los entornos sin título ya no muestran paréntesis vacíos `()`. |
 | **Bloques de código** | Cajas de colores diferenciadas para código R, Python, genérico y Markdown. |
 | **Referencias cruzadas** | Sintaxis estándar de Quarto para secciones, figuras (`@fig-…`), tablas (`@tbl-…`), ecuaciones (`@eq-…`) y teoremas (`@thm-…`). |
 | **Bibliografía** | BibLaTeX/BibTeX con estilos CSL `apa` y `chicago-author-date`, y opción para imprimir la bibliografía completa en una sola página. |
@@ -400,16 +401,49 @@ Con Skylighting los colores sintácticos cambian pero se pierde el
 fondo personalizado por lenguaje. Elige la opción que mejor se adapte
 al aspecto de tu documento.
 
-### Matemáticas
+### Matemáticas y teoremas
 
 | Opción | Tipo | Por defecto | Descripción |
 |---|---|---|---|
 | `centrar-matematicas` | bool | `true` | Vuelve a centrar las ecuaciones `$$ … $$` que aparecen dentro de entornos indentados (listas, citas en bloque, …) para que estén visualmente centradas en la columna de texto completa, no en la columna indentada. Pon `false` para desactivar. |
+| `theorem-style` | string | — | Pon `"modern"` para activar cajas de teorema coloreadas (barra lateral izquierda de color por tipo). Usa [Theorion](https://github.com/OrangeX4/typst-theorion) internamente. **Corrección aplicada**: ejercicios, definiciones, teoremas o ejemplos sin un `##### Título` ya no muestran paréntesis vacíos `()` — el valor `title: none` que genera Pandoc se normaliza a cadena vacía antes de pasarlo a Theorion. |
 
 Adicionalmente, el `boxed-filter.lua` incluido traduce las expresiones
 `\boxed{…}` de LaTeX (tanto en línea como en display) a
 `#box(stroke: 0.5pt, inset: 7pt, baseline: 0.55em)[$…$]` de Typst.
 La función se aplica automáticamente — no se necesita ninguna opción.
+
+#### Apariencia de teoremas (Quarto ≥ 1.9.18)
+
+> **No es una opción de la extensión.** Es una **característica nativa de Quarto**
+> disponible en **cualquier** formato Typst de Quarto (no solo esta extensión)
+> desde Quarto 1.9.18.
+
+Quarto 1.9.18+ incluye [Theorion](https://github.com/OrangeX4/typst-theorion)
+y expone la clave `theorem-appearance` en el formato `typst`:
+
+```yaml
+format:
+  typst:
+    theorem-appearance: simple    # (predeterminado)
+```
+
+Temas disponibles:
+
+| Tema | Descripción |
+|------|-------------|
+| `simple` | Prefijo negrita + número + punto, cuerpo en cursiva (estilo LaTeX clásico). |
+| `fancy` | Cajas coloreadas usando colores brand (`primary` / `secondary` / `tertiary`). |
+| `clouds` | Cajas redondeadas con fondo coloreado por tipo de teorema. |
+| `rainbow` | Borde izquierdo coloreado con título coloreado por tipo. |
+
+Características:
+- Reinicio de contadores por capítulo.
+- Colores brand desde `_brand.yml` (para `fancy`, `clouds`, `rainbow`).
+- Paquetes incluidos (`theorion`, `fontawesome`, `showybox`, `octique`) para compilación sin conexión.
+
+Cuando se usa `theorem-appearance`, la opción `theorem-style: "modern"`
+de la extensión **no es necesaria** — se pueden usar independientemente o ambas.
 
 ### Bibliografía
 
@@ -490,16 +524,17 @@ open tfe_ejemplo01.pdf
 
 ```
 _extensions/memoriatfetypst/
-├── _extension.yml          # Manifiesto de la extensión de Quarto
-├── typst-template.typ      # Función `article` principal de Typst
-├── typst-show.typ          # Puente de parámetros Quarto → Typst
-├── shortcodes.lua          # Shortcodes `appendix` y `pagebreak`
-└── boxed-filter.lua        # Filtro LaTeX \boxed{} → Typst #box()
+├── _extension.yml                     # Manifiesto de la extensión de Quarto
+├── typst-template.typ                 # Función `article` principal de Typst
+├── typst-show.typ                     # Puente de parámetros Quarto → Typst
+├── shortcodes.lua                     # Shortcodes `appendix` y `pagebreak`
+├── normalize-exercise-titles.lua      # Normaliza title: none → title: "" para bloques teorema
+└── boxed-filter.lua                   # Filtro LaTeX \boxed{} → Typst #box()
 ```
 
 - **`_extension.yml`** declara el formato, requiere Quarto ≥ 1.6.0,
-  incluye los dos parciales Typst, el archivo Lua de shortcodes y el
-  filtro. También establece los valores predeterminados del formato
+  incluye los dos parciales Typst, el archivo Lua de shortcodes y los
+  filtros. También establece los valores predeterminados del formato
   (`portada: true`, `toc: true`, `centrar-matematicas: true`,
   `fig-format: png`).
 - **`typst-template.typ`** define una única función `article()` que
@@ -509,10 +544,18 @@ _extensions/memoriatfetypst/
   reinicia la numeración e inserta una página divisoria.
 - **`typst-show.typ`** es la *plantilla show* que Quarto invoca;
   reenvía cada clave YAML soportada a la función `article()` con la
-  conversión de tipo Typst correcta (`$if(...)$ … $endif$`).
+  conversión de tipo Typst correcta (`$if(...)$ … $endif$`). Cuando
+  se activa `theorem-style`, también sobrescribe las funciones de
+  teorema de Theorion (`definition`, `theorem`, `example`, `exercise`)
+  con envoltorios que normalizan `title: none` → `title: ""`,
+  evitando paréntesis vacíos `()` en entornos sin título.
 - **`shortcodes.lua`** proporciona los dos shortcodes. Emiten Typst
   crudo que activa el comportamiento correspondiente en
   `typst-template.typ`.
+- **`normalize-exercise-titles.lua`** es un filtro Lua de Pandoc que
+  detecta bloques Div con identificadores con prefijos de teorema y
+  marca aquellos sin encabezado para el manejo de título vacío.
+  Funciona junto con la normalización a nivel Typst en `typst-show.typ`.
 - **`boxed-filter.lua`** recorre el AST después de la conversión de
   Pandoc → Typst y reescribe cualquier nodo `Math` que contenga
   `\boxed{…}` en una llamada `#box()` / `#rect()` de Typst, ya que el
@@ -524,6 +567,7 @@ _extensions/memoriatfetypst/
 
 | Síntoma | Causa probable | Solución |
 |---|---|---|
+| Ejercicio / ejemplo muestra paréntesis vacíos `()` tras el número | Pandoc pasa `title: none` para bloques sin `##### Título` | Era un bug en `get-full-title()` de Theorion. La extensión ahora normaliza `title: none` → `""` en las funciones envoltorio (`typst-show.typ`). Actualiza a la última versión. |
 | `unknown variable: nombre-capitulo` | Falta `nombre-capitulo` al usar `estilo03` | Pon `nombre-capitulo: "--"` o cualquier cadena no vacía. |
 | Ecuaciones en bloque quedan indentadas dentro de listas | `centrar-matematicas: false` | Ponlo a `true` (valor predeterminado). |
 | La página de bibliografía está vacía | No se encuentra el archivo CSL | Asegúrate de que la ruta en `csl:` es correcta, o elimina la clave `csl:` para usar el estilo Typst predeterminado. |

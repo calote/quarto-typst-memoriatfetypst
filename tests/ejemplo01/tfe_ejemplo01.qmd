@@ -46,6 +46,7 @@ format:
     #sidebar-color1: "#1a365d"
     #sidebar-color2: "#2c5282"
     #sidebar-dx: 0.5cm
+    #theorem-style: "modern"
     # margin: 
     #   x: 2cm 
     #   y: 2cm
