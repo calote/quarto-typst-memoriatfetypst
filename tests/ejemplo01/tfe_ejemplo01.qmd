@@ -53,6 +53,17 @@ format:
     toccapitulos: false
     bibliografia-completa: false
     heading-style: true
+    include-in-header:
+      text: |
+        #let scale-down(body) = layout(size => {
+          let body-size = measure(body)
+          if body-size.width > size.width {
+            let f = size.width / body-size.width * 100%
+            scale(x: f, y: f, reflow: true, body)
+          } else {
+            body
+          }
+        })
   html:
     toc: true
     toc-title: "Tabla de Contenidos"
@@ -657,6 +668,286 @@ Las tablas y figuras en Quarto con salida Typst no pueden usar directamente los 
 
 
 
+
+
+### Tablas con justificación personalizada
+
+Este ejemplo muestra cómo crear una tabla con `tinytable` que aplique justificación personalizada según el tipo de dato de cada columna, como se muestra en la @tbl-ejemplo-justificacion.
+
+```{r}
+#| label: tbl-ejemplo-justificacion
+#| tbl-cap: "Tabla con justificación personalizada por tipo de dato"
+#| echo: false
+#| warning: false
+#| message: false
+
+library(tinytable)
+
+datos_ejemplo <- data.frame(
+  Pais = c("España", "Francia", "Alemania", "Italia", "Portugal"),
+  Ciudad = c("Madrid", "París", "Berlín", "Roma", "Lisboa"),
+  Poblacion = c(47420000L, 67390000L, 83780000L, 60360000L, 10350000L),
+  Superficiekm2 = c(505990.3, 551695.75, 357588.1, 301340.52, 92212.8),
+  Densidad = c(93.72, 122.11, 234.31, 200.27, 112.24),
+  Moneda = c("Euro", "Euro", "Euro", "Euro", "Euro"),
+  stringsAsFactors = FALSE
+)
+
+crear_tabla_justificada <- function(df, vdecimales = NULL, striped = FALSE) {
+  tipos <- sapply(df, class)
+  tt <- tt(df)
+  if (striped) tt <- theme_striped(tt)
+  if (!is.null(vdecimales)) {
+    for (col in names(vdecimales)) {
+      j <- as.integer(col)
+      dec <- vdecimales[[col]]
+      tt <- format_tt(tt, j = j, sprintf = paste0("%.", dec, "f"))
+    }
+  }
+  for (i in seq_along(tipos)) {
+    if (tipos[i] %in% c("character", "factor")) {
+      tt <- style_tt(tt, j = i, align = "l")
+    } else if (tipos[i] %in% c("integer", "numeric")) {
+      tt <- style_tt(tt, j = i, align = "r")
+    }
+  }
+  tt <- style_tt(tt, i = 0, j = seq_along(tipos), align = "c", bold = TRUE)
+  tt
+}
+
+crear_tabla_justificada(datos_ejemplo, vdecimales = c("4" = 2, "5" = 1), striped = TRUE)
+```
+
+*Nota*: Los valores de población y superficie están expresados en unidades del año 2023. La densidad se calcula como población/km².
+
+El código necesario para crear la tabla anterior es el siguiente:
+
+```{r}
+#| eval: false
+#| echo: true
+
+library(tinytable)
+
+datos_ejemplo <- data.frame(
+  Pais = c("España", "Francia", "Alemania", "Italia", "Portugal"),
+  Ciudad = c("Madrid", "París", "Berlín", "Roma", "Lisboa"),
+  Poblacion = c(47420000L, 67390000L, 83780000L, 60360000L, 10350000L),
+  Superficiekm2 = c(505990.3, 551695.75, 357588.1, 301340.52, 92212.8),
+  Densidad = c(93.72, 122.11, 234.31, 200.27, 112.24),
+  Moneda = c("Euro", "Euro", "Euro", "Euro", "Euro"),
+  stringsAsFactors = FALSE
+)
+
+crear_tabla_justificada <- function(df, vdecimales = NULL, striped = FALSE) {
+  tipos <- sapply(df, class)
+  tt <- tt(df)
+  if (striped) tt <- theme_striped(tt)
+  if (!is.null(vdecimales)) {
+    for (col in names(vdecimales)) {
+      j <- as.integer(col)
+      dec <- vdecimales[[col]]
+      tt <- format_tt(tt, j = j, sprintf = paste0("%.", dec, "f"))
+    }
+  }
+  for (i in seq_along(tipos)) {
+    if (tipos[i] %in% c("character", "factor")) {
+      tt <- style_tt(tt, j = i, align = "l")
+    } else if (tipos[i] %in% c("integer", "numeric")) {
+      tt <- style_tt(tt, j = i, align = "r")
+    }
+  }
+  tt <- style_tt(tt, i = 0, j = seq_along(tipos), align = "c", bold = TRUE)
+  tt
+}
+
+crear_tabla_justificada(datos_ejemplo, vdecimales = c("4" = 2, "5" = 1), striped = TRUE)
+```
+
+### Tablas con scale-down (zoom para tablas anchas)
+
+Cuando una tabla tiene muchas columnas y no cabe en el ancho de página, Typst la rompe insertando saltos de línea que afean el resultado. La función `scale-down` detecta automáticamente si la tabla es más ancha que la página y la escala proporcionalmente para que entre completa. El resultado se muestra en la @tbl-scale-down.
+
+::: {.callout-note}
+La función `scale-down` se ha definido en la cabecera YAML del documento mediante `include-in-header`, lo que la inyecta al inicio del código Typst (antes de la función `article()`). El siguiente fragmento muestra cómo se añade:
+
+```yaml
+format:
+  memoriatfetypst-typst:
+    include-in-header:
+      text: |
+        #let scale-down(body) = layout(size => {
+          let body-size = measure(body)
+          if body-size.width > size.width {
+            let f = size.width / body-size.width * 100%
+            scale(x: f, y: f, reflow: true, body)
+          } else {
+            body
+          }
+        })
+```
+
+Para usar `scale-down` con `tinytable`, se envuelve la tabla generada con `#scale-down[...]` mediante `style_tt(finalize = ...)`:
+
+```r
+style_tt(finalize = function(x) {
+  x@table_string <- paste0(
+    "#scale-down[\n#set table(inset: (x: 5pt, y: 3pt))\n",
+    x@table_string, "\n]"
+  )
+  x
+})
+```
+
+Este método también funciona con cualquier otro contenido Typst que necesite escalado.
+:::
+
+```{r}
+#| label: tbl-scale-down
+#| tbl-cap: "Costes mensuales por escenario LTV — con scale-down"
+#| echo: false
+#| warning: false
+#| message: false
+
+library(tinytable)
+
+tbl <- data.frame(
+  Scenario        = c("High LTV (15% down)", "Medium LTV (35% down)", "Low LTV (55% down)"),
+  Amort           = c("2%", "1%", "0%"),
+  Downpayment     = c(172500, 402500, 632500),
+  Amortization    = c(16292, 6229, 0),
+  Interest_272    = c(16754, 12635, 8517),
+  Fee             = c(7505, 7505, 7505),
+  Total_272       = c(40550, 26369, 16022),
+  Interest_700    = c(44296, 33697, 23098),
+  Total_700       = c(68093, 47431, 30603)
+) |>
+  setNames(c("Scenario", "Amort.", "Downpayment",
+             "Amortization", "Interest 2.72%", "Fee", "Total 2.72%",
+             "Interest 7%", "Total 7%"))
+
+tt(tbl,
+   caption = "Costes mensuales por escenario LTV — con scale-down",
+   notes = "Los tipos de interés son anuales. Deducción fiscal: 30% sobre los primeros 100k SEK/año, 21% sobre el exceso."
+) |>
+  group_tt(j = setNames(list(8:9), "Peor caso 7%")) |>
+  style_tt(j = c(7, 9), bold = TRUE) |>
+  style_tt(finalize = function(x) {
+    x@table_string <- paste0("#scale-down[\n#set table(inset: (x: 5pt, y: 3pt))\n", x@table_string, "\n]")
+    x
+  })
+```
+
+El código necesario para crear la tabla anterior es el siguiente:
+
+```{r}
+#| eval: false
+#| echo: true
+
+library(tinytable)
+
+tbl <- data.frame(
+  Scenario        = c("High LTV (15% down)", "Medium LTV (35% down)", "Low LTV (55% down)"),
+  Amort           = c("2%", "1%", "0%"),
+  Downpayment     = c(172500, 402500, 632500),
+  Amortization    = c(16292, 6229, 0),
+  Interest_272    = c(16754, 12635, 8517),
+  Fee             = c(7505, 7505, 7505),
+  Total_272       = c(40550, 26369, 16022),
+  Interest_700    = c(44296, 33697, 23098),
+  Total_700       = c(68093, 47431, 30603)
+) |>
+  setNames(c("Scenario", "Amort.", "Downpayment",
+             "Amortization", "Interest 2.72%", "Fee", "Total 2.72%",
+             "Interest 7%", "Total 7%"))
+
+tt(tbl,
+   caption = "Costes mensuales por escenario LTV — con scale-down",
+   notes = "Los tipos de interés son anuales. Deducción fiscal: 30% sobre los primeros 100k SEK/año, 21% sobre el exceso."
+) |>
+  group_tt(j = setNames(list(8:9), "Peor caso 7%")) |>
+  style_tt(j = c(7, 9), bold = TRUE) |>
+  style_tt(finalize = function(x) {
+    x@table_string <- paste0("#scale-down[\n#set table(inset: (x: 5pt, y: 3pt))\n", x@table_string, "\n]")
+    x
+  })
+```
+
+### Tablas con formato condicional y cabeceras multilínea
+
+Este ejemplo muestra cómo crear tablas con `tinytable` aplicando formato condicional, cabeceras multilínea y estilo personalizado por filas. La @tbl-tabla-politicas3 ilustra el resultado.
+
+```{r}
+#| echo: false
+#| label: tbl-tabla-politicas3
+#| tbl-cap: "Indicadores de política familiar en países europeos seleccionados (2022). Fuente: OCDE (2023)."
+
+library(tinytable)
+
+tabla_politicas <- data.frame(
+  País = c("Suecia", "Francia", "Alemania", "España", "Italia"),
+  `Permiso de paternidad remunerado (semanas)` = c(10, 2.5, 2, 16, 1),
+  `Gasto público en familia (% PIB)` = c(3.4, 2.9, 2.3, 1.3, 1.6),
+  check.names = FALSE
+)
+
+colnames(tabla_politicas) <- c(
+  "País",
+  "Permiso de paternidad<br>remunerado (semanas)",
+  "Gasto público<br>en familia<br>(% PIB)"
+)
+
+tt(tabla_politicas,
+   width = c(0.15, 0.30, 0.20)
+   ) |>
+   format_tt(linebreak = "<br>") |>
+   format_tt(j = 2:3, digits = 2, num_mark_big = " ", num_mark_dec = ".", num_zero = TRUE, num_fmt = "decimal") |>
+   style_tt(i = 0, j = 1:3, align = "lcc") |>
+   style_tt(i = 1:5, j = 1:3, align = "lcc") |>
+   style_tt(i = 0, background = "#E5E5E5", bold = TRUE) |>
+   style_tt(i = c(2, 4), background = "#F7F7F7") |>
+   style_tt(
+     i = which(tabla_politicas$País == "España"),
+     background = "#FFEEEE",
+     bold = TRUE,
+     color = "#C0392B"
+   )
+```
+
+El código necesario para crear la tabla anterior es el siguiente:
+
+```{r}
+#| eval: false
+#| echo: true
+
+library(tinytable)
+
+tabla_politicas <- data.frame(
+  País = c("Suecia", "Francia", "Alemania", "España", "Italia"),
+  `Permiso de paternidad remunerado (semanas)` = c(10, 2.5, 2, 16, 1),
+  `Gasto público en familia (% PIB)` = c(3.4, 2.9, 2.3, 1.3, 1.6),
+  check.names = FALSE
+)
+
+colnames(tabla_politicas) <- c(
+  "País",
+  "Permiso de paternidad<br>remunerado (semanas)",
+  "Gasto público<br>en familia<br>(% PIB)"
+)
+
+tt(tabla_politicas, width = c(0.15, 0.30, 0.20)) |>
+  format_tt(linebreak = "<br>") |>
+  format_tt(j = 2:3, digits = 2, num_mark_big = " ", num_mark_dec = ".", num_zero = TRUE, num_fmt = "decimal") |>
+  style_tt(i = 0, j = 1:3, align = "lcc") |>
+  style_tt(i = 1:5, j = 1:3, align = "lcc") |>
+  style_tt(i = 0, background = "#E5E5E5", bold = TRUE) |>
+  style_tt(i = c(2, 4), background = "#F7F7F7") |>
+  style_tt(
+    i = which(tabla_politicas$País == "España"),
+    background = "#FFEEEE",
+    bold = TRUE,
+    color = "#C0392B"
+  )
+```
 
 ### Tablas de Regresión
 
