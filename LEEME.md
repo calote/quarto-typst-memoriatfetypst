@@ -83,7 +83,7 @@ través de las [opciones YAML](#referencia-de-opciones-yaml).
 | **Portada** | Logo de la universidad, titulación, facultad, universidad, tipo de trabajo, título, autor, tutor, fecha — todo configurable; se puede desactivar. |
 | **Prefacio** | `resumen` + `palabras-clave` en español, `abstract` + `keywords` en inglés, `agradecimientos` opcionales, todo en páginas dedicadas (sin numerar). |
 | **Índices** | Índice general, lista de figuras, lista de tablas, y un mini-índice *opcional* por capítulo. |
-| **Cabeceras de capítulo** | Tres diseños diferentes (`estilo01`, `estilo02`, `estilo03`) seleccionables por documento. |
+| **Cabeceras de capítulo** | Cuatro diseños diferentes (`estilo01`–`estilo04`) seleccionables por documento. |
 | **Modo artículo / informe** | Usa `nombre-capitulo: "--"` para ocultar las etiquetas de capítulo y obtener un documento tipo artículo o informe (ideal para trabajos cortos, informes o papers). |
 | **Apéndices** | Un shortcode `{{< appendix >}}` reinicia la numeración de figuras/tablas/encabezados a `A.1`, `A.2`, … con una página divisoria dedicada. |
 | **Matemáticas** | Sintaxis LaTeX (con `$$ … $$`), más re-centrado automático de ecuaciones en bloque dentro de listas, y un filtro Lua que convierte `\boxed{}` de LaTeX a cajas de Typst. |
@@ -308,13 +308,13 @@ include-in-header: ["mis-secciones.typ"]
 
 | Opción | Tipo | Por defecto | Descripción |
 |---|---|---|---|
-| `cabecera-capitulo` | string | `estilo01` | Uno de `estilo01`, `estilo02`, `estilo03` (ver más abajo). |
+| `cabecera-capitulo` | string | `estilo01` | Uno de `estilo01`, `estilo02`, `estilo03`, `estilo04` (ver más abajo). |
 | `nombre-capitulo` | string | `CAPÍTULO` | Etiqueta impresa junto al número de capítulo. Usa `--` para modo artículo/informe (sin etiquetas de capítulo, solo títulos). |
 | `referencias-nombre` | string | `Referencias` | Texto del encabezado de la sección de bibliografía. |
 | `apendice-portada` | string | `APÉNDICE` | Texto grande en la página divisoria de apéndices. |
 | `apendice-nombre` | string | `APÉNDICE` | Etiqueta impresa junto al número de apéndice. |
 
-Los tres estilos de capítulo son:
+Los cuatro estilos de capítulo son:
 
 - **`estilo01`** — Número gris translúcido grande en la esquina
   superior derecha de la página del capítulo, con el título del
@@ -326,6 +326,15 @@ Los tres estilos de capítulo son:
   número. Usa `nombre-capitulo: "--"` para imprimir solo el título,
   útil para una monografía de un solo capítulo o un capítulo de
   "Bibliografía" sin número.
+- **`estilo04`** — Barra lateral izquierda con un degradado de color
+  vertical y el número de capítulo girado 90 grados. La barra ocupa
+  toda la altura de la página y se sitúa en el margen izquierdo
+  (a 0.5 cm del borde). El título del capítulo está alineado a la
+  izquierda. Personalizable con:
+  - `sidebar-color1` / `sidebar-color2` (hex) — colores del degradado
+    (por defecto `#1a365d` / `#2c5282`).
+  - `sidebar-dx` (longitud) — distancia desde el borde de página
+    (por defecto `0.5cm`).
 
 ### Apéndices
 
@@ -420,7 +429,15 @@ El ejemplo funcional más completo está en
 
 - Un proyecto **multiarchivo**: `tfe_ejemplo01.qmd` (el archivo
   principal) más dos hijos — `capitulo03.qmd` y `apendice01.qmd` —
-  incluidos con `{{< include … >}}` y el parámetro `child` del chunk.
+  incluidos mediante el parámetro `child` del chunk (no con
+  `{{< include … >}}`, que aparece comentado en el código). Por ejemplo:
+
+  ````markdown
+  ```{r}
+  #| child: "capitulo03.qmd"
+  #| echo: false
+  ```
+  ````
 - **Prefacio bilingüe** (`resumen` + `palabras-clave` y `abstract` +
   `keywords`) y una página de `agradecimientos`.
 - **Tres figuras** generadas con código R (histograma, boxplot, ggplot
@@ -509,22 +526,15 @@ Consulta el [archivo de propuestas](PROPOSALS.md) (o el
 [rastreador de incidencias](../../issues)) para la lista completa.
 Aspectos destacados:
 
-- Permitir que `margin` sea una longitud simple (p.ej. `margin: 2cm`)
-  además de la forma de diccionario.
 - Aceptar `bibliografia-completa` como un booleano real en lugar de
   una cadena comparada con `"true"`.
 - Añadir una opción para inyectar código Typst adicional
   (`include-in-header`) desde el YAML, p.ej. para estilos de teoremas
   personalizados tipo LaTeX.
-- Documentar y distribuir un tercer (y cuarto) estilo de cabecera de
-  capítulo (`estilo04` con barra lateral, `estilo05` con título
-  centrado).
-- Proporcionar un ejemplo de `_metadata.yml` para proyectos libro
-  multidocumento.
+- Documentar y distribuir un quinto estilo de cabecera de capítulo
+  (`estilo05` con título centrado).
 - Añadir un flujo de trabajo de GitHub Actions que renderice el
   ejemplo en cada PR.
-- Añadir una traducción al español del README.
-- Eliminar el `print("DEBUG: …")` sobrante en `boxed-filter.lua`.
 
 ---
 
