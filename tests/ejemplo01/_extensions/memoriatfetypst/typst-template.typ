@@ -371,6 +371,8 @@
   sansfont: "Helvetica",
   mathfont: "New Computer Modern Math",
   link-color: rgb("#483d8b"),
+  internal-link-color: rgb("#5b5b9e"),
+  cite-color: rgb("#6A1B9A"),
   sectionnumbering: "1.1.1",
   pagenumbering: "1",
   toc: true,
@@ -412,17 +414,24 @@ apendice-nombre-state.update(str(apendice-nombre))
 
 toccapitulos-state.update(toccapitulos)
 
-// Normalizar colores: elimina escapes de Quarto y asegura prefijo #
+// Normalizar colores de sidebars (no se pasan desde YAML normalmente)
 let norm-color(c) = {
-  let s = str(c)
-  if s == "none" { return none }
-  s = s.replace("\\", "")   // elimina posible escape \ de Quarto
-  if s.starts-with("#") { return rgb(s) }
-  return rgb("#" + s)
+  if type(c) == "str" { 
+    let s = str(c).replace("\\", "")   // elimina posible escape \ de Quarto
+    if s == "none" { return none }
+    if s.starts-with("#") { return rgb(s) }
+    return rgb("#" + s)
+  }
+  return c   // Si ya es un color, lo retorna tal cual
 }
 sidebar-c1-state.update(norm-color(sidebar-first-color))
 sidebar-c2-state.update(norm-color(sidebar-second-color))
 sidebar-dx-state.update(sidebar-dx)
+
+// Convertir strings de color a colores válidos INMEDIATAMENTE
+link-color = norm-color(link-color)
+internal-link-color = norm-color(internal-link-color)
+cite-color = norm-color(cite-color)
 
 theorem-style-state.update(str(theorem-style))
 
@@ -702,8 +711,6 @@ if estilo == "estilo01" {
   ]
 
 
-
-  show link: set text(fill: link-color)
 
   set bibliography(full: {bibliografia-completa == "true"} , title: [#referencias-nombre])
 
