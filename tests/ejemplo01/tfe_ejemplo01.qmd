@@ -28,6 +28,8 @@ format:
   memoriatfetypst-typst: 
     toc: true
     highlight-style: idiomatic # resaltar código, descomentar para Quarto >= 1.9
+    #syntax-highlighting: arrow  # arrow, solarized, monokai, gruvbox, github 
+    # No recomendados (código en línea se ve mal): dracula, nord
     #keep-typ: true
     tofiguras: true
     totablas: true
@@ -47,6 +49,15 @@ format:
     #sidebar-color2: "#2c5282"
     #sidebar-dx: 0.5cm
     #theorem-style: "modern"
+    #theorem-appearance: rainbow    # simple (default), fancy, clouds, rainbow
+    link-color: "#2563eb" 
+    internal-link-color: "059669" # "059669" (verde)   "#dc2626" (rojo)
+    cite-color: "#7c3aed"  # "#7c3aed" (púrpura)   #5b5b9e"  
+    # Ahora deberías ver:
+    # 
+    # Enlaces externos (URLs) → azul #2563eb
+    # Referencias cruzadas (@thm-xxx, @fig-xxx, @sec-xxx) → verde #059669
+    # Citas (@cite2020) → púrpura #7c3aed    
     # margin: 
     #   x: 2cm 
     #   y: 2cm
@@ -184,7 +195,15 @@ El espacio muestral de lanzar un dado es $\{1, 2, 3, 4, 5, 6\}$.
 
 ::: {#exr-ejercicio-1} 
 Calcula la media y la varianza de la variable aleatoria que representa el lanzamiento de un dado justo de seis caras.
+
+{{< lipsum 10 >}}
+
 :::
+
+::: {#exr-ejercicio-2} 
+Calcula la mediana y la cuasivarianza de la variable aleatoria que representa el lanzamiento de un dado justo de seis caras.
+:::
+
 
 ::: {.solution}
 ##### @exr-ejercicio-1

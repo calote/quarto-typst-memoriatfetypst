@@ -89,7 +89,7 @@ via the [YAML options](#yaml-options-reference).
 | **Math** | LaTeX syntax (with `$$ … $$`), plus automatic re-centering of block equations inside lists, and a Lua filter that converts LaTeX `\boxed{}` to Typst boxes. |
 | **Theorems** | Optional `theorem-style: "modern"` enables coloured theorem boxes (definition, theorem, lemma, corollary, example, exercise). Untitled environments no longer show empty parentheses `()`. |
 | **Code blocks** | Distinct coloured boxes for R, Python, generic and Markdown code. |
-| **Cross-references** | Standard Quarto syntax for sections, figures (`@fig-…`), tables (`@tbl-…`), equations (`@eq-…`) and theorems (`@thm-…`). |
+| **Cross-references** | Standard Quarto syntax for sections, figures (`@fig-…`), tables (`@tbl-…`), equations (`@eq-…`) and theorems (`@thm-…`). Link, cross-reference and citation colors are customizable (`link-color`, `internal-link-color`, `cite-color`). |
 | **Bibliography** | BibLaTeX/BibTeX with `apa` and `chicago-author-date` CSL styles, and an option to print the full bibliography on a single page. |
 | **HTML twin** | The same `.qmd` can render to a self-contained HTML version with collapsible code. |
 
@@ -271,7 +271,9 @@ Typst format are also listed for completeness.
 | `sansfont` | string | `Helvetica` | Sans-serif font (used in cover page). |
 | `mathfont` | string | `New Computer Modern Math` | Math font. |
 | `fontsize` | length | `11pt` | Base body size. |
-| `link-color` | colour | `rgb("#483d8b")` | Colour of internal & external links. |
+| `link-color` | string | `"#483d8b"` | Color of external links (URLs). |
+| `internal-link-color` | string | `"#5b5b9e"` | Color of internal links & cross-references (`@sec-`, `@fig-`, `@tbl-`, `@thm-`, `@def-`, etc.). |
+| `cite-color` | string | `"#6A1B9A"` | Color of bibliographic citations (`@cite2020`). |
 | `section-numbering` | string | `1.1.1` | Numbering pattern for sections (e.g. `1.1.1.1` for four levels). |
 | `page-numbering` | string | `1` | Page numbering style. Front matter is always roman (`i`, `ii`, …) regardless. |
 | `heading-style` | bool | `true` | Apply LaTeX-style heading sizes and spacing to sub-sections (H2–H6). Set to `false` to use the default Typst heading proportions. |
@@ -389,7 +391,6 @@ format:
     # syntax-highlighting: solarized
     # syntax-highlighting: nord
     # syntax-highlighting: gruvbox
-    # syntax-highlighting: vs       # Visual Studio style
 ```
 
 With Skylighting the syntax colours change but the custom per-language

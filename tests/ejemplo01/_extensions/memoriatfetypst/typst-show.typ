@@ -33,9 +33,9 @@ $if(theorem-style)$
 // contadores de theorion.
 #let thm-style(body, col, kind) = figure(
   kind: kind, supplement: [], caption: [], numbering: "1",
-  rect(
+  block(
     width: 100%, stroke: (left: 4pt + col), fill: col.lighten(90%),
-    inset: (x: 0.8em, y: 0.6em), radius: 2pt,
+    inset: (x: 0.8em, y: 0.6em), radius: 2pt, breakable: true,
   )[
     #set align(left)
     #set par(justify: true)
@@ -55,6 +55,36 @@ $if(theorem-style)$
 #let _thm-old-exc = exercise
 #let exercise(title: none, body) = thm-style(_thm-old-exc(title: _normalize-title(title), body), thm-col-exr, "exc-wrap")
 $endif$
+
+// Show rules para colores personalizados
+// Quarto escapa # → \# al interpolar strings, así que quitamos el \ antes de pasar a rgb()
+#let _fixhex(s) = s.replace("\\", "")
+$if(link-color)$
+#let _link-col = rgb(_fixhex("$link-color$"))
+$else$
+#let _link-col = rgb("#483d8b")
+$endif$
+$if(internal-link-color)$
+#let _internal-col = rgb(_fixhex("$internal-link-color$"))
+$else$
+#let _internal-col = rgb("#5b5b9e")
+$endif$
+$if(cite-color)$
+#let _cite-col = rgb(_fixhex("$cite-color$"))
+$else$
+#let _cite-col = rgb("#6A1B9A")
+$endif$
+
+// show link discrimina: enlaces externos (URL string) vs internos (location)
+#show link: it => {
+  if type(it.dest) == str {
+    text(fill: _link-col, weight: "bold", it)
+  } else {
+    text(fill: _internal-col, weight: "bold", it)
+  }
+}
+#show ref: set text(fill: _internal-col, weight: "bold")
+#show cite: set text(fill: _cite-col, weight: "bold")
 
 #show: doc => article(
 $if(title)$
@@ -121,6 +151,12 @@ $elseif(brand.defaults.academic-typst.mathfont)$
 $endif$
 $if(brand.typography.link.color)$
   link-color: $brand.typography.link.color$,
+$endif$
+$if(internal-link-color)$
+  internal-link-color: "$internal-link-color$",
+$endif$
+$if(cite-color)$
+  cite-color: "$cite-color$",
 $endif$
 $if(section-numbering)$
   sectionnumbering: "$section-numbering$",

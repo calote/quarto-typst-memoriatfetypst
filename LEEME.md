@@ -89,7 +89,7 @@ través de las [opciones YAML](#referencia-de-opciones-yaml).
 | **Matemáticas** | Sintaxis LaTeX (con `$$ … $$`), más re-centrado automático de ecuaciones en bloque dentro de listas, y un filtro Lua que convierte `\boxed{}` de LaTeX a cajas de Typst. |
 | **Teoremas** | `theorem-style: "modern"` opcional activa cajas coloreadas para teoremas (definition, theorem, lemma, corollary, example, exercise). Los entornos sin título ya no muestran paréntesis vacíos `()`. |
 | **Bloques de código** | Cajas de colores diferenciadas para código R, Python, genérico y Markdown. |
-| **Referencias cruzadas** | Sintaxis estándar de Quarto para secciones, figuras (`@fig-…`), tablas (`@tbl-…`), ecuaciones (`@eq-…`) y teoremas (`@thm-…`). |
+| **Referencias cruzadas** | Sintaxis estándar de Quarto para secciones, figuras (`@fig-…`), tablas (`@tbl-…`), ecuaciones (`@eq-…`) y teoremas (`@thm-…`). Los colores de enlaces, referencias y citas son personalizables (`link-color`, `internal-link-color`, `cite-color`). |
 | **Bibliografía** | BibLaTeX/BibTeX con estilos CSL `apa` y `chicago-author-date`, y opción para imprimir la bibliografía completa en una sola página. |
 | **Gemelo HTML** | El mismo `.qmd` puede renderizarse a una versión HTML autónoma con código plegable. |
 
@@ -273,7 +273,9 @@ Typst estándar de Quarto también se incluyen por completitud.
 | `sansfont` | string | `Helvetica` | Fuente sans-serif (usada en la portada). |
 | `mathfont` | string | `New Computer Modern Math` | Fuente para matemáticas. |
 | `fontsize` | length | `11pt` | Tamaño base del cuerpo. |
-| `link-color` | colour | `rgb("#483d8b")` | Color de enlaces internos y externos. |
+| `link-color` | string | `"#483d8b"` | Color de enlaces externos (URLs). |
+| `internal-link-color` | string | `"#5b5b9e"` | Color de enlaces internos y referencias cruzadas (`@sec-`, `@fig-`, `@tbl-`, `@thm-`, `@def-`, etc.). |
+| `cite-color` | string | `"#6A1B9A"` | Color de citas bibliográficas (`@cite2020`). |
 | `section-numbering` | string | `1.1.1` | Patrón de numeración de secciones (p.ej. `1.1.1.1` para cuatro niveles). |
 | `page-numbering` | string | `1` | Estilo de numeración de páginas. El prefacio siempre usa números romanos (`i`, `ii`, …) independientemente. |
 | `heading-style` | bool | `true` | Aplica tamaños y espaciados de sección (H2–H6) tipo LaTeX. Pon `false` para usar las proporciones predeterminadas de Typst. |
@@ -394,7 +396,6 @@ format:
     # syntax-highlighting: solarized
     # syntax-highlighting: nord
     # syntax-highlighting: gruvbox
-    # syntax-highlighting: vs       # Estilo Visual Studio
 ```
 
 Con Skylighting los colores sintácticos cambian pero se pierde el
