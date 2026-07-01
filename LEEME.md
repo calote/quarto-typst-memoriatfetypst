@@ -129,6 +129,20 @@ git clone https://github.com/calote/quarto-typst-memoriatfetypst.git
 cp -r quarto-typst-memoriatfetypst/_extensions TU_PROYECTO/
 ```
 
+> **`quarto add` vs `quarto use template`:**
+>
+> - **`quarto add`** solo instala los archivos de la extensión en `_extensions/`.
+>   Nunca toca tus documentos existentes (`.qmd`, `.bib`, imágenes, etc.).
+>   Úsalo para añadir el formato a un proyecto que ya tengas.
+>
+> - **`quarto use template`** crea un **directorio nuevo** a partir del repositorio.
+>   Si el directorio actual no está vacío, te pedirá un nombre de carpeta nueva.
+>   Nunca sobrescribe archivos de un proyecto existente.
+>
+> Para actualizar o reinstalar la extensión en un proyecto existente, usa
+> `quarto add` de nuevo (con `--no-prompt` para saltar la confirmación).
+> Para fijar una versión concreta, añade `@<tag>` (ver más abajo).
+
 ### Verificar la instalación
 
 ```bash
