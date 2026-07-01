@@ -167,6 +167,13 @@
 // Estado para controlar si mostrar TOC por capítulo
 #let show-chapter-toc = state("show-chapter-toc", true)
 
+// Estados para estilo04 (sidebar)
+#let num-capitulo = state("num-capitulo", 1)
+#let sidebar-c1-state = state("sidebar-c1", rgb("#1a365d"))
+#let sidebar-c2-state = state("sidebar-c2", rgb("#2c5282"))
+#let sidebar-dx-state = state("sidebar-dx", 0.5cm)
+#let apendice-activo-state = state("apendice-activo", false)
+
 // Función principal para TOC por capítulo
 #let chapter-contents() = {
   context {
@@ -258,6 +265,52 @@
 }
 
 
+// ── Funciones para estilo04 (sidebar) ──────────────────────────────
+
+#let dibujar-sidebar(sidebar-w, color1, color2, nombre-capitulo, num, dx: 0.5cm) = {
+  place(
+    top + left,
+    dx: dx,
+    block(
+      width: sidebar-w,
+      height: 100%,
+      fill: gradient.linear(color1, color2, angle: 90deg),
+      stroke: none,
+      radius: 3pt,
+      clip: true,
+    )[
+      #set text(fill: white, weight: "bold", size: 11pt)
+      #align(center + horizon)[
+        #rotate(-90deg, origin: center)[
+          #block(width: 4cm)[#nombre-capitulo #num]
+        ]
+      ]
+    ]
+  )
+}
+
+#let cabecera-capitulo-estilo04(it, nums, nombre-capitulo) = {
+  v(0.5em)
+  block[
+    #text(size: 26pt, weight: "bold")[#it.body]
+    #v(0.25em)
+    #line(length: 60%, stroke: 3pt + rgb("#2c5282"))
+  ]
+  v(2em)
+}
+
+#let cabecera-apendice-estilo04(it, nums, apendice-nombre) = {
+  v(0.5em)
+  block[
+    #text(size: 26pt, weight: "bold")[#it.body]
+    #v(0.25em)
+    #line(length: 60%, stroke: 3pt + rgb("#2c5282"))
+  ]
+  v(2em)
+}
+
+// ── article() ──────────────────────────────────────────────────────
+
 #let article(
   // Document metadata
   title: none,
@@ -299,6 +352,9 @@
   referencias-nombre: "Referencias",
   apendice-portada: "APÉNDICE",
   apendice-nombre: "APÉNDICE",
+  sidebar-first-color: "#1a365d",
+  sidebar-second-color: "#2c5282",
+  sidebar-dx: 0.5cm,
   logo: none,
   tipo-TFG: "TRABAJO FIN DE GRADO",
   fecha-TFG: "Sevilla, Junio de 2025", //Sevilla, Octubre de 2025
@@ -322,6 +378,18 @@ apendice-portada-state.update(str(apendice-portada))
 apendice-nombre-state.update(str(apendice-nombre))
 
 toccapitulos-state.update(toccapitulos)
+
+// Normalizar colores: elimina escapes de Quarto y asegura prefijo #
+let norm-color(c) = {
+  let s = str(c)
+  if s == "none" { return none }
+  s = s.replace("\\", "")   // elimina posible escape \ de Quarto
+  if s.starts-with("#") { return rgb(s) }
+  return rgb("#" + s)
+}
+sidebar-c1-state.update(norm-color(sidebar-first-color))
+sidebar-c2-state.update(norm-color(sidebar-second-color))
+sidebar-dx-state.update(sidebar-dx)
 
   set page(
     paper: paper,
@@ -555,6 +623,17 @@ if estilo == "estilo01" {
     } else {
     it
     }
+
+} else if estilo == "estilo04" {
+
+  let nums = counter(heading).at(it.location())
+  if nums.len() > 0 and nums.at(0) > 0 {
+    num-capitulo.update(nums.first())
+    pagebreak(weak: true)
+    cabecera-capitulo-estilo04(it, nums, nombre-capitulo)
+  } else {
+    it
+  }
 
 } else {
 
@@ -870,7 +949,24 @@ counter(page).update(1)
     margin: margin,
     //numbering: pagenumbering,
     numbering: "1",
-    
+    background: context {
+      if cabecera-capitulo-state.get() == "estilo04" {
+        // No mostrar sidebar en la página de bibliografía
+        if not is-first-page-of-bibliography() {
+          let en-apendice = apendice-activo-state.get()
+          let etiqueta = if en-apendice { apendice-nombre-state.get() } else { "CAPÍTULO" }
+          let num = num-capitulo.get()
+          dibujar-sidebar(
+            1.4cm,
+            sidebar-c1-state.get(),
+            sidebar-c2-state.get(),
+            etiqueta,
+            if en-apendice { numbering("A", num) } else { num },
+            dx: sidebar-dx-state.get(),
+          )
+        }
+      }
+    },
   )
 
 
@@ -915,7 +1011,7 @@ counter(page).update(1)
 
 
 {  // Página divisoria de apéndices, entre llaves para aislar el contexto
-      set page(header: [])
+      set page(header: [], footer: none, background: none)
 
       // Centrar verticalmente el texto
       place(center + horizon)[
@@ -995,6 +1091,18 @@ if estilo == "estilo01" {
   if nums.len() > 0 and nums.at(0) > 0 {
     pagebreak(weak: true)    
     cabecera-apendice-estilo03(it, nums, apendice-nombre)
+  } else {
+    it
+  }
+
+} else if estilo == "estilo04" {
+
+  let nums = counter(heading).at(it.location())
+  if nums.len() > 0 and nums.at(0) > 0 {
+    apendice-activo-state.update(true)
+    num-capitulo.update(nums.at(0))
+    pagebreak(weak: true)
+    cabecera-apendice-estilo04(it, nums, apendice-nombre)
   } else {
     it
   }

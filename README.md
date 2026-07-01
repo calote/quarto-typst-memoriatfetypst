@@ -83,7 +83,7 @@ via the [YAML options](#yaml-options-reference).
 | **Cover page** | University logo, degree, faculty, university, work type, title, author, tutor, date — all configurable; can be disabled. |
 | **Front matter** | Spanish `resumen` + `palabras-clave`, English `abstract` + `keywords`, optional `agradecimientos`, all with dedicated (unnumbered) pages. |
 | **Tables of contents** | Master TOC, list of figures, list of tables, and an *optional* per-chapter mini-TOC. |
-| **Chapter headers** | Three different designs (`estilo01`, `estilo02`, `estilo03`) selectable per document. |
+| **Chapter headers** | Four different designs (`estilo01`–`estilo04`) selectable per document. |
 | **Article / report mode** | Set `nombre-capitulo: "--"` to hide chapter labels and produce an article- or report-style document (ideal for shorter works, informes, or papers). |
 | **Appendices** | A `{{< appendix >}}` shortcode resets figure/table/heading numbering to `A.1`, `A.2`, … with a dedicated divider page. |
 | **Math** | LaTeX syntax (with `$$ … $$`), plus automatic re-centering of block equations inside lists, and a Lua filter that converts LaTeX `\boxed{}` to Typst boxes. |
@@ -306,13 +306,13 @@ include-in-header: ["mis-secciones.typ"]
 
 | Option | Type | Default | Description |
 |---|---|---|---|
-| `cabecera-capitulo` | string | `estilo01` | One of `estilo01`, `estilo02`, `estilo03` (see below). |
+| `cabecera-capitulo` | string | `estilo01` | One of `estilo01`, `estilo02`, `estilo03`, `estilo04` (see below). |
 | `nombre-capitulo` | string | `CAPÍTULO` | Label printed next to the chapter number. Use `--` to switch to article/report mode (no chapter labels, titles only). |
 | `referencias-nombre` | string | `Referencias` | Heading text of the bibliography section. |
 | `apendice-portada` | string | `APÉNDICE` | Large text on the appendix divider page. |
 | `apendice-nombre` | string | `APÉNDICE` | Label printed next to the appendix number. |
 
-The three chapter styles are:
+The four chapter styles are:
 
 - **`estilo01`** — Large translucent grey number on the top-right of
   the chapter page, with the chapter title right-aligned and a short
@@ -322,6 +322,14 @@ The three chapter styles are:
 - **`estilo03`** — Left-aligned, no number watermark. Use
   `nombre-capitulo: "--"` to print only the title, useful for a
   one-chapter monograph or a "Bibliografía" chapter with no number.
+- **`estilo04`** — Left sidebar with a vertical colour gradient and
+  the chapter number rotated 90 degrees. The sidebar spans the full
+  page height and sits in the left margin (0.5 cm from the page edge).
+  The chapter title is left-aligned. Customisable with:
+  - `sidebar-color1` / `sidebar-color2` (hex strings) — gradient
+    endpoints (default `#1a365d` / `#2c5282`).
+  - `sidebar-dx` (length) — distance from the page edge (default
+    `0.5cm`).
 
 ### Appendices
 
@@ -416,7 +424,15 @@ The richest working example is in
 
 - A **multi-file** project: `tfe_ejemplo01.qmd` (the main file) plus
   two children — `capitulo03.qmd` and `apendice01.qmd` — pulled in
-  with `{{< include … >}}` and the `child` chunk parameter.
+  via the `child` chunk parameter (not with `{{< include … >}}`,
+  which is commented out in the source). For example:
+
+  ````markdown
+  ```{r}
+  #| child: "capitulo03.qmd"
+  #| echo: false
+  ```
+  ````
 - **Dual-language front matter** (`resumen` + `palabras-clave` and
   `abstract` + `keywords`) and an `agradecimientos` page.
 - **Three figures** generated from R code (histogram, boxplot, ggplot
@@ -502,18 +518,13 @@ _extensions/memoriatfetypst/
 See the [proposals file](PROPOSALS.md) (or the [issue tracker](../../issues))
 for the full list. Highlights:
 
-- Allow `margin` to be a single length (e.g. `margin: 2cm`) in
-  addition to the dictionary form.
 - Accept `bibliografia-completa` as a real boolean instead of a
   string compared to `"true"`.
 - Add an option to inject additional Typst code (`include-in-header`)
   from the YAML, e.g. for custom LaTeX-like theorem styles.
-- Document and ship a third (and fourth) chapter header style
-  (`estilo04` with a sidebar, `estilo05` with a centred title).
-- Provide a `_metadata.yml` example for multi-document book projects.
+- Document and ship a fifth chapter header style (`estilo05` with a
+  centred title).
 - Add a GitHub Actions workflow that renders the example on every PR.
-- Add a Spanish translation of the README.
-- Remove the leftover `print("DEBUG: …")` in `boxed-filter.lua`.
 
 ---
 

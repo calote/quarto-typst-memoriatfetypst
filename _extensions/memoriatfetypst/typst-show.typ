@@ -116,6 +116,15 @@ $endif$
 $if(nombre-capitulo)$
   nombre-capitulo: "$nombre-capitulo$",
 $endif$
+$if(sidebar-color1)$
+  sidebar-first-color: "$sidebar-color1$",
+$endif$
+$if(sidebar-color2)$
+  sidebar-second-color: "$sidebar-color2$",
+$endif$
+$if(sidebar-dx)$
+  sidebar-dx: $sidebar-dx$,
+$endif$
 $if(referencias-nombre)$
   referencias-nombre: "$referencias-nombre$",
 $endif$
