@@ -129,6 +129,20 @@ git clone https://github.com/calote/quarto-typst-memoriatfetypst.git
 cp -r quarto-typst-memoriatfetypst/_extensions YOUR_PROJECT/
 ```
 
+> **`quarto add` vs `quarto use template`:**
+>
+> - **`quarto add`** only installs the extension files into `_extensions/`.
+>   It never touches your existing documents (`.qmd`, `.bib`, images, etc.).
+>   Use this to add the format to a project you already have.
+>
+> - **`quarto use template`** creates a **new directory** from the repository.
+>   If the current directory is not empty, you will be prompted for a new folder name.
+>   It never overwrites existing project files.
+>
+> To update or reinstall the extension in an existing project, use `quarto add`
+> again (with `--no-prompt` to skip confirmation). To pin a specific version,
+> append `@<tag>` (see below).
+
 ### Verify the install
 
 ```bash
