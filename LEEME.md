@@ -495,6 +495,11 @@ El ejemplo funcional más completo está en
   nativo, `layout-ncol` multipanel, paneles mixtos tabla/figura,
   tablas grid de Pandoc, y una `tinytable` larga renderizada con
   `breakable: true`.
+- **Formato personalizado de tablas**: justificación por tipo de
+  columna (`tbl-ejemplo-justificacion`), escalado de tablas mediante
+  un helper Typst `#scale-down` inyectado con `include-in-header`
+  (`tbl-scale-down`), y formato condicional con cabeceras multilínea
+  y resaltado de filas (`tbl-tabla-politicas3`).
 - **Una tabla de regresión** con `modelsummary::msummary()` y una
   versión alternativa cargada desde un `.rds` preguardado (útil para
   reconstrucciones más rápidas).

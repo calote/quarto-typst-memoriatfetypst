@@ -489,6 +489,11 @@ The richest working example is in
   Markdown, multi-panel `layout-ncol`, mixed table/figure panels,
   Pandoc grid tables, and a long `tinytable` rendered with
   `breakable: true`.
+- **Custom table formatting**: justification by column type
+  (`tbl-ejemplo-justificacion`), table scaling via a `#scale-down`
+  Typst helper injected through `include-in-header`
+  (`tbl-scale-down`), and conditional formatting with multi-line
+  headers and row highlighting (`tbl-tabla-politicas3`).
 - **A regression table** with `modelsummary::msummary()` and an
   alternative version loaded from a pre-saved `.rds` (useful for
   faster rebuilds).
