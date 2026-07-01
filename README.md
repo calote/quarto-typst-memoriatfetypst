@@ -87,6 +87,7 @@ via the [YAML options](#yaml-options-reference).
 | **Article / report mode** | Set `nombre-capitulo: "--"` to hide chapter labels and produce an article- or report-style document (ideal for shorter works, informes, or papers). |
 | **Appendices** | A `{{< appendix >}}` shortcode resets figure/table/heading numbering to `A.1`, `A.2`, … with a dedicated divider page. |
 | **Math** | LaTeX syntax (with `$$ … $$`), plus automatic re-centering of block equations inside lists, and a Lua filter that converts LaTeX `\boxed{}` to Typst boxes. |
+| **Theorems** | Optional `theorem-style: "modern"` enables coloured theorem boxes (definition, theorem, lemma, corollary, example, exercise). Untitled environments no longer show empty parentheses `()`. |
 | **Code blocks** | Distinct coloured boxes for R, Python, generic and Markdown code. |
 | **Cross-references** | Standard Quarto syntax for sections, figures (`@fig-…`), tables (`@tbl-…`), equations (`@eq-…`) and theorems (`@thm-…`). |
 | **Bibliography** | BibLaTeX/BibTeX with `apa` and `chicago-author-date` CSL styles, and an option to print the full bibliography on a single page. |
@@ -395,16 +396,48 @@ With Skylighting the syntax colours change but the custom per-language
 block background is lost. Choose whichever best fits your document's
 look.
 
-### Math
+### Math & theorems
 
 | Option | Type | Default | Description |
 |---|---|---|---|
 | `centrar-matematicas` | bool | `true` | Re-centre `$$ … $$` equations that appear inside indented environments (lists, blockquotes, …) so they are visually centred on the full text column, not on the indented column. Set to `false` to disable. |
+| `theorem-style` | string | — | Set to `"modern"` to enable coloured theorem boxes (bar-left coloured stroke per type). Uses [Theorion](https://github.com/OrangeX4/typst-theorion) under the hood. **Fix applied**: exercises, definitions, theorems, or examples without a `##### Title` no longer show empty parentheses `()` — the `title: none` value from Pandoc is normalised to an empty string before being passed to Theorion. |
 
 Additionally, the bundled `boxed-filter.lua` translates LaTeX
 `\boxed{…}` expressions (both inline and display) into Typst
 `#box(stroke: 0.5pt, inset: 7pt, baseline: 0.55em)[$…$]`. The
 function is applied automatically — no option needed.
+
+#### Theorem appearance (Quarto ≥ 1.9.18)
+
+> **Not an extension option.** This is a **Quarto-native feature** available in
+> **any** Quarto Typst format (not just this extension) since Quarto 1.9.18.
+
+Quarto 1.9.18+ bundles [Theorion](https://github.com/OrangeX4/typst-theorion)
+and exposes a built-in `theorem-appearance` key on the `typst` format:
+
+```yaml
+format:
+  typst:
+    theorem-appearance: simple    # (default)
+```
+
+Available themes:
+
+| Theme | Description |
+|-------|-------------|
+| `simple` | Bold prefix + number + period, body in italics (classic LaTeX style). |
+| `fancy` | Coloured boxes using brand colours (`primary` / `secondary` / `tertiary`). |
+| `clouds` | Rounded boxes with a coloured background per theorem type. |
+| `rainbow` | Coloured left border with coloured title per theorem type. |
+
+Uses:
+- Chapter-level counter reset.
+- Brand colours from `_brand.yml` (for `fancy`, `clouds`, `rainbow`).
+- Bundled packages (`theorion`, `fontawesome`, `showybox`, `octique`) for offline builds.
+
+When `theorem-appearance` is set, the extension's own `theorem-style: "modern"`
+is **not required** — you can use either independently or both.
 
 ### Bibliography
 
@@ -484,16 +517,17 @@ open tfe_ejemplo01.pdf
 
 ```
 _extensions/memoriatfetypst/
-├── _extension.yml          # Quarto extension manifest
-├── typst-template.typ      # Main Typst `article` function
-├── typst-show.typ          # Quarto → Typst parameter bridge
-├── shortcodes.lua          # `appendix` and `pagebreak` shortcodes
-└── boxed-filter.lua        # LaTeX \boxed{} → Typst #box() filter
+├── _extension.yml                     # Quarto extension manifest
+├── typst-template.typ                 # Main Typst `article` function
+├── typst-show.typ                     # Quarto → Typst parameter bridge
+├── shortcodes.lua                     # `appendix` and `pagebreak` shortcodes
+├── normalize-exercise-titles.lua      # Normalises title: none → title: "" for theorem blocks
+└── boxed-filter.lua                   # LaTeX \boxed{} → Typst #box() filter
 ```
 
 - **`_extension.yml`** declares the format, requires Quarto ≥ 1.6.0,
   pulls the two Typst partials, the shortcode Lua file, and the
-  filter. It also sets the format defaults (`portada: true`,
+  filters. It also sets the format defaults (`portada: true`,
   `toc: true`, `centrar-matematicas: true`, `fig-format: png`).
 - **`typst-template.typ`** defines a single `article()` function that
   receives all parameters, sets up page geometry, headers/footers,
@@ -502,10 +536,18 @@ _extensions/memoriatfetypst/
   inserts a divider page.
 - **`typst-show.typ`** is the *show template* that Quarto invokes; it
   forwards every supported YAML key to the `article()` function with
-  the right Typst type conversion (`$if(...)$ … $endif$`).
+  the right Typst type conversion (`$if(...)$ … $endif$`). When
+  `theorem-style` is set, it also overrides Theorion's theorem
+  functions (`definition`, `theorem`, `example`, `exercise`) with
+  wrappers that normalise `title: none` → `title: ""`, preventing
+  empty parentheses `()` in untitled environments.
 - **`shortcodes.lua`** provides the two shortcodes. They emit
   raw Typst that triggers the corresponding behaviour in
   `typst-template.typ`.
+- **`normalize-exercise-titles.lua`** is a Pandoc Lua filter that
+  detects Div blocks with theorem-prefixed identifiers and marks
+  those without a heading for empty-title handling. It works
+  alongside the Typst-level normalisation in `typst-show.typ`.
 - **`boxed-filter.lua`** walks the AST after Pandoc → Typst
   conversion and rewrites any `Math` node that contains `\boxed{…}`
   into a Typst `#box()` / `#rect()` call, since Typst's native
@@ -517,6 +559,7 @@ _extensions/memoriatfetypst/
 
 | Symptom | Likely cause | Fix |
 |---|---|---|
+| Exercise / example shows empty parentheses `()` after the number | `title: none` passed by Pandoc for blocks without a `#####` heading | This was a bug in Theorion's `get-full-title()`. The extension now normalises `title: none` → `""` in the wrapper functions (`typst-show.typ`). Update to the latest version. |
 | `unknown variable: nombre-capitulo` | Missing `nombre-capitulo` while using `estilo03` | Set `nombre-capitulo: "--"` or any non-empty string. |
 | Block equations stay indented inside lists | `centrar-matematicas: false` | Set to `true` (default). |
 | Bibliography page is empty | CSL file not found | Make sure the path in `csl:` is correct, or remove the `csl:` key to use the default Typst style. |
