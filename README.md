@@ -28,7 +28,7 @@ renumbered with letters (`A.1`, `A.2`, …).
 
 See the rendered demo:
 
-- PDF: [template.pdf](template.pdf) · [tfe_ejemplo01.pdf](tests/ejemplo01/tfe_ejemplo01.pdf)
+- PDF: <a href="template.pdf" target="_blank" rel="noopener">template.pdf ↗</a> · <a href="tests/ejemplo01/tfe_ejemplo01.pdf" target="_blank" rel="noopener">tfe_ejemplo01.pdf ↗</a> · <a href="https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/ejemplo01/tfe_ejemplo01.pdf" target="_blank" rel="noopener">ver online ↗</a>
 - Source: [template.qmd](template.qmd) ·
   [tfe_ejemplo01.qmd](tests/ejemplo01/tfe_ejemplo01.qmd)
 
