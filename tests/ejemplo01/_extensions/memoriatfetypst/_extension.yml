@@ -16,5 +16,5 @@ contributes:
         - typst-template.typ
         - typst-show.typ
       filters:
+        - normalize-exercise-titles.lua
         - boxed-filter.lua
-        
