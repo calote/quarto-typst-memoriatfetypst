@@ -184,6 +184,21 @@
 #let heading-highlight-color-state = state("heading-highlight-color", none)
 #let heading-highlight-text-color-state = state("heading-highlight-text-color", none)
 
+// Estados para watermark
+#let watermark-text-state = state("watermark-text", none)
+#let watermark-opacity-state = state("watermark-opacity", 0.12)
+#let watermark-color-state = state("watermark-color", "#000000")
+#let watermark-fontsize-state = state("watermark-fontsize", 72pt)
+#let watermark-angle-state = state("watermark-angle", 35deg)
+
+// Estados para brand vertical
+#let brand-vertical-text-state = state("brand-vertical-text", none)
+#let brand-vertical-color-state = state("brand-vertical-color", "#999999")
+#let brand-vertical-fontsize-state = state("brand-vertical-fontsize", 0.8em)
+#let brand-vertical-width-state = state("brand-vertical-width", 1.5cm)
+#let brand-vertical-logo-state = state("brand-vertical-logo", none)
+#let brand-vertical-dy-state = state("brand-vertical-dy", 50%)
+
 // Paleta de colores para teoremas (estilo modern)
 #let thm-col-def   = rgb("#1565C0")
 #let thm-col-thm   = rgb("#C62828")
@@ -401,6 +416,17 @@
   heading-highlight: 0,
   heading-highlight-color: "#e8f0fe",
   heading-highlight-text-color: "#1a1a2e",
+  watermark-text: none,
+  watermark-opacity: 0.12,
+  watermark-color: "#000000",
+  watermark-fontsize: 72pt,
+  watermark-angle: 35deg,
+  brand-vertical-text: none,
+  brand-vertical-color: "#999999",
+  brand-vertical-fontsize: 0.8em,
+  brand-vertical-width: 1.5cm,
+  brand-vertical-dy: 50%,
+  brand-vertical-logo: none,
   logo: none,
   tipo-TFG: "TRABAJO FIN DE GRADO",
   fecha-TFG: "Sevilla, Junio de 2025", //Sevilla, Octubre de 2025
@@ -453,14 +479,100 @@ heading-highlight-state.update(heading-highlight)
 heading-highlight-color-state.update(str(heading-highlight-color))
 heading-highlight-text-color-state.update(str(heading-highlight-text-color))
 
+watermark-text-state.update(
+  if watermark-text == none { none } else { str(watermark-text) }
+)
+watermark-opacity-state.update(
+  if watermark-opacity == none { 0.12 } else { watermark-opacity }
+)
+watermark-color-state.update(
+  if watermark-color == none { none } else { str(watermark-color) }
+)
+watermark-fontsize-state.update(
+  if watermark-fontsize == none { 72pt } else { watermark-fontsize }
+)
+watermark-angle-state.update(
+  if watermark-angle == none { 35deg } else { watermark-angle }
+)
+
+brand-vertical-text-state.update(
+  if brand-vertical-text == none { none } else { str(brand-vertical-text) }
+)
+brand-vertical-color-state.update(
+  if brand-vertical-color == none { none } else { str(brand-vertical-color) }
+)
+brand-vertical-fontsize-state.update(
+  if brand-vertical-fontsize == none { 0.8em } else { brand-vertical-fontsize }
+)
+brand-vertical-width-state.update(
+  if brand-vertical-width == none { 1.5cm } else { brand-vertical-width }
+)
+brand-vertical-dy-state.update(
+  if brand-vertical-dy == none { 50% } else { brand-vertical-dy }
+)
+brand-vertical-logo-state.update(
+  if brand-vertical-logo == none { none } else { str(brand-vertical-logo) }
+)
+
 theorem-style-state.update(str(theorem-style))
+
+// Función compartida para dibujar watermark y brand vertical en background
+let dibujar-watermark-brand() = {
+  // Watermark diagonal (BORRADOR, etc.)
+  let wt = watermark-text-state.get()
+  if wt != none and wt != "" and wt != "none" {
+    let wcol-s = watermark-color-state.get()
+    let wcol = if wcol-s == none or wcol-s == "none" { rgb("#000000") } else { rgb(wcol-s.replace("\\", "")) }
+    let wp = watermark-opacity-state.get()
+    let alpha = if wp != none { calc.trunc(wp * 255) } else { 31 }
+    let comp = wcol.components()
+    let wcol-alpha = rgb(comp.at(0), comp.at(1), comp.at(2), alpha)
+    let parts = wt.split(" | ")
+    let wm-body = if parts.len() > 1 {
+      stack(dir: ttb, spacing: 0.3em,
+        ..parts.map(p => text(fill: wcol-alpha, size: watermark-fontsize-state.get(), weight: "bold", align(center, p)))
+      )
+    } else {
+      text(fill: wcol-alpha, size: watermark-fontsize-state.get(), weight: "bold", align(center, wt))
+    }
+    place(
+      center + horizon,
+      rotate(watermark-angle-state.get(), wm-body)
+    )
+  }
+  // Brand vertical en margen derecho
+  let bvt = brand-vertical-text-state.get()
+  if bvt != none and bvt != "" and bvt != "none" {
+    let bvcol-s = brand-vertical-color-state.get()
+    let bvcol = if bvcol-s == none or bvcol-s == "none" { rgb("#999999") } else { rgb(bvcol-s.replace("\\", "")) }
+    let bw = brand-vertical-width-state.get()
+    let bdy = brand-vertical-dy-state.get()
+    let logo-path = brand-vertical-logo-state.get()
+    let logo-block = if logo-path != none and logo-path != "" and logo-path != "none" {
+      stack(dir: ltr,
+        image(logo-path, height: 1.2cm),
+        v(0.3cm),
+        rotate(-90deg, text(fill: bvcol, size: brand-vertical-fontsize-state.get(), bvt))
+      )
+    } else {
+      rotate(-90deg, text(fill: bvcol, size: brand-vertical-fontsize-state.get(), bvt))
+    }
+    place(
+      dx: 100% - bw - 0.3cm,
+      dy: bdy,
+      logo-block
+    )
+  }
+}
 
   set page(
     paper: paper,
     margin: margin,
     //numbering: pagenumbering,
     numbering: "i",
-    
+    background: context {
+      dibujar-watermark-brand()
+    },
   )
   
 
@@ -1045,13 +1157,15 @@ counter(page).update(1)
               sidebar-c2-state.get(),
               etiqueta,
               if en-apendice { numbering("A", num) } else { num },
-              dx: sidebar-dx-state.get(),
+               dx: sidebar-dx-state.get(),
             )
           }
         }
       }
+      dibujar-watermark-brand()
     },
   )
+
 
 
 

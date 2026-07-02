@@ -356,6 +356,35 @@ format:
 
 El fondo rectangular envuelve encabezados multilínea y no interfiere con el espaciado (controlado por `heading-style`).
 
+### Marca de agua y brand vertical
+
+| Opción | Tipo | Por defecto | Descripción |
+|---|---|---|---|
+| `watermark-text` | string | — | Texto diagonal (p.ej. `"BORRADOR"`). Usa `" \| "` para varias líneas. |
+| `watermark-opacity` | float | `0.12` | Opacidad (0.0–1.0). |
+| `watermark-color` | string | `"#000000"` | Color del texto. |
+| `watermark-fontsize` | length | `72pt` | Tamaño de fuente. |
+| `watermark-angle` | angle | `35deg` | Ángulo de rotación. |
+| `brand-vertical-text` | string | — | Texto vertical en margen derecho (p.ej. institución). |
+| `brand-vertical-color` | string | `"#999999"` | Color del texto. |
+| `brand-vertical-fontsize` | length | `0.8em` | Tamaño de fuente. |
+| `brand-vertical-width` | length | `1.5cm` | Ancho del margen derecho reservado. |
+| `brand-vertical-dy` | percent | `50%` | Posición vertical (`50%` = centro, `85%` = cerca del final). |
+| `brand-vertical-logo` | string | — | Ruta opcional a un logo sobre el texto. |
+
+Ejemplo:
+
+```yaml
+format:
+  memoriatfetypst-typst:
+    watermark-text: "BORRADOR | DOCUMENTO DE TRABAJO"
+    watermark-opacity: 0.12
+    brand-vertical-text: "Universidad de Sevilla"
+    brand-vertical-dy: 85%
+```
+
+> **Nota:** La marca de agua se dibuja en el fondo de la página. Los callouts y otros bloques con relleno propio pueden taparla — es comportamiento esperado.
+
 ### Prefacio y navegación
 
 | Opción | Tipo | Por defecto | Descripción |

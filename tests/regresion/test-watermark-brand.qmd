@@ -1,0 +1,157 @@
+---
+title: "Test — Watermark y Brand vertical"
+author: "Test Suite"
+lang: es
+date: today
+date-format: full
+bibliography: referencias.bib
+format:
+  memoriatfetypst-typst:
+    toc: true
+    tofiguras: false
+    totablas: false
+    papersize: a4
+    portada: true
+    logo-file: "logo.png"
+    facultad: "Facultad de Matemáticas"
+    universidad: "Universidad de Sevilla"
+    tutor-TFG: "Tutor: Test Suite"
+    fecha-TFG: "Sevilla, Junio de 2026"
+    nombre-capitulo: "CAPÍTULO"
+    referencias-nombre: "Referencias"
+    link-color: "#2563eb"
+    internal-link-color: "059669"
+    cite-color: "#7c3aed"
+    toccapitulos: false
+    bibliografia-completa: false
+    heading-style: true
+    watermark-text: "BORRADOR | DOCUMENTO DE TRABAJO"
+    watermark-opacity: 0.12
+    watermark-color: "#000000"
+    watermark-fontsize: 72pt
+    watermark-angle: 35deg
+    brand-vertical-text: "Universidad de Sevilla"
+    brand-vertical-color: "#999999"
+    brand-vertical-fontsize: 0.8em
+    brand-vertical-width: 1.5cm
+    brand-vertical-dy: 85%
+  html:
+    toc: true
+    number-sections: true
+    embed-resources: true
+execute:
+  warning: false
+  message: false
+---
+
+
+
+Este test verifica el **watermark** diagonal ("BORRADOR | DOCUMENTO DE TRABAJO" en dos líneas) y el **brand vertical** en el margen derecho ("Universidad de Sevilla"). Deben aparecer en todas las páginas, incluyendo portada y tabla de contenidos.
+
+Para texto en varias líneas, separar con ` | ` (espacio-pipe-espacio).
+
+
+# Watermark
+
+El texto debe aparecer centrado y rotado 35° en todas las páginas, con opacidad 0.12.
+
+Opciones:
+
+```yaml
+watermark-text: "BORRADOR | DOCUMENTO"   # Dos líneas separadas por " | "
+watermark-text: "BORRADOR"               # Una sola línea
+watermark-opacity: 0.12
+watermark-color: "#000000"
+watermark-fontsize: 72pt
+watermark-angle: 35deg
+```
+
+::: {.callout-tip}
+Para desactivar el watermark, elimina la clave `watermark-text` o pon `watermark-text: false`.
+:::
+
+::: {.callout-warning}
+El watermark se dibuja en el fondo de la página. Los callouts y otros bloques con fondo propio se dibujan encima, por lo que el watermark no será visible detrás de ellos. Es comportamiento esperado en todos los sistemas de composición.
+:::
+
+
+# Brand vertical
+
+El texto "Universidad de Sevilla" debe aparecer rotado -90° en el margen derecho de todas las páginas.
+
+Opciones:
+
+```yaml
+brand-vertical-text: "Universidad de Sevilla"
+brand-vertical-color: "#999999"
+brand-vertical-fontsize: 0.8em
+brand-vertical-width: 1.5cm
+brand-vertical-dy: 30%           # Posición vertical (50% = centro, 30% = tercio superior)
+brand-vertical-logo: "logo.png"   # Opcional
+```
+
+::: {.callout-tip}
+Si se añade `brand-vertical-logo`, se muestra un logo encima del texto vertical.
+:::
+
+
+# Capítulo 1
+
+## Sección de prueba
+
+Contenido de ejemplo. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+### Subsección
+
+Más contenido para alargar el capítulo y ver el watermark en varias páginas.
+
+#### Detalle
+
+Texto adicional para llenar espacio. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+
+## Más contenido
+
+Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.
+
+### Texto largo
+
+Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.
+
+Sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam.
+
+#### Más detalles
+
+Contenido adicional para forzar salto de página y comprobar que el watermark y brand aparecen en todas las páginas. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+
+# Capítulo 2
+
+## Segunda sección
+
+Verificar que el watermark y el brand vertical también aparecen en el segundo capítulo.
+
+### Subsección
+
+Contenido del segundo capítulo. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+#### Detalle
+
+Más texto. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+
+
+## Matemáticas
+
+Ecuación inline: $E = mc^2$.
+
+Ecuación display:
+
+$$
+\int_{-\infty}^{\infty} e^{-x^2}\,dx = \sqrt{\pi}
+$$ {#eq-normal}
+
+
+## Citas
+
+Ejemplo de cita: [@katsushika1831] y @horst2020.
