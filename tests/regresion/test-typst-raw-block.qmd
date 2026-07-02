@@ -1,0 +1,160 @@
+---
+title: "Test — Bloques raw Typst (numeración de líneas y fondo)"
+author: "Test Suite"
+lang: es
+date: today
+date-format: full
+bibliography: referencias.bib
+format:
+  memoriatfetypst-typst:
+    toc: true
+    tofiguras: true
+    totablas: true
+    papersize: a4
+    portada: true
+    logo-file: "logo.png"
+    facultad: "Facultad de Matemáticas"
+    universidad: "Universidad de Sevilla"
+    tutor-TFG: "Tutor: Test Suite"
+    fecha-TFG: "Sevilla, Junio de 2026"
+    nombre-capitulo: "CAPÍTULO"
+    referencias-nombre: "Referencias"
+    link-color: "#2563eb"
+    internal-link-color: "059669"
+    cite-color: "#7c3aed"
+    toccapitulos: false
+    bibliografia-completa: false
+    heading-style: true
+  html:
+    toc: true
+    number-sections: true
+    embed-resources: true
+execute:
+  warning: false
+  message: false
+---
+
+
+
+Los bloques raw ```` ```{=typst} ```` permiten inyectar código Typst directamente en el documento. Este test activa la numeración de líneas en los párrafos con `#set par.line(numbering: "1")` y colorea el fondo de página con `#set page(fill: rgb("FFFFE9"))`.
+
+```{=typst}
+#set par.line(numbering: "1")
+#set page(fill: rgb("FFFFE9"))
+```
+
+
+::: {.callout-note}
+El bloque raw debe colocarse al inicio del documento, tras el YAML, para que las reglas `#set` afecten a todo el contenido a partir del primer capítulo.
+:::
+
+
+# Capítulo 1
+
+## Matemáticas
+
+Ecuación inline: $E = mc^2$.
+
+Ecuación display:
+
+$$
+\int_{-\infty}^{\infty} e^{-x^2}\,dx = \sqrt{\pi}
+$$ {#eq-normal}
+
+
+## Bloques matemáticos
+
+::: {#def-variable-aleatoria}
+##### Variable aleatoria
+
+Una variable aleatoria es una función que asigna un valor numérico a cada resultado en el espacio muestral.
+:::
+
+::: {#thm-ley-grandes-numeros}
+##### Ley de los grandes números
+
+Sea $X_1, X_2, \ldots, X_n$ una secuencia de variables aleatorias i.i.d. con media $\mu$ y varianza finita $\sigma^2$. Entonces, para cualquier $\epsilon > 0$,
+$$
+\lim_{n \to \infty} P\left( \left| \frac{1}{n} \sum_{i=1}^{n} X_i - \mu \right| < \epsilon \right) = 1.
+$$
+:::
+
+La @def-variable-aleatoria y el @thm-ley-grandes-numeros son referenciables.
+
+
+## Figuras
+
+```{r}
+#| label: fig-hist
+#| fig-cap: "**Histograma**. Verificación de figuras en R."
+#| echo: false
+
+hist(mtcars$mpg, main = NA, xlab = "mpg")
+```
+
+Vea la @fig-hist.
+
+
+## Tablas
+
+```{r}
+#| label: tbl-mtcars
+#| tbl-cap: "**Primeras filas de mtcars**. Verificación de tablas."
+#| echo: false
+
+library(tinytable)
+mtcars[1:5, 1:4] |>
+  tinytable::tt()
+```
+
+Vea la @tbl-mtcars.
+
+
+## Citas
+
+Ejemplo de cita: [@katsushika1831] o @horst2020.
+
+
+## Código R
+
+```{r}
+#| echo: true
+
+summary(mtcars)
+```
+
+
+## Código Python
+
+```{python}
+#| echo: true
+
+import numpy as np
+x = np.linspace(0, 1, 10)
+print(x)
+```
+
+
+## Código bash
+
+```bash
+echo "Hola desde bash"
+ls -la *.qmd 2>/dev/null || echo "No hay ficheros qmd"
+```
+
+
+## Texto largo para ver la numeración de líneas
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+
+Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+
+Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.
+
+
+## Código en bloque genérico
+
+```
+Bloque genérico sin lenguaje — la numeración de líneas
+también se aplica a los párrafos dentro del código.
+```

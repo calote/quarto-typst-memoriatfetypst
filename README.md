@@ -348,6 +348,9 @@ The four chapter styles are:
     endpoints (default `#1a365d` / `#2c5282`).
   - `sidebar-dx` (length) — distance from the page edge (default
     `0.5cm`).
+  - `sidebar-show` (string) — when to show the sidebar: `"all"`
+    (every page, default) or `"first-page"` (only on the first page
+    of each chapter and appendix).
 
 ### Appendices
 
@@ -443,11 +446,46 @@ is **not required** — you can use either independently or both.
 
 ### Bibliography
 
+When using Typst output, citations can be processed in two ways:
+
+**1. Typst native processing** (default) — uses `bibliography:` + `bibliographystyle:`.
+
+```yaml
+bibliography: referencias.bib
+bibliographystyle: apa          # or ieee (default), chicago-author-date, vancouver, harvard-cite-them-right
+```
+
+**2. Pandoc citeproc** — activate with `citeproc: true` + `csl:`.
+
+```yaml
+citeproc: true
+bibliography: referencias.bib
+csl: https://www.zotero.org/styles/apa-with-abstract
+```
+
+When using citeproc, `bibliographystyle:` **must not** be used — `csl:` takes control.
+
 | Option | Type | Default | Description |
 |---|---|---|---|
-| `bibliography` | string | — | Path to a `.bib` file. |
-| `csl` | string | — | Optional CSL file. Examples used in the project: `apa.csl`, `chicago-author-date.csl`. |
+| `bibliography` | string | — | Path to a `.bib` file (BibTeX or BibLaTeX). |
+| `bibliographystyle` | string | `ieee` | CSL style name (e.g. `apa`, `chicago-author-date`, `vancouver`, `harvard-cite-them-right`). Only for Typst native processing. |
+| `csl` | string | — | CSL file or URL for Pandoc citeproc. Overrides `bibliographystyle`. |
+| `citeproc` | bool | — | Set to `true` to use Pandoc citeproc instead of Typst native. |
 | `bibliografia-completa` | bool | `false` | When `true`, prints the whole bibliography on a single page instead of letting it flow. |
+
+CSL files can be downloaded from:
+- <https://www.zotero.org/styles>
+- <https://github.com/citation-style-language/styles>
+
+Citation syntax examples:
+
+| Type | Markdown | Result |
+|------|----------|--------|
+| Parenthetical | `[@key]` | (Author, year) |
+| Textual | `@key` | Author (year) |
+| Multiple | `[@key1; @key2]` | (Author1, year; Author2, year) |
+
+> **Important:** With Typst output, **do not** use `cite-method: natbib` or `cite-method: biblatex` — these are LaTeX-only.
 
 The bibliography is automatically titled with `referencias-nombre` and
 its header/footer are replaced with that title (no chapter number,

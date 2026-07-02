@@ -173,6 +173,7 @@
 #let sidebar-c1-state = state("sidebar-c1", rgb("#1a365d"))
 #let sidebar-c2-state = state("sidebar-c2", rgb("#2c5282"))
 #let sidebar-dx-state = state("sidebar-dx", 0.5cm)
+#let sidebar-show-state = state("sidebar-show", "all")
 #let apendice-activo-state = state("apendice-activo", false)
 
 // Estado para el estilo de teoremas/definiciones (default = sin modificar)
@@ -390,6 +391,7 @@
   sidebar-first-color: "#1a365d",
   sidebar-second-color: "#2c5282",
   sidebar-dx: 0.5cm,
+  sidebar-show: "all",
   theorem-style: "default",
   logo: none,
   tipo-TFG: "TRABAJO FIN DE GRADO",
@@ -432,6 +434,7 @@ let norm-color(c) = {
 sidebar-c1-state.update(norm-color(sidebar-first-color))
 sidebar-c2-state.update(norm-color(sidebar-second-color))
 sidebar-dx-state.update(sidebar-dx)
+sidebar-show-state.update(str(sidebar-show))
 
 // Convertir strings de color a colores válidos INMEDIATAMENTE
 link-color = norm-color(link-color)
@@ -1001,17 +1004,20 @@ counter(page).update(1)
       if cabecera-capitulo-state.get() == "estilo04" and sidebar-activo-state.get() {
         // No mostrar sidebar en la página de bibliografía
         if not is-first-page-of-bibliography() {
-          let en-apendice = apendice-activo-state.get()
-          let etiqueta = if en-apendice { apendice-nombre-state.get() } else { "CAPÍTULO" }
-          let num = num-capitulo.get()
-          dibujar-sidebar(
-            1.4cm,
-            sidebar-c1-state.get(),
-            sidebar-c2-state.get(),
-            etiqueta,
-            if en-apendice { numbering("A", num) } else { num },
-            dx: sidebar-dx-state.get(),
-          )
+          let mostrar = sidebar-show-state.get() == "all" or is-first-page-of-section()
+          if mostrar {
+            let en-apendice = apendice-activo-state.get()
+            let etiqueta = if en-apendice { apendice-nombre-state.get() } else { "CAPÍTULO" }
+            let num = num-capitulo.get()
+            dibujar-sidebar(
+              1.4cm,
+              sidebar-c1-state.get(),
+              sidebar-c2-state.get(),
+              etiqueta,
+              if en-apendice { numbering("A", num) } else { num },
+              dx: sidebar-dx-state.get(),
+            )
+          }
         }
       }
     },
