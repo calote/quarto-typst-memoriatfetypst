@@ -55,7 +55,7 @@
   reiniciar-vf()
   context {
     contador-ejercicios.step()
-    let n = contador-ejercicios.get().first()
+    let n = contador-ejercicios.get().first() + 1
     let header = if title != none { [*Ejercicio #n.* #title] }
       else { [*Ejercicio #n*] }
     if puntos != none { header = [#header  (#puntos puntos)] }

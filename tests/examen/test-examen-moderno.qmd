@@ -1,0 +1,118 @@
+---
+title: "Test — Examen estética moderna"
+author: "Test Suite"
+lang: es
+date: today
+date-format: full
+functions:
+  - ejercicio
+  - solucion
+  - apartado
+  - pregunta-multiple
+  - pregunta-multiple-md
+  - verdadero-falso
+  - espacio-desarrollo
+  - respuesta-corta
+format:
+  memoriatfetypst-typst:
+    toc: true
+    tofiguras: false
+    totablas: false
+    papersize: a4
+    portada: true
+    logo-file: "logo.png"
+    facultad: "Facultad de Matemáticas"
+    universidad: "Universidad de Sevilla"
+    tutor-TFG: "Tutor: Test Suite"
+    fecha-TFG: "Sevilla, Junio de 2026"
+    nombre-capitulo: "CAPÍTULO"
+    referencias-nombre: "Referencias"
+    link-color: "#2563eb"
+    internal-link-color: "059669"
+    cite-color: "#7c3aed"
+    toccapitulos: false
+    bibliografia-completa: false
+    heading-style: true
+    include-in-header: "_extensions/memoriatfetypst/examtypst-functions-modern.typ"
+    filters:
+      - _extensions/memoriatfetypst/typst-function.lua
+  html:
+    toc: true
+    number-sections: true
+    embed-resources: true
+execute:
+  warning: false
+  message: false
+---
+
+
+
+Este test usa la estética **moderna** (`examtypst-functions-modern.typ`): tarjetas con barra lateral de color, tipografía limpia y paleta slate/amber/teal.
+
+Para cambiar a la estética clásica, usar `examtypst-functions.typ` en lugar de `examtypst-functions-modern.typ`.
+
+
+# Capítulo 1 — Ejercicios
+
+## Ejercicio básico
+
+:::{.ejercicio arguments='title: "Ecuación", puntos: 2'}
+Resuelve: $3x + 5 = 20$
+:::
+
+:::{.solucion}
+$x = 5$
+:::
+
+## Ejercicio con apartados
+
+:::{.ejercicio arguments='title: "Derivadas", puntos: 4'}
+
+:::{.apartado arguments='letra: "a", puntos: 2'}
+Deriva $f(x) = x^3 + 2x^2 - 5x$.
+:::
+
+:::{.apartado arguments='letra: "b", puntos: 2'}
+Calcula $f'(2)$.
+:::
+:::
+
+:::{.solucion}
+**a)** $f'(x) = 3x^2 + 4x - 5$  **b)** $f'(2) = 15$
+:::
+
+## Opción múltiple
+
+:::{.ejercicio arguments='title: "Capitales", puntos: 2'}
+:::{.pregunta-multiple arguments='opciones: ("Madrid", "Londres", "París", "Berlín"), correcta: 3, columnas: 2'}
+¿Cuál es la capital de Francia?
+:::
+:::
+
+## Verdadero / Falso
+
+:::{.ejercicio arguments='title: "Geometría", puntos: 1.5'}
+:::{.verdadero-falso arguments='correcta: true'}
+La suma de los ángulos de un triángulo es 180°.
+:::
+:::
+
+## Espacio de desarrollo
+
+:::{.ejercicio arguments='title: "Teorema", puntos: 2.5'}
+Enuncia el teorema de Pitágoras.
+
+:::{.espacio-desarrollo arguments='lineas: 6, puntos: true'}
+:::
+:::
+
+# Comparativa de estilos
+
+| Aspecto | Clásico (`examtypst-functions.typ`) | Moderno (`examtypst-functions-modern.typ`) |
+|---|---|---|
+| Ejercicio | Borde azul completo + fondo gris | Barra lateral ámbar + fondo slate claro |
+| Solución | Borde verde completo + fondo verde | Barra lateral teal + fondo verde suave |
+| Apartados | `*letra)*` en negrita | `letra).` en índigo |
+| Opciones | □ A) texto | □ A) texto (misma estructura) |
+| Paleta | Azul/Verde corporativo | Slate/Ámbar/Teal moderno |
+| Sensación | Tradicional, tipo examen | Minimalista, tipo tarjeta |

@@ -1,16 +1,17 @@
-// Funciones de examtypst para usar con memoriatfetypst
+// Funciones de examen — Estética Moderna (minimal, tarjetas, acentos)
 // Incluir via include-in-header en Quarto
+// Alternativa a examtypst-functions.typ
 
-// Colores de tema
-#let theme-primary = rgb("#2563eb")
-#let theme-secondary = rgb("#7c3aed")
-#let theme-bg = rgb("#f8f9fa")
-#let theme-text = rgb("#1a1a2e")
+// Paleta: slate + amber + teal
+#let accent-ej = rgb("#d97706")
+#let accent-sol = rgb("#059669")
+#let accent-ap = rgb("#6366f1")
+#let theme-bg = rgb("#f8fafc")
+#let theme-text = rgb("#1e293b")
+#let theme-muted = rgb("#94a3b8")
 #let theme-sol-bg = rgb("#f0fdf4")
-#let theme-sol-border = rgb("#22c55e")
-#let theme-ej-border = rgb("#2563eb")
-#let theme-header = rgb("#475569")
-#let theme-correct = rgb("#16a34a")
+#let theme-sol-stroke = rgb("#22c55e")
+#let theme-ej-stroke = accent-ej
 
 // Contadores
 #let contador-ejercicios = counter("ejercicio")
@@ -20,35 +21,33 @@
 #let reiniciar-apartados() = { contador-apartados.update(0) }
 #let reiniciar-vf() = { contador-vf.update(0) }
 
-// Generar etiquetas (a, b, c... / A, B, C... / 1, 2, 3...)
+// Generar etiquetas
 #let generar-etiqueta(numero, tipo: "letra") = {
   if tipo == "letra" { str.from-unicode(96 + numero) }
   else if tipo == "numero" { str(numero) }
-  else if tipo == "romano" { numbering("i", numero) }
   else if tipo == "LETRA" { str.from-unicode(64 + numero) }
+  else if tipo == "romano" { numbering("i", numero) }
   else if tipo == "ROMANO" { numbering("I", numero) }
   else { "•" }
 }
 
-// Aplicar contador automático
 #let aplicar-contador(contador, tipo: "letra", formato: auto, custom-label: auto) = {
   if custom-label != auto { custom-label }
   else {
     contador.step()
     context {
-      let n = contador.get().first()
+      let n = contador.get().first() + 1
       if formato == auto { generar-etiqueta(n, tipo: tipo) }
       else { formato(n) }
     }
   }
 }
 
-// Símbolos check/empty
-#let CajaCheck() = text(fill: theme-correct, weight: "bold")[✔]
-#let CajaNoCheck() = text(fill: theme-header)[□]
+#let CajaCheck() = text(fill: accent-sol, weight: "bold")[✔]
+#let CajaNoCheck() = text(fill: theme-muted)[□]
 
 // ============================================
-// EJERCICIO
+// EJERCICIO — estilo tarjeta con borde izquierdo
 // ============================================
 #let ejercicio(title: none, puntos: none, body) = {
   reiniciar-apartados()
@@ -56,30 +55,36 @@
   context {
     contador-ejercicios.step()
     let n = contador-ejercicios.get().first() + 1
-    let header = if title != none { [*Ejercicio #n.* #title] }
-      else { [*Ejercicio #n*] }
-    if puntos != none { header = [#header  (#puntos puntos)] }
+    let header = if title != none {
+      text(weight: "bold", fill: theme-text, size: 1em)[Ejercicio #n.  #title]
+    } else {
+      text(weight: "bold", fill: theme-text, size: 1em)[Ejercicio #n]
+    }
+    if puntos != none {
+      header = [#header  #text(fill: theme-muted, size: 0.85em)[(#puntos puntos)]]
+    }
     block(
-      breakable: true, width: 100%,
-      stroke: 1pt + theme-ej-border, inset: 10pt, radius: 3pt,
       fill: theme-bg,
-    )[
-      #text(weight: "bold", fill: theme-text)[#header]
-      #v(0.3em)
-      #text(fill: theme-text)[#body]
-    ]
+      stroke: (left: 4pt + accent-ej),
+      inset: (x: 12pt, y: 8pt),
+      width: 100%,
+      above: 0.8em, below: 0.5em,
+      [ #header  #v(0.25em)  #text(fill: theme-text, size: 0.95em)[#body] ]
+    )
   }
 }
 
 // ============================================
-// SOLUCIÓN
+// SOLUCIÓN — tarjeta verde con borde izquierdo
 // ============================================
 #let solucion(body) = {
   block(
-    fill: theme-sol-bg, stroke: 1pt + theme-sol-border,
-    radius: 4pt, inset: 10pt, width: 100%,
-    above: 0.8em, below: 0.8em,
-    [*Solución:*  #body]
+    fill: theme-sol-bg,
+    stroke: (left: 4pt + accent-sol),
+    inset: (x: 12pt, y: 6pt),
+    width: 100%,
+    above: 0.5em, below: 0.5em,
+    [ #text(weight: "bold", fill: accent-sol)[Solución:]  #text(fill: theme-text)[#body] ]
   )
 }
 
@@ -88,8 +93,8 @@
 // ============================================
 #let apartado(letra: auto, tipo: "letra", puntos: none, body) = {
   let lbl = if letra == auto { aplicar-contador(contador-apartados, tipo: tipo) } else { letra }
-  let header = [ *#lbl)* ]
-  if puntos != none { header = [#header  (#puntos puntos)] }
+  let header = [ #text(weight: "bold", fill: accent-ap, size: 0.9em)[#lbl).] ]
+  if puntos != none { header = [#header  #text(fill: theme-muted, size: 0.85em)[(#puntos puntos)]] }
   [ #header  #body ]
 }
 
@@ -101,23 +106,23 @@
   numeracion: false, tipo-numeracion: "numero", opciones-tipo: "LETRA",
   body,
 ) = {
-  text(fill: theme-text)[#body]
-  v(0.3em)
+  text(fill: theme-text, weight: "bold")[#body]
+  v(0.2em)
   let correctas = if type(correcta) == array { correcta }
     else if correcta != none { (correcta,) } else { () }
   let opcs = opciones.enumerate().map(((i, opt)) => (indice-original: i + 1, opcion: opt))
   if columnas == 1 {
     for (i, item) in opcs.enumerate() {
-      h(1em)
+      h(0.8em)
       let etq = generar-etiqueta(i + 1, tipo: opciones-tipo)
-      text(fill: theme-text)[#CajaNoCheck() #h(0.5em) #etq) #h(0.2em) #item.opcion]
+      text(fill: theme-text, size: 0.9em)[#CajaNoCheck()  #etq)  #item.opcion]
       linebreak()
     }
   } else {
-    grid(columns: columnas, column-gutter: 1em, row-gutter: 0.7em,
+    grid(columns: columnas, column-gutter: 0.8em, row-gutter: 0.5em,
       ..opcs.enumerate().map(((i, item)) => {
         let etq = generar-etiqueta(i + 1, tipo: opciones-tipo)
-        text(fill: theme-text)[#CajaNoCheck() #h(0.5em) #etq) #h(0.2em) #item.opcion]
+        text(fill: theme-text, size: 0.9em)[#CajaNoCheck()  #etq)  #item.opcion]
       })
     )
   }
@@ -132,9 +137,9 @@
     let etiqueta = aplicar-contador(contador-vf, tipo: tipo-numeracion)
     context { text(weight: "bold", fill: theme-text)[#etiqueta) ] }
   }
-  text(fill: theme-text)[#body]
-  h(1em)
-  text(fill: theme-text)[#CajaNoCheck() V] + text(fill: theme-text)[ #CajaNoCheck() F]
+  text(fill: theme-text, weight: "bold")[#body]
+  h(0.8em)
+  text(size: 0.9em, fill: theme-text)[#CajaNoCheck()  Verdadero  #CajaNoCheck()  Falso]
   v(0.5em)
 }
 
@@ -144,44 +149,20 @@
 #let espacio-desarrollo(lineas: 5, puntos: false, body) = {
   if puntos {
     for i in range(lineas) {
-      v(0.8em)
-      box(width: 100%, line(length: 100%, stroke: 0.5pt + theme-header.lighten(40%)))
+      v(0.6em)
+      box(width: 100%, line(length: 100%, stroke: 0.5pt + theme-muted))
     }
-  } else { v(lineas * 1em) }
-}
-
-// ============================================
-// PREGUNTA MÚLTIPLE MARKDOWN (con #opc en body)
-// ============================================
-#let pregunta-multiple-md(body, opciones: (), correcta: none, columnas: 1) = {
-  pregunta-multiple(
-    enunciado: body, opciones: opciones, correcta: correcta,
-    columnas: columnas, numeracion: false, opciones-tipo: "LETRA"
-  )
+  } else { v(lineas * 0.8em) }
 }
 
 // ============================================
 // RESPUESTA CORTA
 // ============================================
 #let respuesta-corta(lineas: 3, body) = {
-  text(fill: theme-text)[#body]
+  text(fill: theme-text, weight: "bold")[#body]
   for i in range(lineas) {
-    v(0.6em)
-    line(length: 100%, stroke: 0.5pt + theme-header)
-  }
-  v(0.5em)
-}
-
-// ============================================
-// COMPLETAR DEFINICIONES
-// ============================================
-#let completar-definiciones(definiciones: (), body) = {
-  text(fill: theme-text, weight: "bold")[Completa las siguientes definiciones:]
-  for (i, def) in definiciones.enumerate() {
     v(0.5em)
-    text(fill: theme-text)[#(i + 1). #def.enunciado]
-    v(0.3em)
-    box(width: 100%, line(length: 100%, stroke: 0.5pt + theme-header))
+    line(length: 100%, stroke: 0.3pt + theme-muted)
   }
   v(0.5em)
 }
