@@ -10,7 +10,7 @@
 
 That site provides the complete extension manual beyond these READMEs: a detailed YAML option reference with usage examples and linked PDF outputs, a section on advanced Quarto-Typst usage (raw Typst code, bibliography with CSL vs. Typst, Jupyter notebooks, Python + R integration), and a collection of curated external resources (alternative Quarto-Typst extensions, Typst guides, useful Positron plugins). It also hosts installation videos (RStudio & Positron), multiple worked examples with downloadable source files, and a Typst cheatsheet.
 
-▶️ **Installation video:** [videoInstalacionMemoriaTFETypstRStudio.html](https://web.destio.synology.me/calvo/Qdescargas/memoriatfetypst/videoInstalacionMemoriaTFETypstRStudio.html)
+▶️ **Installation videos:** [RStudio](https://web.destio.synology.me/calvo/Qdescargas/memoriatfetypst/videoInstalacionMemoriaTFETypstRStudio.html) · [Positron](https://web.destio.synology.me/calvo/Qdescargas/memoriatfetypst/videoInstalacionMemoriaTFETypstPositron.html)
 
 > **🇪🇸 Spanish version: [LEEME.md](LEEME.md)** — Documentación en español.
 >
@@ -51,6 +51,7 @@ See the rendered demo:
   - [Bibliography](#bibliography)
 - [Shortcodes](#shortcodes)
 - [The most complete example](#the-most-complete-example)
+- [Galería de características](#galería-de-características)
 - [Architecture](#architecture)
 - [Troubleshooting](#troubleshooting)
 - [Roadmap &amp; ideas](#roadmap--ideas)
