@@ -353,6 +353,9 @@ Los cuatro estilos de capítulo son:
     (por defecto `#1a365d` / `#2c5282`).
   - `sidebar-dx` (longitud) — distancia desde el borde de página
     (por defecto `0.5cm`).
+  - `sidebar-show` (cadena) — cuándo mostrar la barra lateral:
+    `"all"` (todas las páginas, defecto) o `"first-page"`
+    (solo en la primera página de cada capítulo y apéndice).
 
 ### Apéndices
 
@@ -449,11 +452,46 @@ de la extensión **no es necesaria** — se pueden usar independientemente o amb
 
 ### Bibliografía
 
+Con salida Typst, las citas pueden procesarse de dos formas:
+
+**1. Procesamiento nativo de Typst** (por defecto) — usa `bibliography:` + `bibliographystyle:`.
+
+```yaml
+bibliography: referencias.bib
+bibliographystyle: apa          # o ieee (defecto), chicago-author-date, vancouver, harvard-cite-them-right
+```
+
+**2. Procesamiento con Pandoc (citeproc)** — activar con `citeproc: true` + `csl:`.
+
+```yaml
+citeproc: true
+bibliography: referencias.bib
+csl: https://www.zotero.org/styles/apa-with-abstract
+```
+
+Cuando se usa citeproc, **no debe usarse** `bibliographystyle:` — `csl:` toma el control.
+
 | Opción | Tipo | Por defecto | Descripción |
 |---|---|---|---|
-| `bibliography` | string | — | Ruta a un archivo `.bib`. |
-| `csl` | string | — | Archivo CSL opcional. Ejemplos usados en el proyecto: `apa.csl`, `chicago-author-date.csl`. |
+| `bibliography` | string | — | Ruta a un archivo `.bib` (BibTeX o BibLaTeX). |
+| `bibliographystyle` | string | `ieee` | Nombre del estilo CSL (p.ej. `apa`, `chicago-author-date`, `vancouver`, `harvard-cite-them-right`). Solo para procesamiento nativo Typst. |
+| `csl` | string | — | Archivo CSL o URL para Pandoc citeproc. Sobrescribe `bibliographystyle`. |
+| `citeproc` | bool | — | Pon `true` para usar Pandoc citeproc en lugar del nativo Typst. |
 | `bibliografia-completa` | bool | `false` | Cuando es `true`, imprime toda la bibliografía en una sola página en lugar de dejar que fluya. |
+
+Los ficheros CSL pueden descargarse de:
+- <https://www.zotero.org/styles>
+- <https://github.com/citation-style-language/styles>
+
+Ejemplos de sintaxis de citas:
+
+| Tipo | Markdown | Resultado |
+|------|----------|-----------|
+| Parentética | `[@key]` | (Autor, año) |
+| Textual | `@key` | Autor (año) |
+| Múltiple | `[@key1; @key2]` | (Autor1, año; Autor2, año) |
+
+> **Importante:** Con salida Typst **no se debe** usar `cite-method: natbib` ni `cite-method: biblatex` — son exclusivos de LaTeX.
 
 La bibliografía se titula automáticamente con `referencias-nombre` y
 su cabecera/pie de página se reemplazan con ese título (sin número de

@@ -1,0 +1,133 @@
+---
+title: "Test — Sidebar solo en primera página (first-page)"
+author: "Test Suite"
+lang: es
+date: today
+date-format: full
+bibliography: referencias.bib
+format:
+  memoriatfetypst-typst:
+    toc: true
+    tofiguras: true
+    totablas: true
+    papersize: a4
+    portada: true
+    logo-file: "logo.png"
+    facultad: "Facultad de Matemáticas"
+    universidad: "Universidad de Sevilla"
+    tutor-TFG: "Tutor: Test Suite"
+    fecha-TFG: "Sevilla, Junio de 2026"
+    nombre-capitulo: "CAPÍTULO"
+    cabecera-capitulo: "estilo04"
+    sidebar-show: "first-page"
+    referencias-nombre: "Referencias"
+    sidebar-color1: "#1a365d"
+    sidebar-color2: "#2c5282"
+    link-color: "#2563eb"
+    internal-link-color: "059669"
+    cite-color: "#7c3aed"
+    toccapitulos: false
+    bibliografia-completa: false
+    heading-style: true
+  html:
+    toc: true
+    number-sections: true
+    embed-resources: true
+execute:
+  warning: false
+  message: false
+---
+
+
+
+Este documento verifica que con `sidebar-show: "first-page"` la barra lateral **solo** aparece en la primera página de cada capítulo, no en las siguientes.
+
+
+# Capítulo 1
+
+Primera página del Capítulo 1 — aquí debe verse la barra lateral.
+
+## Sección 1.1
+
+Contenido para alargar el capítulo y que ocupe varias páginas.
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+### Subsección 1.1.1
+
+Más contenido para ocupar espacio y forzar un salto de página.
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+## Sección 1.2
+
+Esta página NO debería tener barra lateral (es segunda página del capítulo).
+
+Contenido adicional para ocupar espacio. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+### Subsección 1.2.1
+
+Más texto. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+### Subsección 1.2.2
+
+Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+
+# Capítulo 2
+
+Primera página del Capítulo 2 — aquí debe verse la barra lateral de nuevo.
+
+## Sección 2.1
+
+Contenido del segundo capítulo para ocupar varias páginas.
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+### Subsección 2.1.1
+
+Contenido extra. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+## Sección 2.2
+
+Esta página NO debería tener barra lateral (no es primera página del capítulo).
+
+Contenido final. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+## Figuras
+
+```{r}
+#| label: fig-hist
+#| fig-cap: "**Histograma**. Verificación de figuras en R."
+#| echo: false
+
+hist(mtcars$mpg, main = NA, xlab = "mpg")
+```
+
+Vea la @fig-hist.
+
+## Tablas
+
+```{r}
+#| label: tbl-mtcars
+#| tbl-cap: "**Primeras filas de mtcars**. Verificación de tablas."
+#| echo: false
+
+library(tinytable)
+mtcars[1:5, 1:4] |>
+  tinytable::tt()
+```
+
+Vea la @tbl-mtcars.
+
+## Citas
+
+Ejemplo de cita: [@katsushika1831] o @horst2020.

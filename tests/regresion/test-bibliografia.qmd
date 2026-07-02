@@ -1,0 +1,224 @@
+---
+title: "Test — Opciones bibliográficas con Typst"
+author: "Test Suite"
+lang: es
+date: today
+date-format: full
+bibliography: referencias.bib
+format:
+  memoriatfetypst-typst:
+    toc: true
+    tofiguras: false
+    totablas: false
+    papersize: a4
+    portada: true
+    logo-file: "logo.png"
+    facultad: "Facultad de Matemáticas"
+    universidad: "Universidad de Sevilla"
+    tutor-TFG: "Tutor: Test Suite"
+    fecha-TFG: "Sevilla, Junio de 2026"
+    nombre-capitulo: "CAPÍTULO"
+    referencias-nombre: "Referencias"
+    link-color: "#2563eb"
+    internal-link-color: "059669"
+    cite-color: "#7c3aed"
+    toccapitulos: false
+    bibliografia-completa: true
+    heading-style: true
+  html:
+    toc: true
+    number-sections: true
+    embed-resources: true
+execute:
+  warning: false
+  message: false
+---
+
+
+
+Este documento muestra los distintos estilos bibliográficos disponibles en la extensión con salida Typst.
+
+Para cambiar el estilo, modifica `bibliographystyle:` en la cabecera YAML.
+
+
+# Introducción
+
+La extensión `memoriatfetypst-typst` permite usar citas bibliográficas de dos formas:
+
+1. **Procesamiento nativo de Typst** (por defecto): usa `bibliography:` + `bibliographystyle:`.
+2. **Procesamiento con Pandoc** (citeproc): activar con `citeproc: true` + `csl:`.
+
+::: {.callout-warning}
+Con salidas Typst **no se debe** usar `cite-method: natbib` ni `cite-method: biblatex`, ya que son exclusivos de LaTeX.
+:::
+
+
+# Estilos disponibles
+
+## Estilo por defecto (IEEE)
+
+En la cabecera YAML se usa:
+
+```yaml
+bibliography: referencias.bib
+# Sin bibliographystyle → por defecto IEEE
+```
+
+Ejemplos de cita:
+
+- Cita parentética: `[@katsushika1831]` → [@katsushika1831]
+- Cita textual: `@horst2020` → @horst2020
+- Cita múltiple: `[@katsushika1831; @horst2020]` → [@katsushika1831; @horst2020]
+
+El código Markdown usado:
+
+```markdown
+Cita parentética: [@katsushika1831]
+Cita textual: @horst2020
+Cita múltiple: [@katsushika1831; @horst2020]
+```
+
+## Estilo APA
+
+```yaml
+bibliography: referencias.bib
+bibliographystyle: apa
+```
+
+Ejemplos de cita: [@katsushika1831] y @horst2020.
+
+```markdown
+[@katsushika1831]  y  @horst2020
+```
+
+## Estilo Chicago author-date
+
+```yaml
+bibliography: referencias.bib
+bibliographystyle: chicago-author-date
+```
+
+Ejemplos de cita: [@katsushika1831] y @horst2020.
+
+```markdown
+[@katsushika1831]  y  @horst2020
+```
+
+## Estilo Vancouver
+
+```yaml
+bibliography: referencias.bib
+bibliographystyle: vancouver
+```
+
+Ejemplos de cita: [@katsushika1831] y @horst2020.
+
+```markdown
+[@katsushika1831]  y  @horst2020
+```
+
+## Estilo Harvard (Cite Them Right)
+
+```yaml
+bibliography: referencias.bib
+bibliographystyle: harvard-cite-them-right
+```
+
+Ejemplos de cita: [@katsushika1831] y @horst2020.
+
+```markdown
+[@katsushika1831]  y  @horst2020
+```
+
+## Procesamiento con Pandoc (citeproc)
+
+```yaml
+citeproc: true
+bibliography: referencias.bib
+csl: https://www.zotero.org/styles/apa-with-abstract
+```
+
+Ejemplos de cita: [@katsushika1831] y @horst2020.
+
+::: {.callout-note}
+Con `citeproc: true` **no debe usarse** `bibliographystyle:` (la opción `csl:` toma el control). Los ficheros CSL pueden descargarse de:
+
+- <https://www.zotero.org/styles>
+- <https://github.com/citation-style-language/styles>
+:::
+
+
+# Más citas de ejemplo
+
+## Cita textual con preposición
+
+**Markdown:**
+
+```markdown
+Según @katsushika1831, el arte japonés ...
+```
+
+**Resultado:**
+
+Según @katsushika1831, el arte japonés (ukiyo-e) influyó en el impresionismo occidental.
+
+## Cita parentética dentro de una frase
+
+**Markdown:**
+
+```markdown
+... el trabajo de [@horst2020] sobre ecología microbiana.
+```
+
+**Resultado:**
+
+Por otro lado, el trabajo de [@horst2020] sobre ecología microbiana.
+
+## Cita textual al inicio de frase
+
+**Markdown:**
+
+```markdown
+@horst2020 presenta una introducción integral ...
+```
+
+**Resultado:**
+
+@horst2020 presenta una introducción integral a los microbiomas del suelo.
+
+## Cita múltiple agrupada
+
+**Markdown:**
+
+```markdown
+[@katsushika1831; @horst2020]
+```
+
+**Resultado:**
+
+Cita múltiple agrupada: [@katsushika1831; @horst2020].
+
+## Resumen de sintaxis
+
+| Tipo | Markdown | Ejemplo |
+|------|----------|---------|
+| Parentética | `[@key]` | [@katsushika1831] |
+| Textual | `@key` | @horst2020 |
+| Múltiple | `[@key1; @key2]` | [@katsushika1831; @horst2020] |
+| Textual con prefijo | `Según @key ...` | Según @horst2020 ... |
+
+
+# Opciones adicionales
+
+| Opción | Descripción |
+|--------|-------------|
+| `referencias-nombre: "Bibliografía"` | Cambia el título de la sección de referencias |
+| `bibliografia-completa: true` | Muestra todas las referencias del .bib aunque no se citen |
+| `bibliographystyle: apa.csl` | También se puede usar un fichero .csl local |
+
+Ejemplo de cambio de título:
+
+```yaml
+referencias-nombre: "Bibliografía"
+bibliografia-completa: true
+```

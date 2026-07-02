@@ -198,6 +198,9 @@ $endif$
 $if(sidebar-dx)$
   sidebar-dx: $sidebar-dx$,
 $endif$
+$if(sidebar-show)$
+  sidebar-show: "$sidebar-show$",
+$endif$
 $if(theorem-style)$
   theorem-style: "$theorem-style$",
 $endif$
