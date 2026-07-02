@@ -1,0 +1,211 @@
+---
+title: "Test — Fuentes tipográficas (brand.typography)"
+author: "Test Suite"
+lang: es
+date: today
+date-format: full
+format:
+  memoriatfetypst-typst:
+    toc: true
+    tofiguras: false
+    totablas: false
+    papersize: a4
+    portada: true
+    logo-file: "logo.png"
+    facultad: "Facultad de Matemáticas"
+    universidad: "Universidad de Sevilla"
+    tutor-TFG: "Tutor: Test Suite"
+    fecha-TFG: "Sevilla, Junio de 2026"
+    nombre-capitulo: "CAPÍTULO"
+    referencias-nombre: "Referencias"
+    link-color: "#2563eb"
+    internal-link-color: "059669"
+    cite-color: "#7c3aed"
+    toccapitulos: false
+    bibliografia-completa: false
+    heading-style: true
+  html:
+    toc: true
+    number-sections: true
+    embed-resources: true
+execute:
+  warning: false
+  message: false
+brand:
+  typography:
+    fonts:
+      - family: Jost
+        source: google
+        weight: [300, 400, 500, 600, 700]
+      - family: Lato
+        source: system
+        weight: [300, 400, 700]
+    base: Lato
+    headings: Jost
+---
+
+
+
+Este test documenta el uso de **fuentes tipográficas** mediante la opción `brand.typography` de Quarto, combinada con la extensión `memoriatfetypst-typst`.
+
+Las fuentes se declaran en la cabecera YAML bajo `brand.typography.fonts` y se asignan con `base` (cuerpo) y `headings` (títulos).
+
+
+# Fuentes compatibles
+
+## Fuentes Google (`source: google`)
+
+Quarto descarga automáticamente la fuente desde Google Fonts durante el renderizado. **Funcionan en HTML y Typst**.
+
+```yaml
+brand:
+  typography:
+    fonts:
+      - family: Jost
+        source: google
+        weight: [300, 400, 500, 600, 700]
+      - family: Pacifico
+        source: google
+        weight: [400]
+      - family: Barlow
+        source: google
+        weight: [300, 400, 500, 600, 700]
+      - family: Merriweather
+        source: google
+        weight: [300, 400, 700, 900]
+      - family: "Roboto Condensed"
+        source: google
+        weight: [300, 400, 700]
+      - family: SUSE Mono
+        source: google
+        weight: [400, 700]
+```
+
+::: {.callout-tip}
+Las fuentes Google están **disponibles en todos los sistemas operativos** porque Quarto las descarga automáticamente al renderizar.
+:::
+
+## Fuentes del sistema (`source: system`)
+
+Usan fuentes instaladas en el sistema operativo. **No requieren descarga**.
+
+```yaml
+brand:
+  typography:
+    fonts:
+      - family: Lato
+        source: system
+      - family: DejaVu Serif
+        source: system
+      - family: "Libertinus Serif"
+        source: system
+```
+
+::: {.callout-warning}
+Si la fuente no está instalada en el sistema, Quarto **no la descargará** y usará una fuente predeterminada como fallback. Verificar con `fc-list | grep "Nombre"` si está disponible.
+:::
+
+## Fuentes locales (`source: file`)
+
+Usan archivos de fuente en el proyecto. Portátiles si se incluyen en el repositorio.
+
+```yaml
+brand:
+  typography:
+    fonts:
+      - family: Libertinus Serif
+        source: file
+        files:
+          - path: static/fonts/LibertinusSerif-Regular.otf
+          - path: static/fonts/LibertinusSerif-Italic.otf
+            style: italic
+```
+
+## Fuentes no disponibles como Google Font
+
+| Fuente | Google Fonts | Alternativa recomendada |
+|--------|-------------|------------------------|
+| **Libertinus Sans** | ❌ No disponible | Usar `source: system` o `source: file` |
+| **Libertinus Serif** | ❌ No disponible | Usar `source: system` o `source: file` |
+| **Libertinus Math** | ❌ No disponible | Usar `source: system` o `source: file` |
+| **New Computer Modern Math** | ❌ No disponible | Incluida con Typst (no necesita declaración) |
+
+
+# Fuentes usadas en este test
+
+En la cabecera YAML de este documento se usan las siguientes fuentes:
+
+| Rol | Fuente | Origen | Disponible |
+|-----|--------|--------|------------|
+| `base` (cuerpo) | **Lato** | `system` | ✅ En sistemas con Lato instalado |
+| `headings` (títulos) | **Jost** | `google` | ✅ Descargada por Quarto |
+
+Para cambiar, modificar en la cabecera YAML las claves `base` y `headings`.
+
+
+# Capítulo 1
+
+## Sección de prueba nivel 2
+
+Este párrafo está compuesto con la fuente base configurada (Lato). Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+
+### Sección de prueba nivel 3
+
+Más texto de ejemplo para verificar la fuente base. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+#### Sección de prueba nivel 4
+
+Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+
+
+## Ejemplos de configuración
+
+### Solo Google Fonts
+
+```yaml
+brand:
+  typography:
+    fonts:
+      - family: Merriweather
+        source: google
+        weight: [300, 400, 700, 900]
+    base: Merriweather
+    headings: Pacifico
+```
+
+### Solo sistema
+
+```yaml
+brand:
+  typography:
+    fonts:
+      - family: DejaVu Serif
+        source: system
+    base: DejaVu Serif
+    headings: DejaVu Serif
+```
+
+### Tipografía para matemáticas
+
+```yaml
+brand:
+  defaults:
+    memoriatfetypst-typst:
+      mathfont: New Computer Modern Math
+      mainfont: Libertinus Serif
+```
+
+::: {.callout-note}
+`mathfont` y `mainfont` son opciones específicas de Typst (no de `brand.typography`). `mathfont` por defecto es `New Computer Modern Math`.
+:::
+
+
+## Portabilidad entre sistemas operativos
+
+| Origen | Windows | macOS | Linux | Notas |
+|--------|---------|-------|-------|-------|
+| `source: google` | ✅ | ✅ | ✅ | Descarga automática |
+| `source: system` | ⚠️ | ⚠️ | ⚠️ | Solo si la fuente está instalada |
+| `source: file` | ✅ | ✅ | ✅ | Portátil si los archivos están en el repo |
+
+**Recomendación:** Para documentos colaborativos o compartibles, usar `source: google` o `source: file` con las rutas verificadas.

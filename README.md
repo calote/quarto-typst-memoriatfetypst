@@ -279,6 +279,43 @@ Typst format are also listed for completeness.
 | `page-numbering` | string | `1` | Page numbering style. Front matter is always roman (`i`, `ii`, …) regardless. |
 | `heading-style` | bool | `true` | Apply LaTeX-style heading sizes and spacing to sub-sections (H2–H6). Set to `false` to use the default Typst heading proportions. |
 
+#### Font sources
+
+Fonts can be declared in two ways:
+
+**1. Simple Typst options** (via format YAML):
+
+```yaml
+format:
+  memoriatfetypst-typst:
+    mainfont: Libertinus Serif    # Body font
+    sansfont: Helvetica            # Sans-serif (cover page)
+    mathfont: New Computer Modern Math  # Math font
+```
+
+**2. `brand.typography`** (Quarto's brand system, recommended for portability):
+
+```yaml
+brand:
+  typography:
+    fonts:
+      - family: Jost
+        source: google             # Downloaded by Quarto automatically
+        weight: [300, 400, 500, 600, 700]
+      - family: Lato
+        source: system             # Must be installed on the OS
+    base: Jost                     # Body font
+    headings: Jost                 # Headings font
+```
+
+| Font source | Works on | Notes |
+|---|---|---|
+| `source: google` | ✅ All OS | Quarto downloads automatically during render |
+| `source: system` | ⚠️ Only if installed | Use `fc-list` (Linux/macOS) to verify |
+| `source: file` | ✅ All OS | Paths must exist in the repository |
+
+> **Note:** `Libertinus Sans` and `Libertinus Serif` are **not** available on Google Fonts. Use `source: system` or `source: file` with local OTF files. `New Computer Modern Math` is bundled with Typst and does not need declaration.
+
 To customize the values (font size, spacing above/below, etc.), set `heading-style: false` and create your own `mis-secciones.typ` file with custom show rules, then include it via `include-in-header`:
 
 ```yaml
