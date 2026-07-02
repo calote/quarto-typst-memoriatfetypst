@@ -281,6 +281,43 @@ Typst estándar de Quarto también se incluyen por completitud.
 | `page-numbering` | string | `1` | Estilo de numeración de páginas. El prefacio siempre usa números romanos (`i`, `ii`, …) independientemente. |
 | `heading-style` | bool | `true` | Aplica tamaños y espaciados de sección (H2–H6) tipo LaTeX. Pon `false` para usar las proporciones predeterminadas de Typst. |
 
+#### Orígenes de fuentes
+
+Las fuentes pueden declararse de dos maneras:
+
+**1. Opciones Typst simples** (vía YAML del formato):
+
+```yaml
+format:
+  memoriatfetypst-typst:
+    mainfont: Libertinus Serif    # Fuente del cuerpo
+    sansfont: Helvetica            # Sans-serif (portada)
+    mathfont: New Computer Modern Math  # Fuente matemática
+```
+
+**2. `brand.typography`** (sistema brand de Quarto, recomendado para portabilidad):
+
+```yaml
+brand:
+  typography:
+    fonts:
+      - family: Jost
+        source: google             # Descargada por Quarto automáticamente
+        weight: [300, 400, 500, 600, 700]
+      - family: Lato
+        source: system             # Debe estar instalada en el SO
+    base: Jost                     # Fuente del cuerpo
+    headings: Jost                 # Fuente de títulos
+```
+
+| Origen de fuente | Funciona en | Notas |
+|---|---|---|
+| `source: google` | ✅ Todos los SO | Quarto la descarga automáticamente al renderizar |
+| `source: system` | ⚠️ Solo si instalada | Verificar con `fc-list` (Linux/macOS) |
+| `source: file` | ✅ Todos los SO | Las rutas deben existir en el repositorio |
+
+> **Nota:** `Libertinus Sans` y `Libertinus Serif` **no están** en Google Fonts. Usar `source: system` o `source: file` con archivos OTF locales. `New Computer Modern Math` viene incluida con Typst y no necesita declaración.
+
 Para personalizar los valores (tamaño de fuente, espaciado superior/inferior, etc.), pon `heading-style: false` y crea tu propio `mis-secciones.typ` con reglas `show` personalizadas, e inclúyelo con `include-in-header`:
 
 ```yaml
