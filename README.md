@@ -354,6 +354,35 @@ format:
 
 The rectangular background wraps multi-line headings and does not affect spacing (controlled by `heading-style`).
 
+### Watermark & vertical brand
+
+| Option | Type | Default | Description |
+|---|---|---|---|
+| `watermark-text` | string | — | Diagonal watermark text (e.g. `"BORRADOR"`). Use `" \| "` for multiple lines. |
+| `watermark-opacity` | float | `0.12` | Opacity (0.0–1.0). |
+| `watermark-color` | string | `"#000000"` | Text colour. |
+| `watermark-fontsize` | length | `72pt` | Font size. |
+| `watermark-angle` | angle | `35deg` | Rotation angle. |
+| `brand-vertical-text` | string | — | Vertical text on the right margin (e.g. institution name). |
+| `brand-vertical-color` | string | `"#999999"` | Text colour. |
+| `brand-vertical-fontsize` | length | `0.8em` | Font size. |
+| `brand-vertical-width` | length | `1.5cm` | Right margin width reserved for the brand. |
+| `brand-vertical-dy` | percent | `50%` | Vertical position (`50%` = centre, `85%` = near bottom). |
+| `brand-vertical-logo` | string | — | Optional logo image path above the text. |
+
+Example:
+
+```yaml
+format:
+  memoriatfetypst-typst:
+    watermark-text: "BORRADOR | DOCUMENTO DE TRABAJO"
+    watermark-opacity: 0.12
+    brand-vertical-text: "Universidad de Sevilla"
+    brand-vertical-dy: 85%
+```
+
+> **Note:** The watermark is drawn on the page background. Callouts and other blocks with their own fill may cover it — this is expected behaviour.
+
 ### Front matter & navigation
 
 | Option | Type | Default | Description |

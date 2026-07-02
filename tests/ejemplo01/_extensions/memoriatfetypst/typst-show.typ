@@ -213,6 +213,39 @@ $endif$
 $if(heading-highlight-text-color)$
   heading-highlight-text-color: "$heading-highlight-text-color$",
 $endif$
+$if(watermark-text)$
+  watermark-text: "$watermark-text$",
+$endif$
+$if(watermark-opacity)$
+  watermark-opacity: $watermark-opacity$,
+$endif$
+$if(watermark-color)$
+  watermark-color: "$watermark-color$",
+$endif$
+$if(watermark-fontsize)$
+  watermark-fontsize: $watermark-fontsize$,
+$endif$
+$if(watermark-angle)$
+  watermark-angle: $watermark-angle$,
+$endif$
+$if(brand-vertical-text)$
+  brand-vertical-text: "$brand-vertical-text$",
+$endif$
+$if(brand-vertical-color)$
+  brand-vertical-color: "$brand-vertical-color$",
+$endif$
+$if(brand-vertical-fontsize)$
+  brand-vertical-fontsize: $brand-vertical-fontsize$,
+$endif$
+$if(brand-vertical-width)$
+  brand-vertical-width: $brand-vertical-width$,
+$endif$
+$if(brand-vertical-dy)$
+  brand-vertical-dy: $brand-vertical-dy$,
+$endif$
+$if(brand-vertical-logo)$
+  brand-vertical-logo: "$brand-vertical-logo$",
+$endif$
 $if(referencias-nombre)$
   referencias-nombre: "$referencias-nombre$",
 $endif$
