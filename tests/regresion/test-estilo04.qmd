@@ -1,0 +1,104 @@
+---
+title: "Test — Cabecera estilo04"
+author: "Test Suite"
+lang: es
+date: today
+date-format: full
+bibliography: referencias.bib
+format:
+  memoriatfetypst-typst:
+    toc: true
+    tofiguras: true
+    totablas: true
+    papersize: a4
+    portada: true
+    logo-file: "logo.png"
+    facultad: "Facultad de Matemáticas"
+    universidad: "Universidad de Sevilla"
+    tutor-TFG: "Tutor: Test Suite"
+    fecha-TFG: "Sevilla, Junio de 2026"
+    nombre-capitulo: "CAPÍTULO"
+    referencias-nombre: "Referencias"
+    cabecera-capitulo: "estilo04"
+    link-color: "#2563eb"
+    internal-link-color: "059669"
+    cite-color: "#7c3aed"
+    toccapitulos: false
+    bibliografia-completa: false
+    heading-style: true
+  html:
+    toc: true
+    number-sections: true
+    embed-resources: true
+execute:
+  warning: false
+  message: false
+---
+
+
+
+Este documento verifica que la cabecera de capítulo `estilo04` se renderiza sin errores.
+
+
+## Matemáticas
+
+Ecuación inline: $E = mc^2$.
+
+Ecuación display:
+
+$$
+\int_{-\infty}^{\infty} e^{-x^2}\,dx = \sqrt{\pi}
+$$ {#eq-normal}
+
+
+## Bloques matemáticos
+
+::: {#def-variable-aleatoria}
+##### Variable aleatoria
+
+Una variable aleatoria es una función que asigna un valor numérico a cada resultado en el espacio muestral.
+:::
+
+::: {#thm-ley-grandes-numeros}
+##### Ley de los grandes números
+
+Sea $X_1, X_2, \ldots, X_n$ una secuencia de variables aleatorias i.i.d. con media $\mu$ y varianza finita $\sigma^2$. Entonces, para cualquier $\epsilon > 0$,
+$$
+\lim_{n \to \infty} P\left( \left| \frac{1}{n} \sum_{i=1}^{n} X_i - \mu \right| < \epsilon \right) = 1.
+$$
+:::
+
+La @def-variable-aleatoria y el @thm-ley-grandes-numeros son referenciables.
+
+
+## Figuras
+
+```{r}
+#| label: fig-hist
+#| fig-cap: "**Histograma**. Verificación de figuras en R."
+#| echo: false
+
+hist(mtcars$mpg, main = NA, xlab = "mpg")
+```
+
+Vea la @fig-hist.
+
+
+## Tablas
+
+```{r}
+#| label: tbl-mtcars
+#| tbl-cap: "**Primeras filas de mtcars**. Verificación de tablas."
+#| echo: false
+
+library(tinytable)
+mtcars[1:5, 1:4] |>
+  tinytable::tt()
+```
+
+Vea la @tbl-mtcars.
+
+
+## Citas
+
+Ejemplo de cita: [@katsushika1831] o @horst2020.

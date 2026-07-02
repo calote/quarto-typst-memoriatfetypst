@@ -13,3 +13,6 @@ _site/
 .positai
 README_ant.md
 pruebas/
+tests/regresion/*.html
+tests/regresion/*_files/
+tests/regresion/.quarto/

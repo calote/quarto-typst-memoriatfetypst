@@ -519,6 +519,30 @@ open tfe_ejemplo01.pdf
 
 ---
 
+## Galería de características
+
+Cada característica de la plantilla tiene un test de regresión asociado que verifica que se renderiza sin errores. Los PDFs se pueden consultar online; los enlaces apuntan a **raw.githack.com** para que el PDF se abra completo en el navegador (no embebido en la vista previa de GitHub).
+
+> **💡 Consejo:** Usa **Ctrl+clic** (o **clic derecho → Abrir en nueva pestaña**) en los enlaces PDF para verlos cómodamente sin salir de esta página.
+
+| Característica | Descripción | Código | Vista previa |
+|---|---|---|---|
+| Por defecto | Estilo base de la plantilla | [`test-default.qmd`](tests/regresion/test-default.qmd) | [📄 PDF](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/regresion/test-default.pdf) |
+| Estilo 04 | Cabecera de capítulo `"estilo04"` | [`test-estilo04.qmd`](tests/regresion/test-estilo04.qmd) | [📄 PDF](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/regresion/test-estilo04.pdf) |
+| Theorem modern | Teoremas estilo `modern` (coloreados por tipo) | [`test-theorem-modern.qmd`](tests/regresion/test-theorem-modern.qmd) | [📄 PDF](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/regresion/test-theorem-modern.pdf) |
+| Sidebar color | Barra lateral con colores personalizados | [`test-sidebar-color.qmd`](tests/regresion/test-sidebar-color.qmd) | [📄 PDF](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/regresion/test-sidebar-color.pdf) |
+| Sin portada | Documento sin portada ni listados | [`test-no-portada.qmd`](tests/regresion/test-no-portada.qmd) | [📄 PDF](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/regresion/test-no-portada.pdf) |
+
+Los tests se ejecutan con:
+
+```bash
+Rscript tests/regresion/ejecutar-tests.R
+```
+
+Si algún test falla, el script sale con código 1 e indica qué test y formato produjeron el error.
+
+---
+
 ## Architecture
 
 ```
