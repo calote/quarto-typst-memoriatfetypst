@@ -299,6 +299,26 @@ include-in-header: ["mis-secciones.typ"]
 
 > **Nota:** las reglas de `include-in-header` se colocan a nivel de documento (antes de `#show: doc => …`), por lo que `heading-style` debe estar en `false` para evitar conflictos con los valores por defecto de la extensión.
 
+### Resaltado de secciones (heading-highlight)
+
+| Opción | Tipo | Por defecto | Descripción |
+|---|---|---|---|
+| `heading-highlight` | int | `0` | Resalta las subsecciones con fondo coloreado. `0` desactiva; `2`–`6` resalta desde nivel 2 hasta ese nivel. |
+| `heading-highlight-color` | string | `"#e8f0fe"` | Color de fondo para las secciones resaltadas (hex). |
+| `heading-highlight-text-color` | string | `"#1a1a2e"` | Color del texto para las secciones resaltadas (hex). |
+
+Ejemplo — resaltar niveles 2–4 con fondo `#2c3e50` y texto `#ecf0f1`:
+
+```yaml
+format:
+  memoriatfetypst-typst:
+    heading-highlight: 4
+    heading-highlight-color: "#2c3e50"
+    heading-highlight-text-color: "#ecf0f1"
+```
+
+El fondo rectangular envuelve encabezados multilínea y no interfiere con el espaciado (controlado por `heading-style`).
+
 ### Prefacio y navegación
 
 | Opción | Tipo | Por defecto | Descripción |

@@ -198,8 +198,20 @@ $endif$
 $if(sidebar-dx)$
   sidebar-dx: $sidebar-dx$,
 $endif$
+$if(sidebar-show)$
+  sidebar-show: "$sidebar-show$",
+$endif$
 $if(theorem-style)$
   theorem-style: "$theorem-style$",
+$endif$
+$if(heading-highlight)$
+  heading-highlight: $heading-highlight$,
+$endif$
+$if(heading-highlight-color)$
+  heading-highlight-color: "$heading-highlight-color$",
+$endif$
+$if(heading-highlight-text-color)$
+  heading-highlight-text-color: "$heading-highlight-text-color$",
 $endif$
 $if(referencias-nombre)$
   referencias-nombre: "$referencias-nombre$",

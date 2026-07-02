@@ -1,0 +1,110 @@
+---
+title: "Test — Resaltado de secciones (heading-highlight)"
+author: "Test Suite"
+lang: es
+date: today
+date-format: full
+format:
+  memoriatfetypst-typst:
+    toc: true
+    tofiguras: false
+    totablas: false
+    papersize: a4
+    portada: true
+    logo-file: "logo.png"
+    facultad: "Facultad de Matemáticas"
+    universidad: "Universidad de Sevilla"
+    tutor-TFG: "Tutor: Test Suite"
+    fecha-TFG: "Sevilla, Junio de 2026"
+    nombre-capitulo: "CAPÍTULO"
+    referencias-nombre: "Referencias"
+    link-color: "#2563eb"
+    internal-link-color: "059669"
+    cite-color: "#7c3aed"
+    toccapitulos: false
+    bibliografia-completa: false
+    heading-style: true
+    heading-highlight: 4
+    heading-highlight-color: "#2c3e50"
+    heading-highlight-text-color: "#ecf0f1"
+  html:
+    toc: true
+    number-sections: true
+    embed-resources: true
+execute:
+  warning: false
+  message: false
+---
+
+
+
+Este test verifica el resaltado de secciones con `heading-highlight: 4`, usando la combinación recomendada `heading-highlight-color: "#2c3e50"` (azul petróleo) y `heading-highlight-text-color: "#ecf0f1"` (blanco hueso).
+
+Los encabezados suficientemente largos envuelven en múltiples líneas — el `block` con `fill` abarca todo el ancho y alto del texto.
+
+
+# Capítulo 1
+
+## Sección nivel 2 — con resaltado
+
+Contenido de la sección de nivel 2.
+
+### Sección nivel 3 — con resaltado
+
+Contenido de la sección de nivel 3.
+
+#### Sección nivel 4 — con resaltado
+
+Contenido de la sección de nivel 4.
+
+##### Sección nivel 5 — SIN resaltar
+
+Esta sección de nivel 5 **no debe tener fondo** porque `heading-highlight: 4` solo resalta hasta nivel 4.
+
+###### Sección nivel 6 — SIN resaltar
+
+Esta sección de nivel 6 **no debe tener fondo**.
+
+## Sección nivel 2 con texto muy largo para probar el wrapping del block con fill sobre toda la anchura de la columna manteniendo bordes redondeados
+
+Contenido de la sección. El título de esta sección es suficientemente extenso como para ocupar varias líneas y verificar que el fondo rectangular envuelve todo el texto.
+
+### Sección nivel 3 con texto largo para probar que el fondo envuelve múltiples líneas correctamente y el bloque mantiene su forma rectangular con bordes redondeados y padding interior
+
+Continuamos con más contenido para verificar que el resaltado no interfiere con el espaciado normal entre secciones definido por `heading-style`.
+
+#### Sección nivel 4 con texto también largo para verificar el resaltado en este nivel, porque debe funcionar igual que en niveles 2 y 3 con el mismo color de fondo
+
+Contenido final de la sección de nivel 4.
+
+##### Sección nivel 5 — SIN resaltar (sin fondo)
+
+Esta sección de nivel 5 no tiene fondo, confirmando que `heading-highlight: 4` solo resalta niveles 2–4.
+
+###### Sección nivel 6 — SIN resaltar (sin fondo)
+
+Nivel 6 tampoco tiene fondo.
+
+
+# Combinaciones profesionales de colores
+
+| # | Fondo | Texto | Descripción | Uso |
+|---|-------|-------|-------------|-----|
+| 1 | `#FFF3CD` | `#8B4513` | Amarillo claro / Marrón (test inicial) | Cálida |
+| 2 | `#1a365d` | `#FFFFFF` | Azul marino / Blanco (clásica TFG) | Corporativa |
+| 3 | `#2c3e50` | `#ecf0f1` | Azul petróleo / Blanco hueso (★ recomendada) | Elegante |
+| 4 | `#f0f0f0` | `#333333` | Gris claro / Gris oscuro | Sutil |
+| 5 | `#e8f0fe` | `#1a365d` | Azul claro / Azul marino | Académica |
+| 6 | `#fef3e2` | `#663c00` | Ámbar / Marrón oscuro | Cálida |
+| 7 | `#e6f4ea` | `#1e4620` | Verde claro / Verde oscuro | Natural |
+| 8 | `#34495e` | `#FFFFFF` | Azul grisáceo / Blanco | Moderna |
+| 9 | `#e3f2fd` | `#1565C0` | Azul hielo / Azul intenso | Material |
+
+Para usar otra combinación, cambia en la cabecera YAML:
+
+```yaml
+heading-highlight-color: "#2c3e50"
+heading-highlight-text-color: "#ecf0f1"
+```
+
+o desactiva el resaltado con `heading-highlight: 0`.

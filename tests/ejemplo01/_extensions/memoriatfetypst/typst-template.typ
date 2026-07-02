@@ -173,10 +173,16 @@
 #let sidebar-c1-state = state("sidebar-c1", rgb("#1a365d"))
 #let sidebar-c2-state = state("sidebar-c2", rgb("#2c5282"))
 #let sidebar-dx-state = state("sidebar-dx", 0.5cm)
+#let sidebar-show-state = state("sidebar-show", "all")
 #let apendice-activo-state = state("apendice-activo", false)
 
 // Estado para el estilo de teoremas/definiciones (default = sin modificar)
 #let theorem-style-state = state("theorem-style", "default")
+
+// Estados para resaltado de secciones (heading-highlight)
+#let heading-highlight-state = state("heading-highlight", 0)
+#let heading-highlight-color-state = state("heading-highlight-color", none)
+#let heading-highlight-text-color-state = state("heading-highlight-text-color", none)
 
 // Paleta de colores para teoremas (estilo modern)
 #let thm-col-def   = rgb("#1565C0")
@@ -390,7 +396,11 @@
   sidebar-first-color: "#1a365d",
   sidebar-second-color: "#2c5282",
   sidebar-dx: 0.5cm,
+  sidebar-show: "all",
   theorem-style: "default",
+  heading-highlight: 0,
+  heading-highlight-color: "#e8f0fe",
+  heading-highlight-text-color: "#1a1a2e",
   logo: none,
   tipo-TFG: "TRABAJO FIN DE GRADO",
   fecha-TFG: "Sevilla, Junio de 2025", //Sevilla, Octubre de 2025
@@ -432,11 +442,16 @@ let norm-color(c) = {
 sidebar-c1-state.update(norm-color(sidebar-first-color))
 sidebar-c2-state.update(norm-color(sidebar-second-color))
 sidebar-dx-state.update(sidebar-dx)
+sidebar-show-state.update(str(sidebar-show))
 
 // Convertir strings de color a colores válidos INMEDIATAMENTE
 link-color = norm-color(link-color)
 internal-link-color = norm-color(internal-link-color)
 cite-color = norm-color(cite-color)
+
+heading-highlight-state.update(heading-highlight)
+heading-highlight-color-state.update(str(heading-highlight-color))
+heading-highlight-text-color-state.update(str(heading-highlight-text-color))
 
 theorem-style-state.update(str(theorem-style))
 
@@ -573,6 +588,24 @@ let is-first-page-of-bibliography() = {
   }
   set heading(numbering: sectionnumbering)
   show heading: set text(weight: "semibold")
+
+  // heading-highlight — fondo coloreado para secciones nivel 2 hasta max-level
+  show heading: it => context {
+    let max = heading-highlight-state.get()
+    if max > 0 and it.level >= 2 and it.level <= max {
+      let c = heading-highlight-color-state.get()
+      let bg = if c == none or c == "none" { rgb("#e8f0fe") } else { rgb(c.replace("\\", "")) }
+      let tc = heading-highlight-text-color-state.get()
+      if tc != none and tc != "none" {
+        set text(fill: rgb(tc.replace("\\", "")))
+        block(fill: bg, width: 100%, inset: (x: 8pt, y: 4pt), radius: 3pt, it)
+      } else {
+        block(fill: bg, width: 100%, inset: (x: 8pt, y: 4pt), radius: 3pt, it)
+      }
+    } else {
+      it
+    }
+  }
 
 show raw.where(block: true): set block(
     fill: luma(245),
@@ -1001,17 +1034,20 @@ counter(page).update(1)
       if cabecera-capitulo-state.get() == "estilo04" and sidebar-activo-state.get() {
         // No mostrar sidebar en la página de bibliografía
         if not is-first-page-of-bibliography() {
-          let en-apendice = apendice-activo-state.get()
-          let etiqueta = if en-apendice { apendice-nombre-state.get() } else { "CAPÍTULO" }
-          let num = num-capitulo.get()
-          dibujar-sidebar(
-            1.4cm,
-            sidebar-c1-state.get(),
-            sidebar-c2-state.get(),
-            etiqueta,
-            if en-apendice { numbering("A", num) } else { num },
-            dx: sidebar-dx-state.get(),
-          )
+          let mostrar = sidebar-show-state.get() == "all" or is-first-page-of-section()
+          if mostrar {
+            let en-apendice = apendice-activo-state.get()
+            let etiqueta = if en-apendice { apendice-nombre-state.get() } else { "CAPÍTULO" }
+            let num = num-capitulo.get()
+            dibujar-sidebar(
+              1.4cm,
+              sidebar-c1-state.get(),
+              sidebar-c2-state.get(),
+              etiqueta,
+              if en-apendice { numbering("A", num) } else { num },
+              dx: sidebar-dx-state.get(),
+            )
+          }
         }
       }
     },
