@@ -385,6 +385,56 @@ format:
 
 > **Nota:** La marca de agua se dibuja en el fondo de la página. Los callouts y otros bloques con relleno propio pueden taparla — es comportamiento esperado.
 
+### Ejercicios (examtypst-functions)
+
+La extensión incluye funciones Typst opcionales para crear ejercicios tipo examen dentro de un documento de memoria. Para usarlas, añade lo siguiente al YAML:
+
+```yaml
+format:
+  memoriatfetypst-typst:
+    include-in-header:
+      - "_extensions/memoriatfetypst/examtypst-functions.typ"
+    filters:
+      - _extensions/memoriatfetypst/typst-function.lua
+```
+
+Después usa Divs de Quarto:
+
+```markdown
+:::{.ejercicio arguments='title: "Ecuación", puntos: 2.5'}
+Resuelve: $3x + 5 = 20$
+:::
+
+:::{.solucion}
+$x = 5$
+:::
+
+:::{.pregunta-multiple arguments='opciones: ("Madrid", "Londres", "París", "Berlín"), correcta: 3, columnas: 2'}
+¿Cuál es la capital de Francia?
+:::
+
+:::{.verdadero-falso arguments='correcta: true'}
+La suma de los ángulos de un triángulo es 180°.
+:::
+
+:::{.espacio-desarrollo arguments='lineas: 6, puntos: true'}
+:::
+```
+
+Tipos de ejercicio disponibles:
+
+| Clase Div | Comportamiento |
+|---|---|
+| `.ejercicio` | Ejercicio numerado con borde azul |
+| `.solucion` | Caja verde de solución |
+| `.apartado` | Sub-apartado (a, b, c...) |
+| `.pregunta-multiple` | Opción múltiple |
+| `.verdadero-falso` | Verdadero/Falso |
+| `.espacio-desarrollo` | Líneas en blanco para respuesta |
+| `.respuesta-corta` | Subrayados para respuesta breve |
+
+Ver [`tests/examen/test-examen.qmd`](tests/examen/test-examen.qmd) para un ejemplo completo.
+
 ### Prefacio y navegación
 
 | Opción | Tipo | Por defecto | Descripción |
