@@ -414,15 +414,19 @@ apendice-nombre-state.update(str(apendice-nombre))
 
 toccapitulos-state.update(toccapitulos)
 
-// Normalizar colores de sidebars (no se pasan desde YAML normalmente)
+// Normalizar colores: convierte string a color, o deja color intacto
+// NOTA: No usar type(c) == "str" porque Typst 0.14 buguea el tipo
+// retornado dentro de #show: doc => (el color se convierte en string).
+// Usamos repr() como workaround.
 let norm-color(c) = {
-  if type(c) == "str" { 
-    let s = str(c).replace("\\", "")   // elimina posible escape \ de Quarto
+  let r = repr(c)
+  if r.starts-with("\"") {
+    let s = str(c).replace("\\", "")
     if s == "none" { return none }
     if s.starts-with("#") { return rgb(s) }
     return rgb("#" + s)
   }
-  return c   // Si ya es un color, lo retorna tal cual
+  return c
 }
 sidebar-c1-state.update(norm-color(sidebar-first-color))
 sidebar-c2-state.update(norm-color(sidebar-second-color))
