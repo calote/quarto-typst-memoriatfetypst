@@ -297,6 +297,26 @@ include-in-header: ["mis-secciones.typ"]
 
 > **Note:** the rules from `include-in-header` are placed at document level (before `#show: doc => …`), so `heading-style` must be `false` to avoid conflicts with the extension's defaults.
 
+### Section highlight (heading-highlight)
+
+| Option | Type | Default | Description |
+|---|---|---|---|
+| `heading-highlight` | int | `0` | Highlight sub-sections with a coloured background. `0` disables; `2`–`6` highlights from level 2 up to that level. |
+| `heading-highlight-color` | string | `"#e8f0fe"` | Background colour for highlighted sections (hex). |
+| `heading-highlight-text-color` | string | `"#1a1a2e"` | Text colour for highlighted sections (hex). |
+
+Example — highlight levels 2–4 with `#2c3e50` background and `#ecf0f1` text:
+
+```yaml
+format:
+  memoriatfetypst-typst:
+    heading-highlight: 4
+    heading-highlight-color: "#2c3e50"
+    heading-highlight-text-color: "#ecf0f1"
+```
+
+The rectangular background wraps multi-line headings and does not affect spacing (controlled by `heading-style`).
+
 ### Front matter & navigation
 
 | Option | Type | Default | Description |
