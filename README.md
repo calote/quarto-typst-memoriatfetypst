@@ -383,6 +383,56 @@ format:
 
 > **Note:** The watermark is drawn on the page background. Callouts and other blocks with their own fill may cover it — this is expected behaviour.
 
+### Exercises (examtypst-functions)
+
+The extension ships optional Typst functions to create exam-style exercises inside a memoir document. To use them, add the following to your YAML:
+
+```yaml
+format:
+  memoriatfetypst-typst:
+    include-in-header:
+      - "_extensions/memoriatfetypst/examtypst-functions.typ"
+    filters:
+      - _extensions/memoriatfetypst/typst-function.lua
+```
+
+Then use Quarto Divs:
+
+```markdown
+:::{.ejercicio arguments='title: "Ecuación", puntos: 2.5'}
+Resuelve: $3x + 5 = 20$
+:::
+
+:::{.solucion}
+$x = 5$
+:::
+
+:::{.pregunta-multiple arguments='opciones: ("Madrid", "Londres", "París", "Berlín"), correcta: 3, columnas: 2'}
+¿Cuál es la capital de Francia?
+:::
+
+:::{.verdadero-falso arguments='correcta: true'}
+La suma de los ángulos de un triángulo es 180°.
+:::
+
+:::{.espacio-desarrollo arguments='lineas: 6, puntos: true'}
+:::
+```
+
+Available function types:
+
+| Div class | Behaviour |
+|---|---|
+| `.ejercicio` | Numbered exercise with blue border |
+| `.solucion` | Green solution box |
+| `.apartado` | Sub-section (a, b, c...) |
+| `.pregunta-multiple` | Multiple choice |
+| `.verdadero-falso` | True/False |
+| `.espacio-desarrollo` | Blank lines for answers |
+| `.respuesta-corta` | Underlines for short answer |
+
+See [`tests/examen/test-examen.qmd`](tests/examen/test-examen.qmd) for a complete example.
+
 ### Front matter & navigation
 
 | Option | Type | Default | Description |
