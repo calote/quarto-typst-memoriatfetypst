@@ -169,6 +169,7 @@
 
 // Estados para estilo04 (sidebar)
 #let num-capitulo = state("num-capitulo", 1)
+#let sidebar-activo-state = state("sidebar-activo", false)
 #let sidebar-c1-state = state("sidebar-c1", rgb("#1a365d"))
 #let sidebar-c2-state = state("sidebar-c2", rgb("#2c5282"))
 #let sidebar-dx-state = state("sidebar-dx", 0.5cm)
@@ -676,6 +677,7 @@ if estilo == "estilo01" {
 
   let nums = counter(heading).at(it.location())
   if nums.len() > 0 and nums.at(0) > 0 {
+    sidebar-activo-state.update(true)
     num-capitulo.update(nums.first())
     pagebreak(weak: true)
     cabecera-capitulo-estilo04(it, nums, nombre-capitulo)
@@ -996,7 +998,7 @@ counter(page).update(1)
     //numbering: pagenumbering,
     numbering: "1",
     background: context {
-      if cabecera-capitulo-state.get() == "estilo04" {
+      if cabecera-capitulo-state.get() == "estilo04" and sidebar-activo-state.get() {
         // No mostrar sidebar en la página de bibliografía
         if not is-first-page-of-bibliography() {
           let en-apendice = apendice-activo-state.get()

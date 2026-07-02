@@ -1,5 +1,5 @@
 ---
-title: "Test — Modo informe"
+title: "Test — Estilo 03 con TeX Gyre Termes (12pt)"
 author: "Test Suite"
 lang: es
 date: today
@@ -7,35 +7,43 @@ date-format: full
 bibliography: referencias.bib
 format:
   memoriatfetypst-typst:
-    portada: false
-    toc: false
-    tofiguras: false
-    totablas: false
+    toc: true
+    tofiguras: true
+    totablas: true
     papersize: a4
+    portada: true
+    logo-file: "logo.png"
+    facultad: "Facultad de Matemáticas"
+    universidad: "Universidad de Sevilla"
+    tutor-TFG: "Tutor: Test Suite"
+    fecha-TFG: "Sevilla, Junio de 2026"
+    nombre-capitulo: "CAPÍTULO"
     cabecera-capitulo: "estilo03"
-    nombre-capitulo: "--"
     referencias-nombre: "Referencias"
+    mainfont: "TeX Gyre Termes"
+    fontsize: 12pt
     link-color: "#2563eb"
     internal-link-color: "059669"
     cite-color: "#7c3aed"
-    toccapitulos: true
+    toccapitulos: false
     bibliografia-completa: false
     heading-style: true
-    highlight-style: idiomatic
   html:
     toc: true
     number-sections: true
     embed-resources: true
 execute:
-  echo: true
   warning: false
-  error: false
   message: false
 ---
 
-# Introducción
 
-Texto de ejemplo para la primera sección del informe. En modo informe solo hay una sección de nivel 1; el resto son nivel 2 o inferior.
+
+Este documento verifica el estilo03 (alineado a la izquierda, sin marca de agua) con la fuente TeX Gyre Termes a 12pt.
+
+# Capítulo 1
+
+Contenido del primer capítulo.
 
 ## Matemáticas
 
@@ -47,35 +55,6 @@ $$
 \int_{-\infty}^{\infty} e^{-x^2}\,dx = \sqrt{\pi}
 $$ {#eq-normal}
 
-## Código en R
-
-```{r}
-#| label: fig-hist
-#| fig-cap: "**Histograma**. Generado con R."
-#| echo: true
-
-hist(mtcars$mpg, main = NA, xlab = "mpg")
-```
-
-## Código en Python
-
-```{python}
-#| label: fig-python
-#| fig-cap: "**Gráfico de ejemplo**. Generado con Python (matplotlib)."
-#| echo: true
-
-import matplotlib.pyplot as plt
-import numpy as np
-
-x = np.linspace(0, 10, 100)
-y = np.sin(x)
-
-plt.plot(x, y)
-plt.xlabel("x")
-plt.ylabel("sin(x)")
-plt.grid(True)
-plt.show()
-```
 
 ## Bloques matemáticos
 
@@ -96,28 +75,36 @@ $$
 
 La @def-variable-aleatoria y el @thm-ley-grandes-numeros son referenciables.
 
+# Capítulo 2
+
+Segundo capítulo con figuras y tablas.
+
+## Figuras
+
+```{r}
+#| label: fig-hist
+#| fig-cap: "**Histograma**. Verificación de figuras en R."
+#| echo: false
+
+hist(mtcars$mpg, main = NA, xlab = "mpg")
+```
+
+Vea la @fig-hist.
+
 ## Tablas
 
 ```{r}
 #| label: tbl-mtcars
-#| tbl-cap: "**Primeras filas de mtcars**. Tabla generada con R y tinytable."
-#| echo: true
+#| tbl-cap: "**Primeras filas de mtcars**. Verificación de tablas."
+#| echo: false
 
 library(tinytable)
 mtcars[1:5, 1:4] |>
   tinytable::tt()
 ```
 
+Vea la @tbl-mtcars.
+
 ## Citas
 
 Ejemplo de cita: [@katsushika1831] o @horst2020.
-
-## Python
-
-```{python}
-#| echo: true
-
-print("R: analisis")
-print("Python: ML")
-print("Typst: tipografia")
-```

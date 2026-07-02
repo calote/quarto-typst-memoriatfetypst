@@ -20,8 +20,8 @@ format:
     nombre-capitulo: "CAPÍTULO"
     cabecera-capitulo: "estilo04"
     referencias-nombre: "Referencias"
-    sidebar-color1: "#1a365d"
-    sidebar-color2: "#2c5282"
+    sidebar-color1: "#c2410c"
+    sidebar-color2: "#ea580c"
     sidebar-dx: 0.5cm
     link-color: "#2563eb"
     internal-link-color: "059669"
