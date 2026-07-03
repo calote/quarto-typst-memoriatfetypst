@@ -239,3 +239,31 @@ Calcula la tasa de crecimiento natural si los nacimientos son 800 y las defuncio
 TCN = (800 - 600) / 100000 × 1000 = **2‰**
 :::
 :::
+
+## Override por ejercicio individual
+
+Los nuevos parámetros `mostrar-cuadro` y `salto-linea` permiten **override puntual** sin cambiar los valores globales del YAML:
+
+:::{.ejercicio arguments="puntos: 2, mostrar-cuadro: false"}
+Este ejercicio se muestra **sin caja** aunque el documento tenga `mostrar-ejercicio-cuadro: true`
+
+:::{.solucion arguments="mostrar-cuadro: false"}
+Esta solución se muestra **sin caja** aunque el documento tenga `mostrar-solucion-cuadro: true`
+:::
+:::
+
+:::{.ejercicio arguments="puntos: 2, salto-linea: false"}
+Este ejercicio está **sin salto de línea** (enunciado pegado a la etiqueta)
+
+:::{.solucion}
+Comparar con los anteriores donde hay espacio vertical.
+:::
+:::
+
+:::{.ejercicio arguments="mostrar-cuadro: true, salto-linea: false"}
+Este ejercicio tiene caja y sin salto de línea (dos configuraciones a la vez)
+
+:::{.solucion arguments="mostrar-cuadro: true"}
+Solución con caja explícita
+:::
+:::

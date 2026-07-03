@@ -1,0 +1,90 @@
+- generic [ref=e2]:
+  - navigation [ref=e4]:
+    - heading "Tabla de contenidos" [level=2] [ref=e5]
+    - list [ref=e6]:
+      - listitem [ref=e7]
+      - listitem [ref=e9]
+      - listitem [ref=e12]
+      - listitem [ref=e15]
+      - listitem [ref=e18]
+      - listitem [ref=e20]
+      - listitem [ref=e23]
+      - listitem [ref=e26]
+      - listitem [ref=e29]
+      - listitem [ref=e32]
+      - listitem [ref=e35]
+      - listitem [ref=e37]
+      - listitem [ref=e39]
+      - listitem [ref=e41]
+  - main [ref=e43]:
+    - generic [ref=e47]:
+      - 'heading "examtypst: Galería de ejemplos" [level=1] [ref=e48]'
+      - button "Código" [ref=e49] [cursor=pointer]: Código
+    - paragraph [ref=e51]: "La extensión Quarto: “examtypst-typst” permite crear ejercicios de distintos tipos, con o sin solución, con o sin borde, con o sin espacio en blanco para el desarrollo de la respuesta, con o sin salto de línea entre la etiqueta del ejercicio y el enunciado del ejercicio, etc."
+    - paragraph [ref=e52]:
+      - strong [ref=e53]
+    - generic [ref=e55]:
+      - heading "Parámetros de la Cabeceras YAML de un documento Quarto que usa la extensión “examtypst-typst”" [level=1] [ref=e56]
+      - generic [ref=e58]
+    - generic [ref=e112]:
+      - heading "Crear ejercicios con “.ejercicio”" [level=1] [ref=e113]
+      - generic [ref=e115]
+      - generic [ref=e329]
+    - generic [ref=e523]:
+      - heading "Ejercicios “.verdadero-falso” con apartados de verdadero y falso" [level=1] [ref=e524]
+      - generic [ref=e526]
+      - generic [ref=e559]
+      - generic [ref=e587]
+    - generic [ref=e614]:
+      - heading "Ejercicios “.pregunta-multiple” con varias preguntas (pregunta múltiple) pudiendo ser una o más de una verdaderas" [level=1] [ref=e615]
+      - generic [ref=e617]
+      - generic [ref=e693]
+      - generic [ref=e736]
+      - generic [ref=e757]
+      - generic [ref=e777]
+    - generic [ref=e815]:
+      - heading "Ejercicios “.pregunta-multiple-md” con varias preguntas (pregunta múltiple) pudiendo ser una o más de una verdaderas usando sintaxis markdown para las opciones" [level=1] [ref=e816]
+      - generic [ref=e817]
+    - generic [ref=e863]:
+      - heading "Ejercicios “.respuesta-corta”" [level=1] [ref=e864]
+      - generic [ref=e866]
+      - generic [ref=e881]
+    - generic [ref=e896]:
+      - heading "Ejercicio “.texto-con-huecos”" [level=1] [ref=e897]
+      - generic [ref=e899]
+    - generic [ref=e927]:
+      - 'heading "Ejercicio: “.asociar-elementos”" [level=1] [ref=e928]'
+      - generic [ref=e930]
+    - generic [ref=e950]:
+      - 'heading "Ejercicio: “.emparejar-mezclado”" [level=1] [ref=e951]'
+      - generic [ref=e953]
+    - generic [ref=e972]:
+      - 'heading "Ejercicio: “.completar-definiciones”" [level=1] [ref=e973]'
+      - generic [ref=e975]
+    - generic [ref=e994]:
+      - heading "Título, Cabecera o Portada del examen. Cabeceras y pie de página" [level=1] [ref=e995]
+      - generic [ref=e996]
+      - generic [ref=e1061]
+      - generic [ref=e1083]
+    - generic [ref=e1171]:
+      - heading "Otros" [level=1] [ref=e1172]
+      - generic [ref=e1174]
+    - generic [ref=e1184]:
+      - heading "Tablas de calificaciones" [level=1] [ref=e1185]
+      - generic [ref=e1186]
+      - generic [ref=e1203]
+      - generic [ref=e1224]
+    - generic [ref=e1257]:
+      - heading "Trucos" [level=1] [ref=e1258]
+      - generic [ref=e1259]
+      - generic [ref=e1480]
+      - generic [ref=e1489]
+      - generic [ref=e1508]
+      - generic [ref=e1537]
+      - generic [ref=e1637]
+      - generic [ref=e1665]
+      - generic [ref=e1685]
+      - generic [ref=e1774]
+      - generic [ref=e1790]
+      - generic [ref=e1816]
+      - generic [ref=e2336]

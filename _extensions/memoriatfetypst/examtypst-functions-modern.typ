@@ -51,7 +51,7 @@
 #let CajaCheck() = text(fill: accent-sol, weight: "bold")[✔]
 #let CajaNoCheck() = text(fill: theme-muted)[□]
 
-#let ejercicio(title: none, puntos: none, body) = {
+#let ejercicio(title: none, puntos: none, mostrar-cuadro: none, salto-linea: none, body) = {
   reiniciar-apartados()
   reiniciar-vf()
   contador-ejercicios.step()
@@ -65,18 +65,19 @@
     if puntos != none {
       header = [#header  #text(fill: theme-muted, size: 0.85em)[(#puntos puntos)]]
     }
+    let _salto = if salto-linea == none { ejercicio-salto-linea.get() } else { salto-linea }
     block(
       fill: theme-bg,
       stroke: (left: 4pt + accent-ej),
       inset: (x: 12pt, y: 8pt),
       width: 100%,
       above: 0.8em, below: 0.5em,
-      [ #header  #v(0.25em)  #text(fill: theme-text, size: 0.95em)[#body] ]
+      [ #header  #if _salto { v(0.25em) }  #text(fill: theme-text, size: 0.95em)[#body] ]
     )
   }
 }
 
-#let solucion(body) = {
+#let solucion(body, mostrar-cuadro: none) = {
   block(
     fill: theme-sol-bg,
     stroke: (left: 4pt + accent-sol),

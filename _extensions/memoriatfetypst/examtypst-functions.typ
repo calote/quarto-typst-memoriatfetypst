@@ -54,7 +54,7 @@
 #let CajaCheck() = text(fill: theme-correct, weight: "bold")[✔]
 #let CajaNoCheck() = text(fill: theme-header)[□]
 
-#let ejercicio(title: none, puntos: none, body) = {
+#let ejercicio(title: none, puntos: none, mostrar-cuadro: none, salto-linea: none, body) = {
   reiniciar-apartados()
   reiniciar-vf()
   contador-ejercicios.step()
@@ -63,18 +63,20 @@
     let header = if title != none { [*Ejercicio #n. #title*] }
       else { [*Ejercicio #n*] }
     if puntos != none { header = [#header  (#puntos puntos)] }
-    if estilo-cuadro-ejercicio.get() {
+    let _cuadro = if mostrar-cuadro == none { estilo-cuadro-ejercicio.get() } else { mostrar-cuadro }
+    let _salto = if salto-linea == none { ejercicio-salto-linea.get() } else { salto-linea }
+    if _cuadro {
       block(
         breakable: true, width: 100%,
         stroke: 1pt + theme-ej-border, inset: 10pt, radius: 3pt,
         fill: theme-bg,
       )[
         #text(weight: "bold", fill: theme-text)[#header]
-        #if ejercicio-salto-linea.get() { v(0.3em) }
+        #if _salto { v(0.3em) }
         #text(fill: theme-text)[#body]
       ]
     } else {
-      if ejercicio-salto-linea.get() {
+      if _salto {
         text(weight: "bold", fill: theme-text)[#header]
         v(0.3em)
         text(fill: theme-text)[#body]
@@ -87,9 +89,10 @@
   }
 }
 
-#let solucion(body) = {
+#let solucion(body, mostrar-cuadro: none) = {
   context {
-    if estilo-cuadro-solucion.get() {
+    let _cuadro = if mostrar-cuadro == none { estilo-cuadro-solucion.get() } else { mostrar-cuadro }
+    if _cuadro {
       block(
         fill: theme-sol-bg, stroke: 1pt + theme-sol-border,
         radius: 4pt, inset: 10pt, width: 100%,
