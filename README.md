@@ -732,6 +732,13 @@ Each feature has an associated regression test that verifies it renders without 
 | Exams — classic | Exam exercises (classic blue/green boxes) | [`test-examen.qmd`](tests/examen/test-examen.qmd) | [📄 PDF](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/examen/test-examen.pdf) |
 | Exams — modern | Exam exercises (modern card style) | [`test-examen-moderno.qmd`](tests/examen/test-examen-moderno.qmd) | [📄 PDF](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/examen/test-examen-moderno.pdf) |
 | Exams — advanced | Custom margins, plain mode, no line break | [`test-examen-teoriadecision.qmd`](tests/examen/test-examen-teoriadecision.qmd) | [📄 PDF](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/examen/test-examen-teoriadecision.pdf) |
+| Fonts | Brand typography font settings | [`test-fuentes.qmd`](tests/regresion/test-fuentes.qmd) | [📄 PDF](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/regresion/test-fuentes.pdf) |
+| Bibliography | Citation/bibliography rendering | [`test-bibliografia.qmd`](tests/regresion/test-bibliografia.qmd) | [📄 PDF](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/regresion/test-bibliografia.pdf) |
+| Heading highlight | Section heading highlight bar | [`test-heading-highlight.qmd`](tests/regresion/test-heading-highlight.qmd) | [📄 PDF](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/regresion/test-heading-highlight.pdf) |
+| Highlight styles | Pandoc Skylighting syntax highlighting | [`test-highlight-styles.qmd`](tests/regresion/test-highlight-styles.qmd) | [📄 PDF](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/regresion/test-highlight-styles.pdf) |
+| Sidebar first page | Sidebar restricted to first page only | [`test-sidebar-first-page.qmd`](tests/regresion/test-sidebar-first-page.qmd) | [📄 PDF](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/regresion/test-sidebar-first-page.pdf) |
+| Typst raw block | Typst raw code blocks (line numbering, backgrounds) | [`test-typst-raw-block.qmd`](tests/regresion/test-typst-raw-block.qmd) | [📄 PDF](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/regresion/test-typst-raw-block.pdf) |
+| Watermark brand | Watermark text overlay + vertical brand mark | [`test-watermark-brand.qmd`](tests/regresion/test-watermark-brand.qmd) | [📄 PDF](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/regresion/test-watermark-brand.pdf) |
 
 Run the tests with:
 

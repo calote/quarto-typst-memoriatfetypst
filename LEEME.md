@@ -739,6 +739,13 @@ Cada característica de la plantilla tiene un test de regresión asociado que ve
 | Exámenes — clásico | Ejercicios de examen (cajas clásicas azul/verde) | [`test-examen.qmd`](tests/examen/test-examen.qmd) | [📄 PDF](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/examen/test-examen.pdf) |
 | Exámenes — moderno | Ejercicios de examen (estilo moderno tarjetas) | [`test-examen-moderno.qmd`](tests/examen/test-examen-moderno.qmd) | [📄 PDF](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/examen/test-examen-moderno.pdf) |
 | Exámenes — avanzado | Márgenes personalizados, modo plano, sin salto de línea | [`test-examen-teoriadecision.qmd`](tests/examen/test-examen-teoriadecision.qmd) | [📄 PDF](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/examen/test-examen-teoriadecision.pdf) |
+| Fuentes | Configuración tipográfica vía brand | [`test-fuentes.qmd`](tests/regresion/test-fuentes.qmd) | [📄 PDF](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/regresion/test-fuentes.pdf) |
+| Bibliografía | Renderizado de citas/bibliografía | [`test-bibliografia.qmd`](tests/regresion/test-bibliografia.qmd) | [📄 PDF](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/regresion/test-bibliografia.pdf) |
+| Heading highlight | Barra destacada en encabezados de sección | [`test-heading-highlight.qmd`](tests/regresion/test-heading-highlight.qmd) | [📄 PDF](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/regresion/test-heading-highlight.pdf) |
+| Highlight styles | Resaltado sintáctico Pandoc Skylighting | [`test-highlight-styles.qmd`](tests/regresion/test-highlight-styles.qmd) | [📄 PDF](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/regresion/test-highlight-styles.pdf) |
+| Sidebar primera página | Barra lateral solo en la primera página | [`test-sidebar-first-page.qmd`](tests/regresion/test-sidebar-first-page.qmd) | [📄 PDF](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/regresion/test-sidebar-first-page.pdf) |
+| Typst raw block | Bloques de código Typst raw (numeración, fondos) | [`test-typst-raw-block.qmd`](tests/regresion/test-typst-raw-block.qmd) | [📄 PDF](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/regresion/test-typst-raw-block.pdf) |
+| Watermark brand | Marca de agua + marca vertical brand | [`test-watermark-brand.qmd`](tests/regresion/test-watermark-brand.qmd) | [📄 PDF](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/regresion/test-watermark-brand.pdf) |
 
 Los tests se ejecutan con:
 
