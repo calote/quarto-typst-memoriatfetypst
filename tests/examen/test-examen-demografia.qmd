@@ -1,0 +1,241 @@
+---
+title: "Test — Galería de ejercicios (memoriatfetypst + examtypst)"
+subtitle: "Demografía"
+author: "Test Suite"
+lang: es
+date: today
+date-format: full
+functions:
+  - ejercicio
+  - solucion
+  - apartado
+  - pregunta-multiple
+  - pregunta-multiple-md
+  - verdadero-falso
+  - espacio-desarrollo
+  - respuesta-corta
+format:
+  memoriatfetypst-typst:
+    toc: false
+    tofiguras: false
+    totablas: false
+    papersize: a4
+    portada: false
+    nombre-capitulo: "EJERCICIOS"
+    mostrar-ejercicio-cuadro: true
+    mostrar-solucion-cuadro: true
+    ejercicio-salto-linea: true
+    include-in-header: "_extensions/memoriatfetypst/examtypst-functions.typ"
+    filters:
+      - _extensions/memoriatfetypst/typst-function.lua
+  html:
+    toc: true
+    embed-resources: true
+execute:
+  warning: false
+  message: false
+---
+
+
+
+Este test recopila ejemplos de **todos los tipos de ejercicio** disponibles en `examtypst`, adaptados a la extensión `memoriatfetypst`. Inspirado en la [Galería de examtypst](https://web.destio.synology.me/calvo/Qdescargas/examtypst/examtypst_Galeria.html).
+
+Las opciones de visualización se controlan desde el YAML:
+
+| Opción | Este documento |
+|--------|---------------|
+| `mostrar-ejercicio-cuadro` | `true` (caja con borde) |
+| `mostrar-solucion-cuadro` | `true` (caja con borde) |
+| `ejercicio-salto-linea` | `true` (salto tras etiqueta) |
+
+
+
+# Ejercicios básicos (`.ejercicio`)
+
+## Ejercicio simple con puntos y solución
+
+:::{.ejercicio arguments="puntos: 2.5"}
+Calcula la tasa de crecimiento natural de una población que en un año tuvo 450 nacimientos y 320 defunciones, con una población media de 50000 habitantes.
+
+:::{.espacio-desarrollo arguments="lineas: 5, puntos: true"}
+:::
+
+:::{.solucion}
+Tasa de crecimiento natural = (450 - 320) / 50000 × 1000 = **2.6‰**
+:::
+:::
+
+## Ejercicio con varios apartados y soluciones
+
+:::{.ejercicio arguments="puntos: 3"}
+La población de un país en 2020 era de 47 millones, con 520000 nacimientos y 410000 defunciones. Las inmigraciones fueron 300000 y las emigraciones 250000.
+
+:::{.apartado}
+Calcula el crecimiento vegetativo o natural.
+
+:::{.solucion}
+Crecimiento vegetativo = 520000 - 410000 = **110000 habitantes**
+:::
+:::
+
+:::{.apartado arguments='tipo: "letra"'}
+Calcula el crecimiento real o total.
+
+:::{.solucion}
+Crecimiento total = (520000 - 410000) + (300000 - 250000) = **160000 habitantes**
+:::
+:::
+
+:::{.apartado arguments='tipo: "numero"'}
+Calcula la tasa de crecimiento natural (‰).
+
+:::{.solucion}
+TCN = 110000 / 47000000 × 1000 = **2.34‰**
+:::
+:::
+:::
+
+# Verdadero / Falso (`.verdadero-falso`)
+
+## Con numeración
+
+:::{.ejercicio arguments="puntos: 2"}
+Indica si las siguientes afirmaciones son verdaderas o falsas:
+
+:::{.verdadero-falso arguments='correcta: true, numeracion: true, tipo-numeracion: "numero"'}
+La esperanza de vida al nacer ha aumentado globalmente en las últimas décadas.
+:::
+
+:::{.verdadero-falso arguments='correcta: false, numeracion: true, tipo-numeracion: "numero"'}
+La tasa de fecundidad general se calcula sobre la población total.
+:::
+
+:::{.verdadero-falso arguments='correcta: true, numeracion: true, tipo-numeracion: "numero"'}
+Una pirámide de población regresiva indica una población envejecida.
+:::
+:::
+
+## Sin numeración
+
+:::{.ejercicio arguments="puntos: 1.5"}
+Determina la veracidad de las siguientes afirmaciones:
+
+:::{.verdadero-falso arguments='correcta: false, numeracion: false'}
+- La tasa bruta de mortalidad se expresa siempre en tantos por cien.
+:::
+
+:::{.verdadero-falso arguments='correcta: true, numeracion: false'}
+- El saldo migratorio es la diferencia entre inmigraciones y emigraciones.
+:::
+:::
+
+# Pregunta múltiple (`.pregunta-multiple`)
+
+## Opciones en una línea
+
+:::{.ejercicio}
+:::{.pregunta-multiple arguments='correcta: 3, opciones: ("Tasa bruta de natalidad", "Tasa de fecundidad general", "Esperanza de vida", "Índice de envejecimiento")'}
+¿Cuál de los siguientes indicadores se define como el número medio de años que espera vivir un recién nacido?
+:::
+:::
+
+## Opciones con matemáticas
+
+:::{.ejercicio}
+:::{.pregunta-multiple arguments='correcta: 1, opciones: (
+"$TBN = (N/P) \\times 1000$",
+"$TBN = (N/N_{mujeres}) \\times 1000$",
+"$TBN = (P/N) \\times 1000$",
+"$TBN = (DEF/P) \\times 1000$"
+)'}
+La tasa bruta de natalidad se calcula como:
+:::
+:::
+
+## En 2 columnas
+
+:::{.ejercicio}
+:::{.pregunta-multiple arguments='correcta: 0, columnas: 2, opciones: (
+"Tasa de mortalidad infantil",
+"Tasa bruta de mortalidad",
+"Esperanza de vida",
+"Índice de sobreenvejecimiento"
+)'}
+¿Qué indicador mide las defunciones de menores de un año por cada 1000 nacidos vivos?
+:::
+:::
+
+# Pregunta múltiple con Markdown (`.pregunta-multiple-md`)
+
+:::{.ejercicio}
+:::{.pregunta-multiple-md arguments='opciones: ("Tasa bruta de mortalidad", "Tasa de fecundidad general", "Tasa de mortalidad infantil", "Esperanza de vida"), correcta: 2'}
+¿Cuál de las siguientes NO es una medida de la mortalidad?
+:::
+
+:::{.solucion}
+La respuesta correcta es la **b** (Tasa de fecundidad general), ya que mide la natalidad, no la mortalidad.
+:::
+:::
+
+:::{.ejercicio}
+:::{.pregunta-multiple-md arguments='opciones: ("Pirámide progresiva (pagoda)", "Pirámide cuadrada", "Pirámide estacionaria (campana)", "Pirámide regresiva (urna)"), correcta: (1, 3, 4), columnas: 2'}
+¿Cuáles de las siguientes son formas de pirámides de población?
+:::
+:::
+
+# Respuesta corta (`.respuesta-corta`)
+
+## Respuesta de una línea
+
+:::{.ejercicio}
+:::{.respuesta-corta}
+¿Qué es la tasa de reemplazo?
+:::
+:::
+
+## Respuesta multilínea
+
+:::{.ejercicio}
+:::{.respuesta-corta arguments='lineas: 3'}
+Explica brevemente qué factores influyen en el envejecimiento de una población:
+:::
+:::
+
+# Combinaciones de opciones
+
+## Sin borde en ejercicios (mostrar-ejercicio-cuadro: false)
+
+Los siguientes ejercicios se muestran con **texto plano** (sin caja azul). Para activarlo, cambiar en el YAML:
+
+```yaml
+mostrar-ejercicio-cuadro: false
+mostrar-solucion-cuadro: false
+```
+
+:::{.ejercicio arguments="puntos: 2"}
+Si la población de una ciudad es de 250000 habitantes y se producen 3000 nacimientos al año, calcula la tasa bruta de natalidad (‰).
+
+:::{.solucion}
+TBN = 3000 / 250000 × 1000 = **12‰**
+:::
+:::
+
+:::{.ejercicio arguments="puntos: 2"}
+En una población de 1.2 millones de personas se registran 18000 defunciones anuales. Calcula la tasa bruta de mortalidad.
+
+:::{.solucion}
+TBM = 18000 / 1200000 × 1000 = **15‰**
+:::
+:::
+
+## Sin salto de línea (ejercicio-salto-linea: false)
+
+Con `ejercicio-salto-linea: false` el enunciado aparece **inmediatamente después** de la etiqueta "Ejercicio X", sin salto de línea vertical.
+
+:::{.ejercicio arguments="puntos: 1"}
+Calcula la tasa de crecimiento natural si los nacimientos son 800 y las defunciones 600 en una población de 100000 habitantes.
+
+:::{.solucion}
+TCN = (800 - 600) / 100000 × 1000 = **2‰**
+:::
+:::

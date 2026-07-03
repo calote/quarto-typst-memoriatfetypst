@@ -160,9 +160,9 @@
 }
 
 #let pregunta-multiple-md(body, opciones: (), correcta: none, columnas: 1) = {
-  pregunta-multiple(
-    enunciado: body, opciones: opciones, correcta: correcta,
-    columnas: columnas, numeracion: false, opciones-tipo: "LETRA"
+  pregunta-multiple(body,
+    opciones: opciones, correcta: correcta,
+    columnas: columnas, numeracion: false, opciones-tipo: "LETRA",
   )
 }
 
