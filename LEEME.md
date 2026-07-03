@@ -440,7 +440,9 @@ Tipos de ejercicio disponibles:
 | `.espacio-desarrollo` | Líneas en blanco para respuesta |
 | `.respuesta-corta` | Subrayados para respuesta breve |
 
-#### Opciones de visualización
+#### Opciones de visualización (YAML)
+
+Opciones globales a nivel de documento:
 
 | Opción | Tipo | Por defecto | Descripción |
 |--------|------|-------------|-------------|
@@ -448,11 +450,32 @@ Tipos de ejercicio disponibles:
 | `mostrar-solucion-cuadro` | bool | `true` | Envolver soluciones en una caja coloreada (`true`) o texto plano (`false`). |
 | `ejercicio-salto-linea` | bool | `true` | Añadir espacio vertical tras el encabezado del ejercicio (`true`) o sin espacio (`false`). |
 
+#### Override por instancia (argumentos Div)
+
+Cambiar opciones de visualización para ejercicios y soluciones individuales:
+
+```markdown
+:::{.ejercicio arguments='puntos: 2, mostrar-cuadro: false'}
+Ejercicio sin caja (sobrescribe la configuración YAML)
+:::
+
+:::{.solucion arguments='mostrar-cuadro: true'}
+Solución con caja (sobrescribe la configuración YAML si es false)
+:::
+```
+
+Argumentos disponibles:
+- **`ejercicio`**: `mostrar-cuadro` (bool o none), `salto-linea` (bool o none)
+- **`solucion`**: `mostrar-cuadro` (bool o none)
+
+Si el argumento se omite o es `none`, utiliza la configuración YAML global. Si se establece explícitamente (`true`/`false`), lo sobrescribe para esa instancia específica.
+
 #### Ejemplos completos
 
 - Estilo clásico: [`tests/examen/test-examen.qmd`](tests/examen/test-examen.qmd)
 - Estilo moderno: [`tests/examen/test-examen-moderno.qmd`](tests/examen/test-examen-moderno.qmd)
 - Avanzado (examen teoría de decisión con opciones personalizadas): [`tests/examen/test-examen-teoriadecision.qmd`](tests/examen/test-examen-teoriadecision.qmd)
+- **Galería con overrides por instancia**: [`tests/examen/test-examen-demografia.qmd`](tests/examen/test-examen-demografia.qmd) — demuestra todos los tipos de ejercicio y ejemplos de override
 
 ### Prefacio y navegación
 

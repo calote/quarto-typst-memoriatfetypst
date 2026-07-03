@@ -438,7 +438,9 @@ Available function types:
 | `.espacio-desarrollo` | Blank lines for answers |
 | `.respuesta-corta` | Underlines for short answer |
 
-#### Display options
+#### Display options (YAML)
+
+Global document-level options:
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
@@ -446,11 +448,32 @@ Available function types:
 | `mostrar-solucion-cuadro` | bool | `true` | Wrap solutions in a coloured box (`true`) or plain text (`false`). |
 | `ejercicio-salto-linea` | bool | `true` | Add a vertical gap after the exercise header (`true`) or no gap (`false`). |
 
+#### Per-instance override (Div arguments)
+
+Override display options for individual exercises and solutions:
+
+```markdown
+:::{.ejercicio arguments='puntos: 2, mostrar-cuadro: false'}
+Exercise without box (overrides global YAML)
+:::
+
+:::{.solucion arguments='mostrar-cuadro: true'}
+Solution with box (overrides global YAML if false)
+:::
+```
+
+Available arguments:
+- **`ejercicio`**: `mostrar-cuadro` (bool or none), `salto-linea` (bool or none)
+- **`solucion`**: `mostrar-cuadro` (bool or none)
+
+If argument is omitted or `none`, uses the global YAML setting. If set explicitly (`true`/`false`), overrides it for that specific instance.
+
 #### Complete examples
 
 - Classic style: [`tests/examen/test-examen.qmd`](tests/examen/test-examen.qmd)
 - Modern style: [`tests/examen/test-examen-moderno.qmd`](tests/examen/test-examen-moderno.qmd)
 - Advanced (decision theory exam with custom options): [`tests/examen/test-examen-teoriadecision.qmd`](tests/examen/test-examen-teoriadecision.qmd)
+- **Gallery with per-instance overrides**: [`tests/examen/test-examen-demografia.qmd`](tests/examen/test-examen-demografia.qmd) — demonstrates all exercise types and override examples
 
 ### Front matter & navigation
 
