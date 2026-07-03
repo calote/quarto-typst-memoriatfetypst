@@ -17,3 +17,4 @@ tests/regresion/*.html
 tests/regresion/*_files/
 tests/regresion/.quarto/
 tests/examen/.quarto/
+.playwright-mcp/
