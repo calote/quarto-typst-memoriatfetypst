@@ -387,7 +387,14 @@ format:
 
 ### Ejercicios (examtypst-functions)
 
-La extensión incluye funciones Typst opcionales para crear ejercicios tipo examen dentro de un documento de memoria. Para usarlas, añade lo siguiente al YAML:
+La extensión incluye funciones Typst opcionales para crear ejercicios tipo examen dentro de un documento de memoria. Hay dos estéticas disponibles:
+
+| Estilo | Archivo a incluir | Descripción |
+|--------|------------------|-------------|
+| **Clásico** (por defecto) | `examtypst-functions.typ` | Cajas con borde azul para ejercicios, cajas verdes para soluciones |
+| **Moderno** | `examtypst-functions-modern.typ` | Tarjetas con barra lateral de color (paleta slate + amber + teal) |
+
+Para usarlas, añade lo siguiente al YAML:
 
 ```yaml
 format:
@@ -433,7 +440,19 @@ Tipos de ejercicio disponibles:
 | `.espacio-desarrollo` | Líneas en blanco para respuesta |
 | `.respuesta-corta` | Subrayados para respuesta breve |
 
-Ver [`tests/examen/test-examen.qmd`](tests/examen/test-examen.qmd) para un ejemplo completo.
+#### Opciones de visualización
+
+| Opción | Tipo | Por defecto | Descripción |
+|--------|------|-------------|-------------|
+| `mostrar-ejercicio-cuadro` | bool | `true` | Envolver ejercicios en una caja coloreada (`true`) o texto plano (`false`). |
+| `mostrar-solucion-cuadro` | bool | `true` | Envolver soluciones en una caja coloreada (`true`) o texto plano (`false`). |
+| `ejercicio-salto-linea` | bool | `true` | Añadir espacio vertical tras el encabezado del ejercicio (`true`) o sin espacio (`false`). |
+
+#### Ejemplos completos
+
+- Estilo clásico: [`tests/examen/test-examen.qmd`](tests/examen/test-examen.qmd)
+- Estilo moderno: [`tests/examen/test-examen-moderno.qmd`](tests/examen/test-examen-moderno.qmd)
+- Avanzado (examen teoría de decisión con opciones personalizadas): [`tests/examen/test-examen-teoriadecision.qmd`](tests/examen/test-examen-teoriadecision.qmd)
 
 ### Prefacio y navegación
 
@@ -717,6 +736,9 @@ Cada característica de la plantilla tiene un test de regresión asociado que ve
 | Sidebar color | Barra lateral `estilo04` con colores naranja personalizados | [`test-sidebar-color.qmd`](tests/regresion/test-sidebar-color.qmd) | [📄 PDF](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/regresion/test-sidebar-color.pdf) |
 | Modo informe | Artículo/informe: una sola sección nivel 1, mini-TOC por sección, sin portada ni listados | [`test-report-mode.qmd`](tests/regresion/test-report-mode.qmd) | [📄 PDF](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/regresion/test-report-mode.pdf) |
 | Sin portada | Documento sin portada ni listados | [`test-no-portada.qmd`](tests/regresion/test-no-portada.qmd) | [📄 PDF](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/regresion/test-no-portada.pdf) |
+| Exámenes — clásico | Ejercicios de examen (cajas clásicas azul/verde) | [`test-examen.qmd`](tests/examen/test-examen.qmd) | [📄 PDF](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/examen/test-examen.pdf) |
+| Exámenes — moderno | Ejercicios de examen (estilo moderno tarjetas) | [`test-examen-moderno.qmd`](tests/examen/test-examen-moderno.qmd) | [📄 PDF](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/examen/test-examen-moderno.pdf) |
+| Exámenes — avanzado | Márgenes personalizados, modo plano, sin salto de línea | [`test-examen-teoriadecision.qmd`](tests/examen/test-examen-teoriadecision.qmd) | [📄 PDF](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/examen/test-examen-teoriadecision.pdf) |
 
 Los tests se ejecutan con:
 

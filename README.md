@@ -385,7 +385,14 @@ format:
 
 ### Exercises (examtypst-functions)
 
-The extension ships optional Typst functions to create exam-style exercises inside a memoir document. To use them, add the following to your YAML:
+The extension ships optional Typst functions to create exam-style exercises inside a memoir document. Two aesthetics are available:
+
+| Style | Include file | Description |
+|-------|-------------|-------------|
+| **Classic** (default) | `examtypst-functions.typ` | Blue-bordered boxes for exercises, green boxes for solutions |
+| **Modern** | `examtypst-functions-modern.typ` | Cards with coloured left border (slate + amber + teal palette) |
+
+To use them, add the following to your YAML:
 
 ```yaml
 format:
@@ -431,7 +438,19 @@ Available function types:
 | `.espacio-desarrollo` | Blank lines for answers |
 | `.respuesta-corta` | Underlines for short answer |
 
-See [`tests/examen/test-examen.qmd`](tests/examen/test-examen.qmd) for a complete example.
+#### Display options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `mostrar-ejercicio-cuadro` | bool | `true` | Wrap exercises in a coloured box (`true`) or plain text (`false`). |
+| `mostrar-solucion-cuadro` | bool | `true` | Wrap solutions in a coloured box (`true`) or plain text (`false`). |
+| `ejercicio-salto-linea` | bool | `true` | Add a vertical gap after the exercise header (`true`) or no gap (`false`). |
+
+#### Complete examples
+
+- Classic style: [`tests/examen/test-examen.qmd`](tests/examen/test-examen.qmd)
+- Modern style: [`tests/examen/test-examen-moderno.qmd`](tests/examen/test-examen-moderno.qmd)
+- Advanced (decision theory exam with custom options): [`tests/examen/test-examen-teoriadecision.qmd`](tests/examen/test-examen-teoriadecision.qmd)
 
 ### Front matter & navigation
 
@@ -710,6 +729,9 @@ Each feature has an associated regression test that verifies it renders without 
 | Sidebar colour | `estilo04` sidebar with custom orange colours | [`test-sidebar-color.qmd`](tests/regresion/test-sidebar-color.qmd) | [📄 PDF](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/regresion/test-sidebar-color.pdf) |
 | Report mode | Article/report: single level-1 section, mini-TOC per section, no cover or lists | [`test-report-mode.qmd`](tests/regresion/test-report-mode.qmd) | [📄 PDF](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/regresion/test-report-mode.pdf) |
 | No cover | Document without cover page or lists | [`test-no-portada.qmd`](tests/regresion/test-no-portada.qmd) | [📄 PDF](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/regresion/test-no-portada.pdf) |
+| Exams — classic | Exam exercises (classic blue/green boxes) | [`test-examen.qmd`](tests/examen/test-examen.qmd) | [📄 PDF](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/examen/test-examen.pdf) |
+| Exams — modern | Exam exercises (modern card style) | [`test-examen-moderno.qmd`](tests/examen/test-examen-moderno.qmd) | [📄 PDF](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/examen/test-examen-moderno.pdf) |
+| Exams — advanced | Custom margins, plain mode, no line break | [`test-examen-teoriadecision.qmd`](tests/examen/test-examen-teoriadecision.qmd) | [📄 PDF](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/examen/test-examen-teoriadecision.pdf) |
 
 Run the tests with:
 
