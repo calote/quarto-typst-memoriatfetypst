@@ -12,6 +12,9 @@ contributes:
       toc: true
       centrar-matematicas: true
       heading-style: true
+      mostrar-ejercicio-cuadro: true
+      mostrar-solucion-cuadro: true
+      ejercicio-salto-linea: true
       template-partials:
         - typst-template.typ
         - typst-show.typ

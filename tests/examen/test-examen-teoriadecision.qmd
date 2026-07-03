@@ -14,9 +14,9 @@ functions:
   - espacio-desarrollo
   - respuesta-corta
   - completar-definiciones
-  - exam-header
-  - exam-student-data
-  - tabla-calificaciones
+  # - exam-header
+  # - exam-student-data
+  # - tabla-calificaciones
 format:
   memoriatfetypst-typst:
     toc: false
@@ -35,14 +35,16 @@ format:
     heading-style: true
     cabecera-capitulo: "estilo01"
     margin:
-      top: 1cm
-      bottom: 1cm
-      left: 1cm
-      right: 1cm
+      top: 2.5cm
+      bottom: 2.5cm
+      left: 2.5cm
+      right: 2.5cm
     include-in-header: "_extensions/memoriatfetypst/examtypst-functions.typ"
     filters:
       - _extensions/memoriatfetypst/typst-function.lua
     ejercicio-salto-linea: false
+    mostrar-ejercicio-cuadro: false
+    mostrar-solucion-cuadro: false
   html:
     toc: false
     embed-resources: true
@@ -51,21 +53,15 @@ execute:
   message: false
 ---
 
-:::{.exam-header arguments='logo: "logo.png", departamento: "Departamento de Estadística e Investigación Operativa", titulacion: "Grado en Estadística", asignatura: "Teoría de la Decisión", tipo-examen: "1ª Prueba Evaluación Continua", fecha-examen: "6 de Noviembre de 2025"'}
-:::
 
-:::{.exam-student-data}
-:::
 
-# Instrucciones
+<!-- - Duración del examen: **2 horas** -->
+<!-- - Material permitido: **Calculadora no programable** -->
+<!-- - Puntuación total: **100 puntos** (20+15+20+20+15+10) -->
+<!-- - Entregar cada ejercicio en hojas separadas -->
+<!-- - Cada ejercicio indica su puntuación -->
 
-- Duración del examen: **2 horas**
-- Material permitido: **Calculadora no programable**
-- Puntuación total: **100 puntos** (20+15+20+20+15+10)
-- Entregar cada ejercicio en hojas separadas
-- Cada ejercicio indica su puntuación
-
----
+<!-- --- -->
 
 :::::{.ejercicio arguments="puntos: 20"}
 

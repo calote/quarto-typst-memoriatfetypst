@@ -14,6 +14,14 @@
 #let theme-header = gray
 #let theme-correct = rgb("#16a34a")
 
+// Estados para alternar entre el estilo "cuadro" (con borde/fondo de color,
+// comportamiento actual) y el estilo "plano" sin cuadros ni colores en el
+// enunciado (como en examtypst-typst con show-ejercicio-cuadro: false).
+// Se actualizan desde typst-show.typ leyendo la metadata YAML del .qmd.
+#let estilo-cuadro-ejercicio = state("estilo-cuadro-ejercicio", true)
+#let estilo-cuadro-solucion = state("estilo-cuadro-solucion", true)
+#let ejercicio-salto-linea = state("ejercicio-salto-linea", true)
+
 // Contadores
 #let contador-ejercicios = counter("ejercicio")
 #let contador-apartados = counter("apartado")
@@ -49,31 +57,51 @@
 #let ejercicio(title: none, puntos: none, body) = {
   reiniciar-apartados()
   reiniciar-vf()
+  contador-ejercicios.step()
   context {
-    contador-ejercicios.step()
     let n = contador-ejercicios.get().first()
     let header = if title != none { [*Ejercicio #n. #title*] }
       else { [*Ejercicio #n*] }
     if puntos != none { header = [#header  (#puntos puntos)] }
-    block(
-      breakable: true, width: 100%,
-      stroke: 1pt + theme-ej-border, inset: 10pt, radius: 3pt,
-      fill: theme-bg,
-    )[
-      #text(weight: "bold", fill: theme-text)[#header]
-      #v(0.3em)
-      #text(fill: theme-text)[#body]
-    ]
+    if estilo-cuadro-ejercicio.get() {
+      block(
+        breakable: true, width: 100%,
+        stroke: 1pt + theme-ej-border, inset: 10pt, radius: 3pt,
+        fill: theme-bg,
+      )[
+        #text(weight: "bold", fill: theme-text)[#header]
+        #if ejercicio-salto-linea.get() { v(0.3em) }
+        #text(fill: theme-text)[#body]
+      ]
+    } else {
+      if ejercicio-salto-linea.get() {
+        text(weight: "bold", fill: theme-text)[#header]
+        v(0.3em)
+        text(fill: theme-text)[#body]
+      } else {
+        text(weight: "bold", fill: theme-text)[#header]
+        text(fill: theme-text)[#h(0.5em) #body]
+      }
+      v(0.5em)
+    }
   }
 }
 
 #let solucion(body) = {
-  block(
-    fill: theme-sol-bg, stroke: 1pt + theme-sol-border,
-    radius: 4pt, inset: 10pt, width: 100%,
-    above: 0.8em, below: 0.8em,
-    [*Solución:*  #body]
-  )
+  context {
+    if estilo-cuadro-solucion.get() {
+      block(
+        fill: theme-sol-bg, stroke: 1pt + theme-sol-border,
+        radius: 4pt, inset: 10pt, width: 100%,
+        above: 0.8em, below: 0.8em,
+        [*Solución:*  #body]
+      )
+    } else {
+      v(0.5em)
+      [*Solución:* #h(0.4em) #body]
+      v(0.5em)
+    }
+  }
 }
 
 #let apartado(letra: auto, tipo: "letra", puntos: none, body) = {

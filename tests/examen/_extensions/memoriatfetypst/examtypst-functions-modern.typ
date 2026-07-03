@@ -14,6 +14,12 @@
 #let theme-ej-stroke = accent-ej
 #let theme-primary = rgb("#2563eb")
 
+// Estados para compatibilidad con typst-show.typ (no afectan al estilo moderno
+// que siempre usa tarjetas con barra lateral de color)
+#let estilo-cuadro-ejercicio = state("estilo-cuadro-ejercicio", true)
+#let estilo-cuadro-solucion = state("estilo-cuadro-solucion", true)
+#let ejercicio-salto-linea = state("ejercicio-salto-linea", true)
+
 #let contador-ejercicios = counter("ejercicio")
 #let contador-apartados = counter("apartado")
 #let contador-vf = counter("verdadero-falso")
@@ -48,8 +54,8 @@
 #let ejercicio(title: none, puntos: none, body) = {
   reiniciar-apartados()
   reiniciar-vf()
+  contador-ejercicios.step()
   context {
-    contador-ejercicios.step()
     let n = contador-ejercicios.get().first()
     let header = if title != none {
       text(weight: "bold", fill: theme-text, size: 1em)[Ejercicio #n.  #title]
