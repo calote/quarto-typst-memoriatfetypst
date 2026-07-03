@@ -1,15 +1,17 @@
 // Funciones de examtypst para usar con memoriatfetypst
 // Incluir via include-in-header en Quarto
+// Estética clásica: granate (#8B0000) + azul (#007ACC)
 
-// Colores de tema
-#let theme-primary = rgb("#2563eb")
-#let theme-secondary = rgb("#7c3aed")
+#import "@preview/tablex:0.0.9": tablex
+
+#let theme-primary = rgb("#8B0000")
+#let theme-secondary = rgb("#007acc")
 #let theme-bg = rgb("#f8f9fa")
-#let theme-text = rgb("#1a1a2e")
-#let theme-sol-bg = rgb("#f0fdf4")
-#let theme-sol-border = rgb("#22c55e")
-#let theme-ej-border = rgb("#2563eb")
-#let theme-header = rgb("#475569")
+#let theme-text = black
+#let theme-sol-bg = rgb("#e6f3ff")
+#let theme-sol-border = rgb("#007acc")
+#let theme-ej-border = gray
+#let theme-header = gray
 #let theme-correct = rgb("#16a34a")
 
 // Contadores
@@ -20,7 +22,6 @@
 #let reiniciar-apartados() = { contador-apartados.update(0) }
 #let reiniciar-vf() = { contador-vf.update(0) }
 
-// Generar etiquetas (a, b, c... / A, B, C... / 1, 2, 3...)
 #let generar-etiqueta(numero, tipo: "letra") = {
   if tipo == "letra" { str.from-unicode(96 + numero) }
   else if tipo == "numero" { str(numero) }
@@ -30,7 +31,6 @@
   else { "•" }
 }
 
-// Aplicar contador automático
 #let aplicar-contador(contador, tipo: "letra", formato: auto, custom-label: auto) = {
   if custom-label != auto { custom-label }
   else {
@@ -43,20 +43,16 @@
   }
 }
 
-// Símbolos check/empty
 #let CajaCheck() = text(fill: theme-correct, weight: "bold")[✔]
 #let CajaNoCheck() = text(fill: theme-header)[□]
 
-// ============================================
-// EJERCICIO
-// ============================================
 #let ejercicio(title: none, puntos: none, body) = {
   reiniciar-apartados()
   reiniciar-vf()
   context {
     contador-ejercicios.step()
-    let n = contador-ejercicios.get().first() + 1
-    let header = if title != none { [*Ejercicio #n.* #title] }
+    let n = contador-ejercicios.get().first()
+    let header = if title != none { [*Ejercicio #n. #title*] }
       else { [*Ejercicio #n*] }
     if puntos != none { header = [#header  (#puntos puntos)] }
     block(
@@ -71,9 +67,6 @@
   }
 }
 
-// ============================================
-// SOLUCIÓN
-// ============================================
 #let solucion(body) = {
   block(
     fill: theme-sol-bg, stroke: 1pt + theme-sol-border,
@@ -83,9 +76,6 @@
   )
 }
 
-// ============================================
-// APARTADO
-// ============================================
 #let apartado(letra: auto, tipo: "letra", puntos: none, body) = {
   let lbl = if letra == auto { aplicar-contador(contador-apartados, tipo: tipo) } else { letra }
   let header = [ *#lbl)* ]
@@ -93,9 +83,6 @@
   [ #header  #body ]
 }
 
-// ============================================
-// PREGUNTA MÚLTIPLE
-// ============================================
 #let pregunta-multiple(
   opciones: (), correcta: none, columnas: 1,
   numeracion: false, tipo-numeracion: "numero", opciones-tipo: "LETRA",
@@ -124,9 +111,6 @@
   v(0.5em)
 }
 
-// ============================================
-// VERDADERO / FALSO
-// ============================================
 #let verdadero-falso(correcta: none, numeracion: true, tipo-numeracion: "numero", body) = {
   if numeracion {
     let etiqueta = aplicar-contador(contador-vf, tipo: tipo-numeracion)
@@ -138,9 +122,6 @@
   v(0.5em)
 }
 
-// ============================================
-// ESPACIO DE DESARROLLO
-// ============================================
 #let espacio-desarrollo(lineas: 5, puntos: false, body) = {
   if puntos {
     for i in range(lineas) {
@@ -150,9 +131,6 @@
   } else { v(lineas * 1em) }
 }
 
-// ============================================
-// PREGUNTA MÚLTIPLE MARKDOWN (con #opc en body)
-// ============================================
 #let pregunta-multiple-md(body, opciones: (), correcta: none, columnas: 1) = {
   pregunta-multiple(
     enunciado: body, opciones: opciones, correcta: correcta,
@@ -160,9 +138,6 @@
   )
 }
 
-// ============================================
-// RESPUESTA CORTA
-// ============================================
 #let respuesta-corta(lineas: 3, body) = {
   text(fill: theme-text)[#body]
   for i in range(lineas) {
@@ -172,9 +147,6 @@
   v(0.5em)
 }
 
-// ============================================
-// COMPLETAR DEFINICIONES
-// ============================================
 #let completar-definiciones(definiciones: (), body) = {
   text(fill: theme-text, weight: "bold")[Completa las siguientes definiciones:]
   for (i, def) in definiciones.enumerate() {
@@ -184,4 +156,122 @@
     box(width: 100%, line(length: 100%, stroke: 0.5pt + theme-header))
   }
   v(0.5em)
+}
+
+// ============================================
+// CABECERA INSTITUCIONAL (estilo examtypst)
+// ============================================
+#let exam-header(
+  logo: none,
+  departamento: "",
+  titulacion: "",
+  asignatura: "",
+  tipo-examen: "",
+  fecha-examen: "",
+  body,
+) = {
+  v(-1.5em)
+  let has-logo = logo != none and logo != ""
+  if has-logo {
+    grid(
+      columns: (60pt, 1fr),
+      column-gutter: 10pt,
+      align(left + horizon)[
+        image(logo, width: 60pt)
+      ],
+      align(center + horizon)[
+        text(size: 12pt, weight: "bold", fill: theme-text)[#departamento]
+        linebreak()
+        text(size: 12pt, weight: "bold", fill: theme-text)[#titulacion]
+        linebreak()
+        text(size: 12pt, weight: "bold", fill: theme-text)[#asignatura]
+        #if tipo-examen != "" and fecha-examen != "" {
+          linebreak()
+          v(-0.6em)
+          text(size: 12pt, weight: "bold", fill: theme-text)[#tipo-examen - #fecha-examen]
+        } else if tipo-examen != "" {
+          linebreak()
+          v(-0.6em)
+          text(size: 12pt, weight: "bold", fill: theme-text)[#tipo-examen]
+        } else if fecha-examen != "" {
+          linebreak()
+          v(-0.6em)
+          text(size: 12pt, weight: "bold", fill: theme-text)[#fecha-examen]
+        }
+        v(0.4em)
+        line(length: 80%, stroke: theme-primary)
+      ]
+    )
+  } else {
+    align(center + horizon)[
+      text(size: 12pt, weight: "bold", fill: theme-text)[#departamento]
+      linebreak()
+      text(size: 12pt, weight: "bold", fill: theme-text)[#titulacion]
+      linebreak()
+      text(size: 12pt, weight: "bold", fill: theme-text)[#asignatura]
+      #if tipo-examen != "" and fecha-examen != "" {
+        linebreak()
+        v(-0.6em)
+        text(size: 12pt, weight: "bold", fill: theme-text)[#tipo-examen - #fecha-examen]
+      } else if tipo-examen != "" {
+        linebreak()
+        v(-0.6em)
+        text(size: 12pt, weight: "bold", fill: theme-text)[#tipo-examen]
+      } else if fecha-examen != "" {
+        linebreak()
+        v(-0.6em)
+        text(size: 12pt, weight: "bold", fill: theme-text)[#fecha-examen]
+      }
+      v(0.4em)
+      line(length: 80%, stroke: theme-primary)
+    ]
+  }
+}
+
+// ============================================
+// DATOS DEL ESTUDIANTE (estilo examtypst)
+// ============================================
+#let exam-student-data(body) = {
+  v(1em)
+  grid(
+    columns: (auto, 1fr, auto, 2fr),
+    column-gutter: 1em,
+    row-gutter: 1.5em,
+    text(weight: "bold", fill: theme-text)[Nombre:],
+    line(length: 100%, stroke: theme-text),
+    text(weight: "bold", fill: theme-text)[Apellidos:],
+    line(length: 100%, stroke: theme-text),
+  )
+  v(1em)
+}
+
+// ============================================
+// TABLA DE CALIFICACIONES (estilo examtypst)
+// ============================================
+#let tabla-calificaciones(ejercicios: (), min-width: 2cm, body) = {
+  let num-ejercicios = ejercicios.len()
+  let columns = range(num-ejercicios + 1).map(_ => min-width)
+  let fila-nombres = ejercicios.map(e =>
+    text(weight: "bold", fill: theme-text, size: 9pt)[#e.nombre]
+  )
+  fila-nombres.push(
+    text(weight: "bold", fill: theme-text, size: 9pt)[Total]
+  )
+  let fila-puntos = ejercicios.map(e =>
+    text(fill: theme-text, size: 9pt)[#e.puntos]
+  )
+  fila-puntos.push(
+    text(weight: "bold", fill: theme-text, size: 9pt)[#ejercicios.map(e => e.puntos).sum()]
+  )
+  let fila-calificacion = range(num-ejercicios + 1).map(_ =>
+    text(fill: theme-text, size: 9pt)[ ]
+  )
+  align(center)[
+    tablex(
+      columns: columns, rows: (auto, auto, 2em),
+      stroke: 1pt + theme-text,
+      align: center + horizon,
+      ..fila-nombres, ..fila-puntos, ..fila-calificacion
+    )
+  ]
 }

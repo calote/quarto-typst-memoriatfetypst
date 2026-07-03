@@ -1,0 +1,327 @@
+/* Estilos para examtypst-html */
+
+/* Variables de color - pueden ser sobrescritas */
+:root {
+  --examtypst-primary-color: #8B0000;
+  --examtypst-primary-light: #f8f9fa;
+  --examtypst-secondary-color: #007acc;
+  --examtypst-secondary-light: #e6f3ff;
+  --examtypst-text-color: #333;
+  --examtypst-text-muted: #666;
+  --examtypst-border-color: #ccc;
+  --examtypst-bg-neutral: #f5f5f5;
+  --examtypst-bg-table: #f0f0f0;
+}
+
+.ejercicio {
+  margin: 1.5em 0;
+  padding: 1em;
+  border-left: 4px solid var(--examtypst-primary-color);
+  background-color: var(--examtypst-primary-light);
+}
+
+.ejercicio-header h3 {
+  margin: 0 0 0.5em 0;
+  color: var(--examtypst-primary-color);
+  font-weight: bold;
+}
+
+.puntos {
+  color: var(--examtypst-text-muted);
+  font-style: italic;
+}
+
+.ejercicio-content {
+  margin-left: 1em;
+}
+
+.apartado {
+  margin: 0.5em 0 0.5em 2em;
+}
+/* ...existing code... */
+
+/* Soluciones */
+.solucion {
+  margin: 1em 0;
+  padding: 0.8em;
+  background-color: var(--examtypst-secondary-light);
+  border: 1px solid var(--examtypst-secondary-color);
+  border-radius: 3px;
+}
+
+.solucion-header h4 {
+  margin: 0 0 0.5em 0;
+  color: var(--examtypst-secondary-color);
+  font-weight: bold;
+}
+
+.solucion-content {
+  color: var(--examtypst-text-color);
+}
+
+/* Soluciones colapsables */
+.solucion.collapsible {
+  padding: 0;
+  background-color: transparent;
+  border: none;
+}
+
+.solucion-details {
+  margin: 0.5em 0;
+  padding: 0;
+  border: 1px solid var(--examtypst-secondary-color);
+  border-radius: 3px;
+  background-color: var(--examtypst-secondary-light);
+}
+
+.solucion-summary {
+  padding: 0.6em 1em;
+  cursor: pointer;
+  font-weight: bold;
+  color: var(--examtypst-secondary-color);
+  background-color: var(--examtypst-secondary-light);
+  border-radius: 3px;
+  user-select: none;
+  transition: background-color 0.2s;
+}
+
+.solucion-summary:hover {
+  background-color: #d0e7ff;
+}
+
+.solucion-summary::marker {
+  color: var(--examtypst-secondary-color);
+}
+
+.solucion-details[open] .solucion-summary {
+  border-bottom: 1px solid var(--examtypst-secondary-color);
+  border-radius: 3px 3px 0 0;
+}
+
+.solucion-details .solucion-content {
+  padding: 0.8em 1em;
+  color: var(--examtypst-text-color);
+}
+
+/* ...existing code... */
+.verdadero-falso {
+  margin: 0.5em 0;
+  padding: 0.5em;
+  background-color: var(--examtypst-bg-neutral);
+  border-radius: 3px;
+}
+
+.verdadero-falso input[type="checkbox"] {
+  margin-right: 0.5em;
+}
+
+.espacio-desarrollo {
+  margin: 1em 0;
+  min-height: 4em;
+  border: 1px dashed var(--examtypst-border-color);
+  padding: 1em;
+}
+
+.tabla-calificaciones {
+  margin: 1em auto;
+  text-align: center;
+}
+
+.tabla-calificaciones table {
+  border-collapse: collapse;
+  width: auto;
+  margin: 0 auto;
+}
+
+.tabla-calificaciones th,
+.tabla-calificaciones td {
+  border: 1px solid var(--examtypst-text-color);
+  padding: 0.5em 1em;
+  text-align: center;
+}
+
+.tabla-calificaciones th {
+  background-color: var(--examtypst-bg-table);
+  font-weight: bold;
+}
+
+/* Cabecera del documento */
+.document-header {
+  font-size: 1.6rem;
+  text-align: center;
+  margin-bottom: 2em;
+  padding-bottom: 1em;
+  border-bottom: 2px solid var(--examtypst-primary-color);
+}
+
+.document-logo {
+  max-width: 150px;
+  max-height: 100px;
+  margin-bottom: 1em;
+}
+
+.document-header h1 {
+  color: var(--examtypst-primary-color);
+  margin-bottom: 0.5em;
+}
+
+.document-info {
+  color: var(--examtypst-text-muted);
+  font-style: italic;
+  line-height: 1.2;
+}
+
+/* Preguntas múltiples */
+.pregunta-multiple {
+  margin: 1em 0;
+}
+
+.opciones-multiple {
+  margin: 0.5em 0 0.5em 2em;
+}
+
+.opciones-multiple p {
+  margin: 0.3em 0;
+}
+
+.opciones-multiple input[type="checkbox"] {
+  margin-right: 0.5em;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .ejercicio {
+    margin: 1em 0;
+    padding: 0.8em;
+  }
+  
+  .ejercicio-content {
+    margin-left: 0.5em;
+  }
+  
+  .apartado {
+    margin-left: 1em;
+  }
+}
+
+/* Soluciones al final colapsables */
+details.soluciones-al-final {
+  margin: 2em 0;
+  border: 2px solid #007acc;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+details.soluciones-al-final summary {
+  cursor: pointer;
+  padding: 1em;
+  background: linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 100%);
+  user-select: none;
+  list-style: none;
+  transition: background 0.3s;
+}
+
+details.soluciones-al-final summary:hover {
+  background: linear-gradient(135deg, #e6f3ff 0%, #cce7ff 100%);
+}
+
+details.soluciones-al-final summary::-webkit-details-marker {
+  display: none;
+}
+
+details.soluciones-al-final[open] summary {
+  border-bottom: 2px solid #007acc;
+}
+
+
+/* Estilos para soluciones al final colapsadas */
+.soluciones-al-final {
+  margin-top: 2em;
+  border: 2px solid #007acc;
+  border-radius: 8px;
+  padding: 0;
+}
+
+.soluciones-al-final summary {
+  cursor: pointer;
+  padding: 1em;
+  background-color: #f0f8ff;
+  border-radius: 6px;
+  user-select: none;
+  list-style: none;
+}
+
+.soluciones-al-final summary::-webkit-details-marker {
+  display: none;
+}
+
+.soluciones-al-final summary::before {
+  content: "▶ ";
+  display: inline-block;
+  transition: transform 0.2s;
+}
+
+.soluciones-al-final[open] summary::before {
+  transform: rotate(90deg);
+}
+
+.soluciones-al-final summary h2 {
+  display: inline;
+  margin: 0;
+  font-size: 1.5em;
+  color: #007acc;
+}
+
+.soluciones-al-final summary:hover {
+  background-color: #e6f3ff;
+}
+
+.soluciones-content {
+  padding: 1.5em;
+}
+
+/* Ocultar la versión con solución en la sección de ejercicios */
+.ejercicio .verdadero-falso-container .verdadero-falso[data-solution="true"],
+.ejercicio .pregunta-multiple-container .pregunta-multiple[data-solution="true"] {
+  display: none;
+}
+
+
+.tabla-calificaciones {
+  margin: 2em auto;
+  max-width: 100%;
+}
+
+.tabla-calificaciones table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1em 0;
+}
+
+.tabla-calificaciones th,
+.tabla-calificaciones td {
+  border: 1px solid #333;
+  padding: 0.5em;
+  text-align: center;
+  min-width: 3cm;
+}
+
+.tabla-calificaciones thead {
+  background-color: #f0f0f0;
+  font-weight: bold;
+}
+
+.tabla-calificaciones .puntos-maximos {
+  background-color: #f8f8f8;
+}
+
+.tabla-calificaciones .calificacion-obtenida td {
+  height: 2em;
+  background-color: #fff;
+}
+
+/* Tema por colores */
+.color-theme-blue .tabla-calificaciones th {
+  background-color: #e3f2fd;
+  color: #1976d2;
+}

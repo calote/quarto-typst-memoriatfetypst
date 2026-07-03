@@ -1,0 +1,238 @@
+---
+title: "Teoría de la Decisión — 1ª Prueba Evaluación Continua"
+author: "Departamento de Estadística e Investigación Operativa"
+lang: es
+date: "6 de Noviembre de 2025"
+date-format: full
+functions:
+  - ejercicio
+  - solucion
+  - apartado
+  - pregunta-multiple
+  - pregunta-multiple-md
+  - verdadero-falso
+  - espacio-desarrollo
+  - respuesta-corta
+  - completar-definiciones
+  - exam-header
+  - exam-student-data
+  - tabla-calificaciones
+format:
+  memoriatfetypst-typst:
+    toc: false
+    tofiguras: false
+    totablas: false
+    papersize: a4
+    portada: false
+    logo-file: "logo.png"
+    facultad: "Facultad de Matemáticas"
+    universidad: "Universidad de Sevilla"
+    tutor-TFG: false
+    fecha-TFG: false
+    nombre-capitulo: "EXAMEN"
+    toccapitulos: false
+    bibliografia-completa: false
+    heading-style: true
+    cabecera-capitulo: "estilo01"
+    margin:
+      top: 1cm
+      bottom: 1cm
+      left: 1cm
+      right: 1cm
+    include-in-header: "_extensions/memoriatfetypst/examtypst-functions.typ"
+    filters:
+      - _extensions/memoriatfetypst/typst-function.lua
+    ejercicio-salto-linea: false
+  html:
+    toc: false
+    embed-resources: true
+execute:
+  warning: false
+  message: false
+---
+
+:::{.exam-header arguments='logo: "logo.png", departamento: "Departamento de Estadística e Investigación Operativa", titulacion: "Grado en Estadística", asignatura: "Teoría de la Decisión", tipo-examen: "1ª Prueba Evaluación Continua", fecha-examen: "6 de Noviembre de 2025"'}
+:::
+
+:::{.exam-student-data}
+:::
+
+# Instrucciones
+
+- Duración del examen: **2 horas**
+- Material permitido: **Calculadora no programable**
+- Puntuación total: **100 puntos** (20+15+20+20+15+10)
+- Entregar cada ejercicio en hojas separadas
+- Cada ejercicio indica su puntuación
+
+---
+
+:::::{.ejercicio arguments="puntos: 20"}
+
+**Decisión en ambiente de incertidumbre.** Una empresa debe lanzar un nuevo producto al mercado y se enfrenta a tres posibles estados de la naturaleza: $E_1$ (mercado favorable), $E_2$ (mercado estable) y $E_3$ (mercado desfavorable). Las alternativas disponibles son:
+
+- $A_1$: Lanzar el producto a nivel nacional
+- $A_2$: Lanzar el producto solo a nivel regional
+- $A_3$: No lanzar el producto
+
+La matriz de beneficios (en miles de €) es:
+
+| Alternativa | $E_1$ | $E_2$ | $E_3$ |
+|:---:|:---:|:---:|:---:|
+| $A_1$ | 120 | 50 | -30 |
+| $A_2$ | 70 | 40 | 10 |
+| $A_3$ | 0 | 0 | 0 |
+
+1. Aplica el criterio de **Laplace** (equiprobabilidad) para determinar la alternativa óptima.
+2. Aplica el criterio **optimista** (maximax) y **pesimista** (maximin).
+3. Aplica el criterio de **Hurwicz** con $\alpha = 0.6$.
+
+:::{.espacio-desarrollo arguments="lineas: 20, puntos: false"}
+:::
+
+:::::
+
+:::::{.ejercicio arguments="puntos: 15"}
+
+**Decisión con probabilidades a priori.** Se conoce la siguiente información sobre los estados de la naturaleza del ejercicio anterior:
+
+$$P(E_1) = 0.3, \quad P(E_2) = 0.5, \quad P(E_3) = 0.2$$
+
+1. Calcula el **valor esperado** de cada alternativa.
+2. ¿Cuál es la alternativa óptima según el criterio del **Valor Esperado** (VE)?
+3. Calcula el **Valor Esperado de la Información Perfecta** (VEIP).
+
+:::{.espacio-desarrollo arguments="lineas: 15, puntos: false"}
+:::
+
+:::::
+
+{{< pagebreak >}}
+
+:::::{.ejercicio arguments="puntos: 20"}
+
+**Teoría de la utilidad.** La función de utilidad de un decisor para un resultado económico $x$ (en miles de €) viene dada por:
+
+$$U(x) = 1 - e^{-0.02x}, \quad x \geq -50$$
+
+1. ¿Qué tipo de actitud frente al riesgo tiene este decisor? Justifica tu respuesta.
+2. Dado el siguiente árbol de decisión:
+
+   - Alternativa $A_1$: 50 000 € seguros
+   - Alternativa $A_2$: 100 000 € con probabilidad 0.5 y 0 € con probabilidad 0.5
+
+   ¿Qué alternativa elegiría según el criterio de la **utilidad esperada**?
+
+:::{.espacio-desarrollo arguments="lineas: 15, puntos: false"}
+:::
+
+:::::
+
+{{< pagebreak >}}
+
+:::::{.ejercicio arguments="puntos: 20"}
+
+**Método PROMETHEE.** Se considera una empresa que desea seleccionar una de las cinco alternativas de inversión (E1, E2, E3, E4 y E5). La decisión se basa en cuatro criterios a maximizar (C1, C2, C3 y C4):
+
+| Alternativa | C1 | C2 | C3 | C4 |
+|:---:|:---:|:---:|:---:|:---:|
+| E1 | 90 | 80 | -6 | 5.4 |
+| E2 | 58 | 65 | -2 | 9.7 |
+| E3 | 60 | 83 | -4 | 7.2 |
+| E4 | 80 | 40 | -10 | 7.5 |
+| E5 | 72 | 52 | -6 | 2.0 |
+
+Los pesos asignados a los criterios son respectivamente: 0.2, 0.2, 0.3 y 0.3. Las funciones de preferencia:
+- C1: tipo 3 (lineal) con $p=30$
+- C2: tipo 2 (cuasi) con $q=10$
+- C3: tipo 5 (lineal indiferencia) con $q=0.5$, $p=5$
+- C4: tipo 4 (nivel) con $q=1$, $p=6$
+
+¿Cuál de las siguientes afirmaciones son correctas?
+
+:::{.pregunta-multiple arguments='opciones: ("b. En PROMETHEE II, E2 es la mejor clasificada.", "d. En PROMETHEE II, E4 es la peor clasificada.", "e. Al cambiar los pesos a 0.3,0.3,0.2,0.2, E1 mantiene su posición.", "f. E2 siempre está 1ª al modificar la función de preferencia del C3 (fijando q=0.5, p=5, s=3).", "g. E3 siempre está en 3ª posición al modificar parámetros de C3 (p=q+5, s=0, variando q entre 0.5 y 10)."), correcta: (1, 2, 4), columnas: 1'}
+:::
+
+:::::
+
+:::::{.ejercicio arguments="puntos: 15"}
+
+**Criterios de decisión en incertidumbre.** Responde razonadamente:
+
+:::{.apartado arguments='letra: "a", puntos: 5'}
+Define el criterio **minimax** (de Savage) y explica en qué tipo de problemas se aplica.
+:::
+
+:::{.apartado arguments='letra: "b", puntos: 5'}
+¿En qué se diferencia la actitud **neutral** al riesgo de la **aversión** al riesgo?
+:::
+
+:::{.apartado arguments='letra: "c", puntos: 5'}
+Explica el concepto de **tasa de sustitución** en el método de las **tasas de sustitución**.
+:::
+
+:::{.espacio-desarrollo arguments="lineas: 12, puntos: false"}
+:::
+
+:::::
+
+{{< pagebreak >}}
+
+:::::{.ejercicio arguments="puntos: 10"}
+
+**Preguntas tipo test.** Selecciona la respuesta correcta:
+
+:::{.pregunta-multiple arguments='opciones: ("Busca el máximo de los mínimos", "Busca el mínimo de los máximos", "Minimiza la pérdida máxima posible"), correcta: 3, columnas: 1'}
+El criterio **minimax** de Savage consiste en:
+:::
+
+:::{.pregunta-multiple arguments='opciones: ("Lineal", "Cóncava", "Convexa"), correcta: 2, columnas: 1'}
+Una función de utilidad con aversión al riesgo es:
+:::
+
+:::{.verdadero-falso arguments='correcta: true'}
+En el método de la suma ponderada (WSM), los pesos de los criterios deben sumar 1.
+:::
+
+:::{.verdadero-falso arguments='correcta: false'}
+El criterio de Laplace asigna probabilidades distintas a cada estado de la naturaleza.
+:::
+
+:::::
+
+---
+
+::: {.solucion}
+**Soluciones:**
+
+**Ejercicio 1 — Incertidumbre:**
+1. Laplace: $VE(A_1) = (120+50-30)/3 = 46.67$, $VE(A_2) = (70+40+10)/3 = 40$, $VE(A_3) = 0$. Óptima: $A_1$.
+2. Maximax (optimista): $A_1$ (120). Maximin (pesimista): $A_2$ (10) o $A_3$ (0) → $A_2$.
+3. Hurwicz ($\alpha=0.6$): $H(A_1) = 0.6\cdot120 + 0.4\cdot(-30) = 60$, $H(A_2) = 0.6\cdot70 + 0.4\cdot10 = 46$, $H(A_3)=0$. Óptima: $A_1$.
+
+**Ejercicio 2 — Probabilidades a priori:**
+1. $VE(A_1) = 0.3\cdot120 + 0.5\cdot50 + 0.2\cdot(-30) = 36+25-6 = 55$, $VE(A_2) = 0.3\cdot70 + 0.5\cdot40 + 0.2\cdot10 = 21+20+2 = 43$, $VE(A_3) = 0$.
+2. Alternativa óptima: $A_1$ (VE = 55).
+3. VEIP = VECP - VE = $[0.3\cdot120 + 0.5\cdot50 + 0.2\cdot10] - 55 = (36+25+2) - 55 = 8$.
+
+**Ejercicio 3 — Utilidad:**
+1. $U''(x) = -0.0004e^{-0.02x} < 0$ → función cóncava → aversión al riesgo.
+2. $U(50) = 1 - e^{-1} = 0.6321$, $EU(A_2) = 0.5(1-e^{-2}) + 0.5(1-1) = 0.5\cdot0.8647 = 0.4323$. Elige $A_1$.
+
+**Ejercicio 4 — PROMETHEE:**
+- Afirmaciones **correctas**: b (E2 mejor clasificada), d (E4 peor clasificada), f (E2 siempre 1ª al modificar fpref C3).
+- Afirmaciones **incorrectas**: e (al cambiar pesos E1 no mantiene posición), g (E3 no siempre está 3ª).
+
+Flujo neto PROMETHEE II: E2 &gt; E1 &gt; E3 &gt; E5 &gt; E4.
+
+**Ejercicio 5 — Teoría:**
+a) El minimax de Savage minimiza la máxima pérdida de oportunidad (arrepentimiento). Se aplica en problemas de incertidumbre sin probabilidades.
+b) Neutral: utilidad lineal (indiferente al riesgo). Aversión: utilidad cóncava (penaliza más las pérdidas que las ganancias).
+c) Es la tasa a la que un criterio puede compensar a otro, manteniendo constante el valor global.
+
+**Ejercicio 6 — Test:**
+1. Minimiza la pérdida máxima posible (criterio de Savage).
+2. Cóncava.
+3. Verdadero.
+4. Falso (Laplace asigna la misma probabilidad a todos los estados).
+:::

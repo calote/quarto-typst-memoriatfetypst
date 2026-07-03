@@ -1,0 +1,41 @@
+/* Temas de color predefinidos */
+
+/* Tema azul */
+.theme-blue {
+  --examtypst-primary-color: #0047AB;
+  --examtypst-primary-light: #f0f5ff;
+  --examtypst-secondary-color: #00A86B;
+  --examtypst-secondary-light: #e6f7f0;
+}
+
+/* Tema verde */
+.theme-green {
+  --examtypst-primary-color: #006400;
+  --examtypst-primary-light: #f0f8f0;
+  --examtypst-secondary-color: #228B22;
+  --examtypst-secondary-light: #e8f5e8;
+}
+
+/* Tema morado */
+.theme-purple {
+  --examtypst-primary-color: #6A0DAD;
+  --examtypst-primary-light: #f5f0ff;
+  --examtypst-secondary-color: #9370DB;
+  --examtypst-secondary-light: #f0e6ff;
+}
+
+/* Tema naranja */
+.theme-orange {
+  --examtypst-primary-color: #D2691E;
+  --examtypst-primary-light: #fff5f0;
+  --examtypst-secondary-color: #FF8C00;
+  --examtypst-secondary-light: #fff0e6;
+}
+
+/* Tema gris */
+.theme-gray {
+  --examtypst-primary-color: #4A5568;
+  --examtypst-primary-light: #f7fafc;
+  --examtypst-secondary-color: #718096;
+  --examtypst-secondary-light: #edf2f7;
+}
