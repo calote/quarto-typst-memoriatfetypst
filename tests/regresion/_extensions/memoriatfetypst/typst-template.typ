@@ -112,7 +112,7 @@
 #let cabecera-capitulo-estilo03(it,nums,nombre-capitulo,author) = {
     
     if nombre-capitulo == "--" {
-      // Modo report: mostrar solo título y autor sin número
+      // Modo report: mostrar título y autor sin número
       align(left)[
           #text(size: 26pt, weight: "bold")[#it.body]
           #v(1em)
@@ -838,15 +838,9 @@ if estilo == "estilo01" {
 } else if estilo == "estilo03" {    
 
   let nums = counter(heading).at(it.location())
-  if nums.len() > 0 and nums.at(0) > 0 {
+  if nums.len() > 0 {
     pagebreak(weak: true)
-    if nombre-capitulo == "--" {
-      // Modo report: crear heading invisible para TOC, luego mostrar contenido personalizado
-      heading(level: 1, numbering: none, it.body)
-      cabecera-capitulo-estilo03(it, nums, nombre-capitulo, author)
-    } else {
-      cabecera-capitulo-estilo03(it, nums, nombre-capitulo, author)
-    }
+    cabecera-capitulo-estilo03(it, nums, nombre-capitulo, author)
     } else {
     it
     }
