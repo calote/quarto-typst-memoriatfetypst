@@ -15,6 +15,7 @@ zip -r "${ZIP}" \
   _contenido.qmd \
   a_ejemplo.qmd \
   a_ejemplo-slides.qmd \
+  a_ejemplo-unificado.qmd \
   eliminar-separadores.lua \
   fontsize-noop.lua \
   color-spans-typst.lua \
