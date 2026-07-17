@@ -111,19 +111,8 @@
 
 #let cabecera-capitulo-estilo03(it,nums,nombre-capitulo,author) = {
     
-    //debug("nombre-capitulo", nombre-capitulo)
-    //debug("nombre-capitulo", nombre-capitulo == "--" )
     if nombre-capitulo == "--" {
-      // Si el nombre del capítulo es "--", mostrar el heading sin número, titulo y autor
-      // Crear un bloque invisible para mantener estructura de TOC
-      block(
-        height: 0pt,
-        [
-          #set text(size: 0pt, fill: rgb("#ffffff00"))
-          #it
-        ]
-      )
-      
+      // Modo report: mostrar solo título y autor sin número
       align(left)[
           #text(size: 26pt, weight: "bold")[#it.body]
           #v(1em)

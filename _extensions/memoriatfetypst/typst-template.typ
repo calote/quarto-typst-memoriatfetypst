@@ -111,19 +111,9 @@
 
 #let cabecera-capitulo-estilo03(it,nums,nombre-capitulo,author) = {
     
-    //debug("nombre-capitulo", nombre-capitulo)
-    //debug("nombre-capitulo", nombre-capitulo == "--" )
     if nombre-capitulo == "--" {
-      // Si el nombre del capítulo es "--", mostrar el heading sin número, titulo y autor
-      // Crear un bloque invisible para mantener estructura de TOC
-      block(
-        height: 0pt,
-        [
-          #set text(size: 0pt, fill: rgb("#ffffff00"))
-          #it
-        ]
-      )
-      
+      // Modo report: mostrar solo título y autor sin número
+      // El heading se crea sin renderizar visualmente
       align(left)[
           #text(size: 26pt, weight: "bold")[#it.body]
           #v(1em)
@@ -851,7 +841,13 @@ if estilo == "estilo01" {
   let nums = counter(heading).at(it.location())
   if nums.len() > 0 and nums.at(0) > 0 {
     pagebreak(weak: true)
-    cabecera-capitulo-estilo03(it, nums, nombre-capitulo, author)   
+    if nombre-capitulo == "--" {
+      // Modo report: crear heading invisible para TOC, luego mostrar contenido personalizado
+      heading(level: 1, numbering: none, it.body)
+      cabecera-capitulo-estilo03(it, nums, nombre-capitulo, author)
+    } else {
+      cabecera-capitulo-estilo03(it, nums, nombre-capitulo, author)
+    }
     } else {
     it
     }
