@@ -109,12 +109,32 @@
    ]
 }
 
-#let cabecera-capitulo-estilo03(it,nums,nombre-capitulo,author) = {
+#let cabecera-capitulo-estilo03(it,nums,nombre-capitulo,author,numerar-n1) = {
     
     if nombre-capitulo == "--" {
-      // Modo report: mostrar título y autor sin número
-      // El heading se procesa sin renderizar visualmente en show rule
-      []  // Placeholder vacío: contenido renderizado en show rule
+      if numerar-n1 == "true" {
+        // Modo report con numeración: mostrar número + título + autor
+        align(left)[
+            #text(size: 25pt, weight: "bold")[#nums.at(0)]
+            #v(1.5em)
+            #text(size: 26pt, weight: "bold")[#it.body]
+            #v(1em)
+            #text(size: 16pt, weight: "bold", tracking: -1pt, style: "italic")[#author]
+            #v(1em)
+            #line(length: 50%, stroke: 2pt + gray)
+        ]
+        v(3em)
+      } else {
+        // Modo report sin numeración: mostrar título y autor sin número
+        align(left)[
+            #text(size: 26pt, weight: "bold")[#it.body]
+            #v(1em)
+            #text(size: 16pt, weight: "bold", tracking: -1pt, style: "italic")[#author]
+            #v(1em)
+            #line(length: 50%, stroke: 2pt + gray)
+        ]
+        v(3em)
+      }
 
     } else {
       align(left)[
@@ -834,7 +854,7 @@ if estilo == "estilo01" {
   let nums = counter(heading).at(it.location())
   if nums.len() > 0 {
     pagebreak(weak: true)
-    cabecera-capitulo-estilo03(it, nums, nombre-capitulo, author)
+    cabecera-capitulo-estilo03(it, nums, nombre-capitulo, author, numerar-secciones-nivel1)
     } else {
     it
     }
