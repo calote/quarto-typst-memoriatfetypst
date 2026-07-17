@@ -114,7 +114,7 @@
     //debug("nombre-capitulo", nombre-capitulo)
     //debug("nombre-capitulo", nombre-capitulo == "--" )
     if nombre-capitulo == "--" {
-      // Si el nombre del capítulo es "--", no mostramos nada
+      // Si el nombre del capítulo es "--", mostrar el heading sin número, titulo y autor
       align(left)[
           #text(size: 26pt, weight: "bold")[#it.body]
           #v(1em)
@@ -123,6 +123,8 @@
           #line(length: 50%, stroke: 2pt + gray)
       ]
       v(3em)
+      // Renderizar el heading para que aparezca en TOC y encabezados
+      it
 
     } else {
       align(left)[
