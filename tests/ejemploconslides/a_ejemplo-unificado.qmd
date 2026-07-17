@@ -11,7 +11,7 @@ filters:
   - color-spans-typst.lua
 format:
   memoriatfetypst-typst:
-    output-file: a_ejemplo-a4
+    output-file: a_ejemplo-unificado-a4
     metadata:
       formato-typst-a4: true
       es-memoria: true
@@ -45,7 +45,7 @@ format:
         dpi: 300
 
   qmd-ptm-ty-slides-typst:
-    output-file: a_ejemplo-slides
+    output-file: a_ejemplo-unificado-slides
     metadata:
       formato-typst-trans: true
       es-memoria: false
@@ -76,7 +76,7 @@ format:
         dpi: 300
 
   html:
-    output-file: a_ejemplo
+    output-file: a_ejemplo-unificado
     metadata:
       es-memoria: false
       es-slides: false
