@@ -1,0 +1,54 @@
+---
+title: "Fundamentos de Análisis de Datos con R"
+author: "Prof. Pedro L. Luque"
+lang: es
+date: today
+date-format: full
+formato-typst-a4: true
+es-memoria: true
+es-slides: false
+format:
+  memoriatfetypst-typst:
+    portada: false
+    centrar-matematicas: true
+    toc: false
+    toccapitulos: true
+    toc-depth: 5
+    cabecera-capitulo: "estilo03"
+    nombre-capitulo: "--"
+    papersize: a4
+    margin: {x: 1.5cm, y: 1.5cm}
+    keep-typ: true
+    fig-format: png
+    include-in-header:
+      text: |
+        #let centrado(it) = text(it)
+    include-before-body:
+      text: |
+        #show table: it => align(center, it)
+    filters:
+      - fontsize-noop.lua
+      - eliminar-separadores.lua
+  html:
+    toc: true
+    embed-resources: true
+knitr:
+  opts_chunk:
+    fig.width: 10
+    fig.height: 8
+    dpi: 300
+filters:
+  - color-spans-typst.lua
+execute:
+  warning: false
+  message: false
+  echo: false
+bibliography: referencias.bib
+---
+
+```{=typst}
+#show link: set text(fill: orange)
+#show ref: set text(fill: rgb("#cc0066"))
+```
+
+{{< include _contenido.qmd >}}

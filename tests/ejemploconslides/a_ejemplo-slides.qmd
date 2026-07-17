@@ -1,0 +1,42 @@
+---
+title: "Fundamentos de Análisis de Datos con R"
+author: "Prof. Pedro L. Luque"
+subtitle: "Asignatura: Estadística Aplicada"
+date: "2026-07-17"
+institute: "Universidad de Sevilla"
+lang: es
+formato-typst-trans: true
+es-memoria: false
+es-slides: true
+format:
+  qmd-ptm-ty-slides-typst:
+    aspect-ratio: "16-9"
+    font-size: "18pt"
+    section-level: 3
+    header-color: "#003f72"
+    section-color: "#995276"
+    section-color-2: "#1a6b72"
+    accent-color: "#c0392b"
+    code-bg-color: "#dce8ff"
+    output-bg-color: none
+    keep-typ: true
+    slide-numbering: true
+    toc-slide: true
+    toc-levels: 3
+    toc-font-size: "1em"
+    toc-title: "Índice"
+    fig-format: png
+execute:
+  warning: false
+  message: false
+knitr:
+  opts_chunk:
+    fig.width: 12
+    fig.height: 10
+    dpi: 300
+filters:
+  - color-spans-typst.lua
+bibliography: referencias.bib
+---
+
+{{< include _contenido.qmd >}}

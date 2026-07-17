@@ -1,0 +1,228 @@
+# Análisis de Datos con R
+
+## 1. Introducción
+
+### ¿Qué es el Análisis de Datos?
+
+El análisis de datos es el proceso de **inspeccionar**, **limpiar** y **modelar** datos con el objetivo de descubrir información útil y apoyar la toma de decisiones [@Wickham2017].
+
+Entre sus etapas fundamentales destacan:
+- **Recolección**: obtención de datos de fuentes primarias o secundarias.
+- **Depuración**: tratamiento de valores faltantes y datos inconsistentes.
+- **Exploración**: análisis descriptivo y visualización.
+- **Modelado**: aplicación de técnicas estadísticas o de *machine learning*.
+- **Comunicación**: presentación de resultados mediante informes o dashboards.
+
+---
+
+El auge de herramientas como R y Python ha democratizado el acceso al análisis de datos. R, en particular, ofrece un ecosistema completo con paquetes como `dplyr` para manipulación y `ggplot2` para visualización [@R-ggplot2].
+
+Además, el paradigma de la *literate programming* —acuñado por Knuth [@knuth84] — permite integrar código, resultados y narrativa en un mismo documento, facilitando la reproducibilidad.
+
+### Tipos de Variables
+
+Las variables se clasifican según la [naturaleza de los datos]{.naranja}:
+
+| Tipo | Subtipo | Ejemplos |
+|------|---------|----------|
+| Cualitativas | Nominales | Sexo, país, color de ojos |
+| Cualitativas | Ordinales | Nivel de estudios, satisfacción |
+| Cuantitativas | Discretas | Número de hijos, coches |
+| Cuantitativas | Continuas | Altura, peso, temperatura |
+
+Es crucial identificar el tipo de variable antes de elegir el método de análisis o la representación gráfica adecuada. Un error común es tratar variables [ordinales como si fueran continuas]{.rosado}, lo que puede llevar a conclusiones erróneas.
+
+## 2. Estadística Descriptiva
+
+### Medidas de Tendencia Central
+
+Las medidas de tendencia central resumen la distribución de los datos en un valor representativo:
+
+$$
+\bar{x} = \frac{1}{n} \sum_{i=1}^{n} x_i \qquad \text{(media aritmética)}
+$$
+
+$$
+M_e = \text{valor central de los datos ordenados} \qquad \text{(mediana)}
+$$
+
+$$
+M_o = \text{valor con mayor frecuencia} \qquad \text{(moda)}
+$$
+
+```{r}
+#| label: tendencia-central
+#| echo: true
+#| fig-cap: "Diagrama de caja mostrando media y mediana"
+
+library(ggplot2)
+
+set.seed(123)
+datos <- data.frame(valor = c(rnorm(80, mean = 50, sd = 10),
+                              rnorm(20, mean = 70, sd = 5)))
+media <- mean(datos$valor)
+mediana <- median(datos$valor)
+
+ggplot(datos, aes(y = valor)) +
+  geom_boxplot(fill = "#6699cc", alpha = 0.7) +
+  geom_hline(yintercept = media, color = "#F66733", linewidth = 1,
+             linetype = "dashed") +
+  geom_hline(yintercept = mediana, color = "#228B22", linewidth = 1,
+             linetype = "dotted") +
+  labs(title = "Media y mediana en datos asimétricos",
+       y = "Valor") +
+  theme_minimal()
+```
+
+---
+
+```{r}
+#| echo: true
+
+summary(datos$valor)
+```
+
+:::{.content-visible when-meta="es-slides"}
+`#text(size: 0.85em)[`{=typst}
+:::
+
+En el diagrama anterior, la línea discontinua naranja representa la **media** y la línea punteada verde la **mediana**. Cuando la distribución es asimétrica, la media se desplaza hacia la cola mientras que la mediana permanece más estable.
+
+:::{.content-visible when-meta="es-slides"}
+`]`{=typst}
+:::
+
+### Medidas de Dispersión
+
+Las medidas de dispersión cuantifican la variabilidad de los datos:
+
+$$
+s^2 = \frac{\sum_{i=1}^{n} (x_i - \bar{x})^2}{n-1} \qquad \text{(varianza muestral)}
+$$
+
+$$
+s = \sqrt{s^2} \qquad \text{(desviación típica)}
+$$
+
+$$
+\text{IQR} = Q_3 - Q_1 \qquad \text{(rango intercuartílico)}
+$$
+
+```{r}
+#| label: dispersion
+#| echo: true
+
+sd(datos$valor)    # desviación típica
+IQR(datos$valor)   # rango intercuartílico
+```
+
+:::{.content-visible when-meta="es-memoria"}
+`#pagebreak()`{=typst}
+:::
+
+### Visualización Gráfica
+
+La visualización es una herramienta esencial en el análisis exploratorio de datos. El paquete `ggplot2` [@ggplot22016] implementa la *gramática de gráficos*, permitiendo construir visualizaciones de forma declarativa.
+
+```{r}
+#| label: fig-histograma
+#| fig-cap: "Histograma de los datos simulados"
+#| echo: true
+#| out.width: "85%"
+
+ggplot(datos, aes(x = valor)) +
+  geom_histogram(bins = 25, fill = "#3366cc", color = "white",
+                 alpha = 0.85) +
+  labs(title = "Distribución de los datos",
+       x = "Valor", y = "Frecuencia") +
+  theme_minimal()
+```
+
+:::{.content-visible when-meta="es-memoria"}
+`#pagebreak()`{=typst}
+:::
+
+## 3. Correlación
+
+### Coeficiente de Correlación Lineal
+
+El coeficiente de correlación de Pearson ($r$) mide la fuerza y dirección de la relación lineal entre dos variables cuantitativas:
+
+$$
+r = \frac{\sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})}
+         {\sqrt{\sum_{i=1}^{n} (x_i - \bar{x})^2 \;
+                \sum_{i=1}^{n} (y_i - \bar{y})^2}}
+$$
+
+Sus valores oscilan entre $-1$ y $+1$:
+- $r = +1$: correlación positiva perfecta.
+- $r = -1$: correlación negativa perfecta.
+- $r \approx 0$: ausencia de relación lineal.
+
+:::{.content-visible when-meta="es-slides"}
+:::: {.cols}
+::::: {.col}
+
+```{r}
+#| echo: true
+#| fig-cap: "Correlación entre dos variables"
+
+x <- rnorm(100)
+y <- 0.7 * x + rnorm(100, sd = 0.5)
+
+cor(x, y)
+```
+
+:::::
+::::: {.col}
+
+```{r}
+#| echo: false
+
+ggplot(data.frame(x, y), aes(x, y)) +
+  geom_point(alpha = 0.6, size = 2, color = "#3366cc") +
+  geom_smooth(method = "lm", se = TRUE,
+              color = "#F66733", fill = "#F66733", alpha = 0.2) +
+  labs(title = "r = 0.70") +
+  theme_minimal()
+```
+
+:::::
+::::
+:::
+
+:::{.content-visible when-meta="es-memoria"}
+
+```{r}
+#| echo: true
+#| fig-cap: "Diagrama de dispersión con recta de regresión"
+
+x <- rnorm(100)
+y <- 0.7 * x + rnorm(100, sd = 0.5)
+cor(x, y)
+
+ggplot(data.frame(x, y), aes(x, y)) +
+  geom_point(alpha = 0.6, size = 2, color = "#3366cc") +
+  geom_smooth(method = "lm", se = TRUE,
+              color = "#F66733", fill = "#F66733", alpha = 0.2) +
+  labs(title = "Correlación entre dos variables simuladas") +
+  theme_minimal()
+```
+
+:::
+
+---
+
+{{< pause >}}
+
+:::{.content-visible when-meta="es-slides"}
+`#text(size: 0.85em)[`{=typst}
+:::
+
+**Interpretación**: Un valor de $r = 0.70$ indica una [correlación positiva fuerte]{.naranja}. Esto significa que cuando una variable aumenta, la otra tiende a aumentar también, aunque existe una dispersión notable en torno a la recta de regresión.
+
+:::{.content-visible when-meta="es-slides"}
+`]`{=typst}
+:::
+
+## Referencias

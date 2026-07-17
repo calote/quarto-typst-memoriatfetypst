@@ -1,0 +1,40 @@
+title: "Prepare Teaching Materials with Quarto: Touying Slides (typst)"
+author: qmd-ptm-ty-slides
+version: "0.3.0"
+quarto-required: ">=1.4.0"
+contributes:
+  shortcodes:
+    - shortcodes.lua
+  formats:
+    typst:
+      toc: false
+      handout: false            # true → modo handout
+      touying-slides-format: true  # marcador interno: detectado por shortcodes.lua: cada slide muestra solo el paso final (colapsa los #pause)
+      section-level: 2          # Nivel mínimo para slides de contenido (los niveles menores → section-slide)
+                               # section-level: 2 → H1=sección, H2–H5=título (defecto)
+                               # section-level: 3 → H1–H2=sección, H3–H5=título
+      slide-numbering: false     # Activa "1.2.3 Título" en cada transparencia
+      toc-slide: false           # Inserta una diapositiva de tabla de contenidos
+      toc-levels: 1              # Niveles de heading incluidos en el TOC (1=solo #, 2=# y ##, ...)
+      toc-font-size: "1em"       # Tamaño de fuente del TOC (p.ej. "0.8em")
+      toc-title: "Contenido"     # Título de la diapositiva TOC
+      toc-columns: 1             # Número de columnas del TOC (1 = una columna, 2 = dos columnas)
+      # header-color:  "#003f72"  # Fondo de la barra de título en cada slide (secondary)
+      # section-color: "#003f72"  # Fondo de las diapositivas de sección H1 (neutral-dark)
+      #                           # Si se omite, toma el valor de header-color
+      # section-color-2: "#7B241C" # Fondo section-slide nivel 2 (solo si section-level >= 3)
+      # section-color-3: "#1A5276" # Fondo section-slide nivel 3 (solo si section-level >= 4)
+      # accent-color:  "#eb811b"  # Barra de progreso y elementos de acento (primary)
+      # font-size: 20pt           # Tamaño de fuente global (p.ej. 18pt, 22pt)
+      code-bg-color: "e8f0fe"    # Fondo código fuente (hex con/sin "#", o "none" para desactivar)
+      output-bg-color: "f0f4e8"  # Fondo salidas/resultados (hex con/sin "#", o "none")
+      # code-text-color: "2b2b2b"  # Color del texto en bloques de código (hex con/sin "#")
+      template-partials:
+        - typst-template.typ
+        - typst-show.typ
+      filters:
+        - typst-classes.lua   # Convierte {.alert}, {.emph}, etc. a funciones Typst 
+        - slides-headings.lua
+      execute:
+        echo: false
+        warning: false

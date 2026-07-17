@@ -50,6 +50,7 @@ Ver la demostración renderizada:
   - [Bibliografía](#bibliografía)
 - [Shortcodes](#shortcodes)
 - [El ejemplo más completo](#el-ejemplo-más-completo)
+- [Doble uso: un contenido, dos formatos](#doble-uso-un-contenido-dos-formatos)
 - [Galería de características](#galería-de-características)
 - [Arquitectura](#arquitectura)
 - [Solución de problemas](#solución-de-problemas)
@@ -744,6 +745,105 @@ open tfe_ejemplo01.pdf
 
 ---
 
+## Doble uso: un contenido, dos formatos (memoria + transparencias)
+
+El directorio [`tests/ejemploconslides/`](tests/ejemploconslides/) demuestra cómo generar **dos documentos distintos a partir de un único fichero de contenido**: un PDF en formato A4 para que el alumno imprima y estudie, y un PDF de transparencias para que el profesor proyecte en clase.
+
+### Motivación
+
+Un docente que prepara un tema para una asignatura necesita dos formatos:
+- **Material para el alumno**: documento continuo, con ecuaciones, figuras, tablas y citas, para imprimir o leer en pantalla.
+- **Transparencias para clase**: el mismo contenido, pero fragmentado en diapositivas, con revelado incremental, texto más grande y diseño adaptado a proyección.
+
+Tradicionalmente esto implica mantener dos documentos paralelos que se desincronizan fácilmente. Este ejemplo resuelve el problema con un solo fichero de contenido y dos "envoltorios" que lo renderizan con distinto formato.
+
+### Estructura
+
+```
+tests/ejemploconslides/
+├── _extensions/
+│   ├── memoriatfetypst/          # extensión para formato A4
+│   └── qmd-ptm-ty-slides/        # extensión para formato transparencias
+├── _contenido.qmd                 # ÚNICO fichero que edita el docente
+├── a_ejemplo.qmd                  # envoltorio → memoria A4
+├── a_ejemplo-slides.qmd           # envoltorio → transparencias
+├── eliminar-separadores.lua       # filtro: elimina --- y pausas en modo A4
+├── fontsize-noop.lua              # filtro: no-op de shortcodes {{< fontsize >}} y {{< pause >}} en A4
+├── color-spans-typst.lua          # filtro: colorea spans .naranja, .rosado, .verde en Typst
+├── logo.png
+└── referencias.bib
+```
+
+### Cómo funciona
+
+1. El docente escribe **solo** `_contenido.qmd` con el contenido del tema.
+2. El fichero `a_ejemplo.qmd` incluye ese contenido mediante `{{< include _contenido.qmd >}}` y usa el formato `memoriatfetypst-typst`.
+3. El fichero `a_ejemplo-slides.qmd` incluye el mismo contenido y usa el formato `qmd-ptm-ty-slides-typst`.
+
+Las marcas de formato condicional en `_contenido.qmd` permiten adaptar la salida a cada formato:
+
+| Marca en `_contenido.qmd` | En A4 | En slides |
+|---|---|---|
+| `---` (línea horizontal) | Eliminada por `eliminar-separadores.lua` | Separa diapositivas |
+| `{{< pause >}}` | No-op por `fontsize-noop.lua` | Revelado incremental (overlay) |
+| `{{< fontsize 0.85em >}}` | No-op por `fontsize-noop.lua` | Reduce tamaño de texto |
+| `:::{.content-visible when-meta="es-memoria"}` | Visible | Oculto |
+| `:::{.content-visible when-meta="es-slides"}` | Oculto | Visible |
+| `{.naranja}`, `{.rosado}`, `{.verde}` | Coloreado por `color-spans-typst.lua` | Coloreado por `color-spans-typst.lua` |
+
+### Contenido del ejemplo
+
+`_contenido.qmd` es un tema genérico de **Análisis de Datos con R** que incluye:
+
+- Ecuaciones en línea y en bloque ($\bar{x}$, $s^2$, $r$ de Pearson).
+- Bloques de código R ejecutables (`summary()`, `sd()`, `IQR()`, `ggplot2`).
+- Figuras generadas con R (boxplot, histograma, scatterplot).
+- Tablas de clasificación de variables.
+- Citas bibliográficas [@Wickham2017; @R-ggplot2; @knuth84].
+- Spans coloreados con clases `{.naranja}` y `{.rosado}`.
+- Dos columnas (`.cols`) en la sección de correlación, visible solo en slides.
+- Saltos de página (`#pagebreak()`) visibles solo en el formato A4.
+
+### Renderizar los PDFs
+
+```bash
+cd tests/ejemploconslides/
+
+# PDF para el alumno (A4, imprimible)
+quarto render a_ejemplo.qmd
+
+# PDF para el profesor (transparencias)
+quarto render a_ejemplo-slides.qmd
+```
+
+Resultados:
+
+- 📄 [a_ejemplo.pdf](tests/ejemploconslides/a_ejemplo.pdf) — 643 KB, 10 páginas A4
+- 📄 [a_ejemplo-slides.pdf](tests/ejemploconslides/a_ejemplo-slides.pdf) — 724 KB, 20 diapositivas 16:9
+
+### Descargar el ejemplo como ZIP
+
+Puedes obtener todos los ficheros del ejemplo de dos maneras:
+
+**Opción 1 — Clonar el repositorio** (recomendada):
+
+```bash
+git clone https://github.com/calote/quarto-typst-memoriatfetypst.git
+cd quarto-typst-memoriatfetypst/tests/ejemploconslides
+```
+
+**Opción 2 — Descargar solo esta carpeta como ZIP**:
+
+[https://download-directory.github.io/?url=https://github.com/calote/quarto-typst-memoriatfetypst/tree/main/tests/ejemploconslides](https://download-directory.github.io/?url=https://github.com/calote/quarto-typst-memoriatfetypst/tree/main/tests/ejemploconslides)
+
+**Opción 3 — Generar el ZIP localmente** (requiere `zip` instalado):
+
+```bash
+bash tests/ejemploconslides/empaquetar-ejemplo.sh
+```
+
+---
+
 ## Galería de características
 
 Cada característica de la plantilla tiene un test de regresión asociado que verifica que se renderiza sin errores. Los PDFs se pueden consultar online; los enlaces apuntan a **raw.githack.com** para que el PDF se abra completo en el navegador (no embebido en la vista previa de GitHub).
@@ -771,6 +871,7 @@ Cada característica de la plantilla tiene un test de regresión asociado que ve
 | Sidebar primera página | Barra lateral solo en la primera página | [`test-sidebar-first-page.qmd`](tests/regresion/test-sidebar-first-page.qmd) | [📄 PDF](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/regresion/test-sidebar-first-page.pdf) |
 | Typst raw block | Bloques de código Typst raw (numeración, fondos) | [`test-typst-raw-block.qmd`](tests/regresion/test-typst-raw-block.qmd) | [📄 PDF](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/regresion/test-typst-raw-block.pdf) |
 | Watermark brand | Marca de agua + marca vertical brand | [`test-watermark-brand.qmd`](tests/regresion/test-watermark-brand.qmd) | [📄 PDF](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/regresion/test-watermark-brand.pdf) |
+| Doble uso A4 + slides | Un contenido, dos formatos: PDF A4 para imprimir y PDF slides para clase | [`_contenido.qmd`](tests/ejemploconslides/_contenido.qmd) | [📄 A4](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/ejemploconslides/a_ejemplo.pdf) · [📄 Slides](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/ejemploconslides/a_ejemplo-slides.pdf) |
 
 Los tests se ejecutan con:
 

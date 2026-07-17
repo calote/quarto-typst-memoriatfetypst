@@ -1,0 +1,5 @@
+.quarto/
+*.html
+*.typ
+*.knit.md
+*_files/

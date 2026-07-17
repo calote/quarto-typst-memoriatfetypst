@@ -51,6 +51,7 @@ See the rendered demo:
   - [Bibliography](#bibliography)
 - [Shortcodes](#shortcodes)
 - [The most complete example](#the-most-complete-example)
+- [Dual use: one source, two formats](#dual-use-one-source-two-formats)
 - [Feature gallery](#feature-gallery)
 - [Architecture](#architecture)
 - [Troubleshooting](#troubleshooting)
@@ -737,6 +738,105 @@ open tfe_ejemplo01.pdf
 
 ---
 
+## Dual use: one source, two formats (print + slides)
+
+The [`tests/ejemploconslides/`](tests/ejemploconslides/) directory demonstrates how to produce **two different documents from a single content file**: an A4 PDF for students to print and study from, and a slides PDF for the lecturer to project in class.
+
+### Motivation
+
+A teacher preparing a topic for a course needs two formats:
+- **Student material**: continuous text with equations, figures, tables, citations — suitable for printing or on-screen reading.
+- **Classroom slides**: the same content broken into slides, with incremental reveals, larger text, and a projection-friendly layout.
+
+Traditionally this means maintaining two separate files that easily drift out of sync. This example solves the problem with a single content file and two thin "wrapper" files that render it with different formats.
+
+### Layout
+
+```
+tests/ejemploconslides/
+├── _extensions/
+│   ├── memoriatfetypst/          # A4 format extension
+│   └── qmd-ptm-ty-slides/        # slides format extension
+├── _contenido.qmd                 # ONE file the teacher edits
+├── a_ejemplo.qmd                  # wrapper → A4 print document
+├── a_ejemplo-slides.qmd           # wrapper → slides presentation
+├── eliminar-separadores.lua       # filter: removes --- and pauses in A4 mode
+├── fontsize-noop.lua              # filter: no-op for {{< fontsize >}} and {{< pause >}} in A4
+├── color-spans-typst.lua          # filter: colours .naranja, .rosado, .verde spans in Typst
+├── logo.png
+└── referencias.bib
+```
+
+### How it works
+
+1. The teacher writes **only** `_contenido.qmd` with the topic content.
+2. `a_ejemplo.qmd` includes that content via `{{< include _contenido.qmd >}}` using the `memoriatfetypst-typst` format.
+3. `a_ejemplo-slides.qmd` includes the same content using the `qmd-ptm-ty-slides-typst` format.
+
+Conditional formatting marks in `_contenido.qmd` adapt the output to each format:
+
+| Mark in `_contenido.qmd` | In A4 (print) | In slides |
+|---|---|---|
+| `---` (horizontal rule) | Removed by `eliminar-separadores.lua` | Breaks into a new slide |
+| `{{< pause >}}` | No-op by `fontsize-noop.lua` | Incremental reveal (overlay) |
+| `{{< fontsize 0.85em >}}` | No-op by `fontsize-noop.lua` | Reduces text size |
+| `:::{.content-visible when-meta="es-memoria"}` | Visible | Hidden |
+| `:::{.content-visible when-meta="es-slides"}` | Hidden | Visible |
+| `{.naranja}`, `{.rosado}`, `{.verde}` | Coloured by `color-spans-typst.lua` | Coloured by `color-spans-typst.lua` |
+
+### Example content
+
+`_contenido.qmd` is a generic topic on **Data Analysis with R** that includes:
+
+- Inline and display equations ($\bar{x}$, $s^2$, Pearson's $r$).
+- Executable R code chunks (`summary()`, `sd()`, `IQR()`, `ggplot2`).
+- R-generated figures (boxplot, histogram, scatterplot).
+- Variable classification tables.
+- Bibliographic citations [@Wickham2017; @R-ggplot2; @knuth84].
+- Coloured spans using `{.naranja}` and `{.rosado}` classes.
+- Two-column layout (`.cols`) in the correlation section, visible only in slides.
+- Page breaks (`#pagebreak()`) visible only in the A4 format.
+
+### Render the PDFs
+
+```bash
+cd tests/ejemploconslides/
+
+# PDF for students (A4, printable)
+quarto render a_ejemplo.qmd
+
+# PDF for the lecturer (slides)
+quarto render a_ejemplo-slides.qmd
+```
+
+Results:
+
+- 📄 [a_ejemplo.pdf](tests/ejemploconslides/a_ejemplo.pdf) — 643 KB, 10 A4 pages
+- 📄 [a_ejemplo-slides.pdf](tests/ejemploconslides/a_ejemplo-slides.pdf) — 724 KB, 20 slides 16:9
+
+### Download the example as ZIP
+
+You can get all the example files in two ways:
+
+**Option 1 — Clone the repository** (recommended):
+
+```bash
+git clone https://github.com/calote/quarto-typst-memoriatfetypst.git
+cd quarto-typst-memoriatfetypst/tests/ejemploconslides
+```
+
+**Option 2 — Download only this folder as ZIP**:
+
+[https://download-directory.github.io/?url=https://github.com/calote/quarto-typst-memoriatfetypst/tree/main/tests/ejemploconslides](https://download-directory.github.io/?url=https://github.com/calote/quarto-typst-memoriatfetypst/tree/main/tests/ejemploconslides)
+
+**Option 3 — Generate the ZIP locally** (requires `zip` installed):
+
+```bash
+bash tests/ejemploconslides/empaquetar-ejemplo.sh
+```
+
+---
+
 ## Feature gallery
 
 Each feature has an associated regression test that verifies it renders without errors. PDFs are hosted on **raw.githack.com** so they open fully in the browser (not embedded in GitHub's preview).
@@ -764,6 +864,7 @@ Each feature has an associated regression test that verifies it renders without 
 | Sidebar first page | Sidebar restricted to first page only | [`test-sidebar-first-page.qmd`](tests/regresion/test-sidebar-first-page.qmd) | [📄 PDF](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/regresion/test-sidebar-first-page.pdf) |
 | Typst raw block | Typst raw code blocks (line numbering, backgrounds) | [`test-typst-raw-block.qmd`](tests/regresion/test-typst-raw-block.qmd) | [📄 PDF](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/regresion/test-typst-raw-block.pdf) |
 | Watermark brand | Watermark text overlay + vertical brand mark | [`test-watermark-brand.qmd`](tests/regresion/test-watermark-brand.qmd) | [📄 PDF](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/regresion/test-watermark-brand.pdf) |
+| Dual use A4 + slides | One source, two formats: A4 PDF for printing + slides PDF for class | [`_contenido.qmd`](tests/ejemploconslides/_contenido.qmd) | [📄 A4](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/ejemploconslides/a_ejemplo.pdf) · [📄 Slides](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/ejemploconslides/a_ejemplo-slides.pdf) |
 
 Run the tests with:
 
