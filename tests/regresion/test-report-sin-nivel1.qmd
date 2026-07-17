@@ -98,15 +98,3 @@ mtcars[1:5, 1:4] |>
 ## Citas
 
 Ejemplo de cita: [@katsushika1831] o @horst2020.
-
-# Segunda sección de nivel 1
-
-Esta sección de nivel 1 tampoco debe mostrar número.
-
-## Subsección 2.1
-
-Contenido de la subsección.
-
-### Subsubsección 2.1.1
-
-Contenido más profundo.
