@@ -438,6 +438,7 @@
   resumen: none,
   palabras-clave: none,
   bibliografia-completa: false, // true or false
+  numerar-secciones-nivel1: "auto", // "auto" | "true" | "false"
   doc,
 ) = {
 
@@ -698,7 +699,35 @@ let is-first-page-of-bibliography() = {
       it
     }
   }
-  set heading(numbering: sectionnumbering)
+  // numerar-secciones-nivel1: controla si el nivel 1 lleva número.
+  // "auto"  → se activa la supresión si nombre-capitulo == "--" (modo report)
+  // "true"  → siempre numera nivel 1 (comportamiento clásico)
+  // "false" → nunca numera nivel 1
+  // NOTA: set/show dentro de un bloque if{} tienen scope local; por eso se usa
+  // la forma condicional inline  `set heading(numbering: if ... { } else { })`
+  // que sí opera al nivel del scope de la función y afecta a todo el documento.
+  let _suprimir-n1 = (
+    (numerar-secciones-nivel1 == "auto" and str(nombre-capitulo) == "--") or
+    numerar-secciones-nivel1 == "false"
+  )
+  set heading(numbering: if _suprimir-n1 { none } else { sectionnumbering })
+  // Para los niveles 2-6, cuando se suprime nivel 1, usar numeración relativa:
+  // los números del nivel 1 se eliminan del prefijo (n.slice(1)).
+  show heading.where(level: 2): set heading(numbering: if _suprimir-n1 {
+    (..nums) => { let n = nums.pos(); n.slice(1).map(str).join(".") + "." }
+  } else { sectionnumbering })
+  show heading.where(level: 3): set heading(numbering: if _suprimir-n1 {
+    (..nums) => { let n = nums.pos(); n.slice(1).map(str).join(".") + "." }
+  } else { sectionnumbering })
+  show heading.where(level: 4): set heading(numbering: if _suprimir-n1 {
+    (..nums) => { let n = nums.pos(); n.slice(1).map(str).join(".") + "." }
+  } else { sectionnumbering })
+  show heading.where(level: 5): set heading(numbering: if _suprimir-n1 {
+    (..nums) => { let n = nums.pos(); n.slice(1).map(str).join(".") + "." }
+  } else { sectionnumbering })
+  show heading.where(level: 6): set heading(numbering: if _suprimir-n1 {
+    (..nums) => { let n = nums.pos(); n.slice(1).map(str).join(".") + "." }
+  } else { sectionnumbering })
   show heading: set text(weight: "semibold")
 
   // heading-highlight — fondo coloreado para secciones nivel 2 hasta max-level

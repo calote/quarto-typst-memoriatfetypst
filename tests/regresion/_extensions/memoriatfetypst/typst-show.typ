@@ -100,6 +100,13 @@ $endif$
 #estilo-cuadro-solucion.update("$mostrar-solucion-cuadro$" == "true")
 #ejercicio-salto-linea.update("$ejercicio-salto-linea$" == "true")
 
+// numerar-secciones-nivel1 — suprime el número de los encabezados de nivel 1.
+// Lógica (Opción A):
+//   · En modo report (nombre-capitulo == "--") se activa por defecto ("auto").
+//   · Se desactiva explícitamente con numerar-secciones-nivel1: true en el YAML.
+//   · Se puede activar en cualquier modo con numerar-secciones-nivel1: false.
+// El valor se pasa como string a article() que contiene la lógica completa.
+
 #show: doc => article(
 $if(title)$
   title: [$title$],
@@ -209,6 +216,9 @@ $if(cabecera-capitulo)$
 $endif$
 $if(nombre-capitulo)$
   nombre-capitulo: "$nombre-capitulo$",
+$endif$
+$if(numerar-secciones-nivel1)$
+  numerar-secciones-nivel1: "$numerar-secciones-nivel1$",
 $endif$
 $if(sidebar-color1)$
   sidebar-first-color: "$sidebar-color1$",

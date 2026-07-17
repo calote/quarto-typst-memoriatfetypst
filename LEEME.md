@@ -506,6 +506,7 @@ Si el argumento se omite o es `none`, utiliza la configuración YAML global. Si 
 |---|---|---|---|
 | `cabecera-capitulo` | string | `estilo01` | Uno de `estilo01`, `estilo02`, `estilo03`, `estilo04` (ver más abajo). |
 | `nombre-capitulo` | string | `CAPÍTULO` | Etiqueta impresa junto al número de capítulo. Usa `--` para modo artículo/informe (sin etiquetas de capítulo, solo títulos). |
+| `numerar-secciones-nivel1` | boolean | *(auto)* | Controla si los encabezados de nivel 1 muestran su número. En modo informe (`nombre-capitulo: "--"`) se suprime automáticamente; usa `true` para restaurar la numeración completa. Fuera del modo informe, la numeración completa es siempre el comportamiento por defecto. |
 | `referencias-nombre` | string | `Referencias` | Texto del encabezado de la sección de bibliografía. |
 | `apendice-portada` | string | `APÉNDICE` | Texto grande en la página divisoria de apéndices. |
 | `apendice-nombre` | string | `APÉNDICE` | Etiqueta impresa junto al número de apéndice. |

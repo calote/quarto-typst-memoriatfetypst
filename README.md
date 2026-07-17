@@ -504,6 +504,7 @@ If argument is omitted or `none`, uses the global YAML setting. If set explicitl
 |---|---|---|---|
 | `cabecera-capitulo` | string | `estilo01` | One of `estilo01`, `estilo02`, `estilo03`, `estilo04` (see below). |
 | `nombre-capitulo` | string | `CAPÍTULO` | Label printed next to the chapter number. Use `--` to switch to article/report mode (no chapter labels, titles only). |
+| `numerar-secciones-nivel1` | boolean | *(auto)* | Controls whether level-1 headings show their number. In report mode (`nombre-capitulo: "--"`) it is suppressed automatically; set to `true` to restore full numbering. Outside report mode, full numbering is always the default. |
 | `referencias-nombre` | string | `Referencias` | Heading text of the bibliography section. |
 | `apendice-portada` | string | `APÉNDICE` | Large text on the appendix divider page. |
 | `apendice-nombre` | string | `APÉNDICE` | Label printed next to the appendix number. |

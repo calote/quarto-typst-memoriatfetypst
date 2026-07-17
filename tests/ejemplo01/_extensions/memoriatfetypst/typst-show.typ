@@ -79,6 +79,34 @@ $endif$
 #show ref: set text(fill: _internal-col, weight: "bold")
 #show cite: set text(fill: _cite-col, weight: "bold")
 
+// Puente YAML -> Typst para el estilo cuadro/plano de ejercicio y solución.
+// examtypst-functions.typ (incluido vía include-in-header) NO se procesa con
+// variables Pandoc, así que el valor se traslada aquí -donde sí hay
+// sustitución $var$- y se guarda en un state() que la función sí puede leer
+// en tiempo de renderizado. Por defecto true (cuadro con color, como hasta
+// ahora) para no romper documentos existentes.
+// NOTA: NO usamos $$if(var)$$ porque Pandoc trata `false` como falsy y lo
+// omite, impidiendo distinguir "variable=false" de "no definida". En su
+// lugar leemos directamente el valor y comprobamos si es la cadena "false".
+// Las variables tienen valor por defecto en _extension.yml, asi que
+// siempre existen y podemos referenciarlas directamente con $$var$$.
+// Comparamos con "true" para obtener un booleano Typst.
+// Definimos los estados aquí (además de en examtypst-functions.typ) para que
+// los documentos sin funciones de examen no fallen al referenciarlos.
+#let estilo-cuadro-ejercicio = state("estilo-cuadro-ejercicio", true)
+#let estilo-cuadro-solucion = state("estilo-cuadro-solucion", true)
+#let ejercicio-salto-linea = state("ejercicio-salto-linea", true)
+#estilo-cuadro-ejercicio.update("$mostrar-ejercicio-cuadro$" == "true")
+#estilo-cuadro-solucion.update("$mostrar-solucion-cuadro$" == "true")
+#ejercicio-salto-linea.update("$ejercicio-salto-linea$" == "true")
+
+// numerar-secciones-nivel1 — suprime el número de los encabezados de nivel 1.
+// Lógica (Opción A):
+//   · En modo report (nombre-capitulo == "--") se activa por defecto ("auto").
+//   · Se desactiva explícitamente con numerar-secciones-nivel1: true en el YAML.
+//   · Se puede activar en cualquier modo con numerar-secciones-nivel1: false.
+// El valor se pasa como string a article() que contiene la lógica completa.
+
 #show: doc => article(
 $if(title)$
   title: [$title$],
@@ -188,6 +216,9 @@ $if(cabecera-capitulo)$
 $endif$
 $if(nombre-capitulo)$
   nombre-capitulo: "$nombre-capitulo$",
+$endif$
+$if(numerar-secciones-nivel1)$
+  numerar-secciones-nivel1: "$numerar-secciones-nivel1$",
 $endif$
 $if(sidebar-color1)$
   sidebar-first-color: "$sidebar-color1$",

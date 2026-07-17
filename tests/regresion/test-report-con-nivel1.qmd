@@ -1,0 +1,113 @@
+---
+title: "Test — Modo informe CON numeración en nivel 1 (numerar-secciones-nivel1: true)"
+author: "Test Suite"
+lang: es
+date: today
+date-format: full
+bibliography: referencias.bib
+format:
+  memoriatfetypst-typst:
+    portada: false
+    toc: false
+    tofiguras: false
+    totablas: false
+    papersize: a4
+    cabecera-capitulo: "estilo03"
+    nombre-capitulo: "--"
+    numerar-secciones-nivel1: true
+    referencias-nombre: "Referencias"
+    link-color: "#2563eb"
+    internal-link-color: "059669"
+    cite-color: "#7c3aed"
+    toccapitulos: true
+    bibliografia-completa: false
+    heading-style: true
+    highlight-style: idiomatic
+  html:
+    toc: true
+    number-sections: true
+    embed-resources: true
+execute:
+  echo: true
+  warning: false
+  error: false
+  message: false
+---
+
+# Introducción
+
+En modo informe con `numerar-secciones-nivel1: true` los encabezados de
+**todos** los niveles muestran su número completo (1, 1.1, 1.1.1, …), igual
+que en el modo libro/TFE por defecto. El parámetro sobreescribe el
+comportamiento automático.
+
+## Matemáticas
+
+Ecuación inline: $E = mc^2$.
+
+Ecuación display:
+
+$$
+\int_{-\infty}^{\infty} e^{-x^2}\,dx = \sqrt{\pi}
+$$ {#eq-normal}
+
+## Código en R
+
+```{r}
+#| label: fig-hist
+#| fig-cap: "**Histograma**. Generado con R."
+#| echo: true
+
+hist(mtcars$mpg, main = NA, xlab = "mpg")
+```
+
+## Bloques matemáticos
+
+::: {#def-variable-aleatoria}
+##### Variable aleatoria
+
+Una variable aleatoria es una función que asigna un valor numérico a cada
+resultado en el espacio muestral.
+:::
+
+::: {#thm-ley-grandes-numeros}
+##### Ley de los grandes números
+
+Sea $X_1, X_2, \ldots, X_n$ una secuencia de variables aleatorias i.i.d. con
+media $\mu$ y varianza finita $\sigma^2$. Entonces, para cualquier $\epsilon > 0$,
+$$
+\lim_{n \to \infty} P\left( \left| \frac{1}{n} \sum_{i=1}^{n} X_i - \mu \right|
+< \epsilon \right) = 1.
+$$
+:::
+
+La @def-variable-aleatoria y el @thm-ley-grandes-numeros son referenciables.
+
+## Tablas
+
+```{r}
+#| label: tbl-mtcars
+#| tbl-cap: "**Primeras filas de mtcars**. Tabla generada con R y tinytable."
+#| echo: true
+
+library(tinytable)
+mtcars[1:5, 1:4] |>
+  tinytable::tt()
+```
+
+## Citas
+
+Ejemplo de cita: [@katsushika1831] o @horst2020.
+
+# Segunda sección de nivel 1
+
+Esta sección de nivel 1 **sí debe mostrar número** (2, porque se activa
+`numerar-secciones-nivel1: true`).
+
+## Subsección 2.1
+
+Contenido de la subsección.
+
+### Subsubsección 2.1.1
+
+Contenido más profundo.
