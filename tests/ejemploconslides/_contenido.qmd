@@ -198,7 +198,7 @@ cor(x_sl, y_sl)
 ::::{.col}
 ```{r}
 #| echo: false
-#| out.width: "55%"
+#| out.width: "80%"
 ggplot(data.frame(x_sl, y_sl), aes(x_sl, y_sl)) +
   geom_point(alpha = 0.6, size = 2, color = "#3366cc") +
   geom_smooth(method = "lm", se = TRUE,
