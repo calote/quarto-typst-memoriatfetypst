@@ -7,6 +7,7 @@
 El análisis de datos es el proceso de **inspeccionar**, **limpiar** y **modelar** datos con el objetivo de descubrir información útil y apoyar la toma de decisiones [@Wickham2017].
 
 Entre sus etapas fundamentales destacan:
+
 - **Recolección**: obtención de datos de fuentes primarias o secundarias.
 - **Depuración**: tratamiento de valores faltantes y datos inconsistentes.
 - **Exploración**: análisis descriptivo y visualización.
@@ -116,9 +117,6 @@ sd(datos$valor)    # desviación típica
 IQR(datos$valor)   # rango intercuartílico
 ```
 
-:::{.content-visible when-meta="es-memoria"}
-`#pagebreak()`{=typst}
-:::
 
 ### Visualización Gráfica
 
@@ -138,7 +136,7 @@ ggplot(datos, aes(x = valor)) +
   theme_minimal()
 ```
 
-:::{.content-visible when-meta="es-memoria"}
+:::{.content-visible when-meta="es-memoria22"}
 `#pagebreak()`{=typst}
 :::
 
@@ -155,48 +153,59 @@ r = \frac{\sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})}
 $$
 
 Sus valores oscilan entre $-1$ y $+1$:
+
 - $r = +1$: correlación positiva perfecta.
 - $r = -1$: correlación negativa perfecta.
 - $r \approx 0$: ausencia de relación lineal.
 
-:::{.content-visible when-meta="es-slides"}
-:::: {.cols}
-::::: {.col}
+---
 
-```{r}
-#| echo: true
-#| fig-cap: "Correlación entre dos variables"
+:::::{.content-visible when-meta="es-slides"}
+:::: {layout-ncol=2}
 
+::: {#first-column}
+**Correlación entre dos variables**
+```r
 x <- rnorm(100)
 y <- 0.7 * x + rnorm(100, sd = 0.5)
-
+cor(x, y)
+```
+```{r}
+#| echo: false
+x <- rnorm(100)
+y <- 0.7 * x + rnorm(100, sd = 0.5)
 cor(x, y)
 ```
 
-:::::
-::::: {.col}
 
+:::
+
+::: {#second-column}
 ```{r}
 #| echo: false
-
+#| out.width: "65%"
 ggplot(data.frame(x, y), aes(x, y)) +
   geom_point(alpha = 0.6, size = 2, color = "#3366cc") +
   geom_smooth(method = "lm", se = TRUE,
               color = "#F66733", fill = "#F66733", alpha = 0.2) +
-  labs(title = "r = 0.70") +
+  labs(title = "r = 0.82") +
   theme_minimal()
 ```
+:::
+
+::::
+
+{{< pause >}}
 
 :::::
-::::
-:::
+
 
 :::{.content-visible when-meta="es-memoria"}
 
 ```{r}
 #| echo: true
 #| fig-cap: "Diagrama de dispersión con recta de regresión"
-
+#| out.width: "65%"
 x <- rnorm(100)
 y <- 0.7 * x + rnorm(100, sd = 0.5)
 cor(x, y)
@@ -211,9 +220,6 @@ ggplot(data.frame(x, y), aes(x, y)) +
 
 :::
 
----
-
-{{< pause >}}
 
 :::{.content-visible when-meta="es-slides"}
 `#text(size: 0.85em)[`{=typst}
@@ -224,5 +230,3 @@ ggplot(data.frame(x, y), aes(x, y)) +
 :::{.content-visible when-meta="es-slides"}
 `]`{=typst}
 :::
-
-
