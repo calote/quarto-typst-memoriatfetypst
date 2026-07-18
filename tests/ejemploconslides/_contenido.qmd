@@ -140,6 +140,14 @@ ggplot(datos, aes(x = valor)) +
 `#pagebreak()`{=typst}
 :::
 
+```{r}
+#| include: false
+set.seed(42)
+x_cor <- rnorm(100)
+y_cor <- 0.7 * x_cor + rnorm(100, sd = 0.5)
+r_val <- cor(x_cor, y_cor)
+```
+
 ## 3. Correlación
 
 ### Coeficiente de Correlación Lineal
@@ -165,16 +173,12 @@ Sus valores oscilan entre $-1$ y $+1$:
 
 ::: {#first-column}
 **Correlación entre dos variables**
-```r
-x <- rnorm(100)
-y <- 0.7 * x + rnorm(100, sd = 0.5)
-cor(x, y)
-```
 ```{r}
-#| echo: false
-x <- rnorm(100)
-y <- 0.7 * x + rnorm(100, sd = 0.5)
-cor(x, y)
+#| echo: true
+set.seed(42)
+x_sl <- rnorm(100)
+y_sl <- 0.7 * x_sl + rnorm(100, sd = 0.5)
+cor(x_sl, y_sl)
 ```
 
 
@@ -184,11 +188,11 @@ cor(x, y)
 ```{r}
 #| echo: false
 #| out.width: "65%"
-ggplot(data.frame(x, y), aes(x, y)) +
+ggplot(data.frame(x_sl, y_sl), aes(x_sl, y_sl)) +
   geom_point(alpha = 0.6, size = 2, color = "#3366cc") +
   geom_smooth(method = "lm", se = TRUE,
               color = "#F66733", fill = "#F66733", alpha = 0.2) +
-  labs(title = "r = 0.82") +
+  labs(title = paste("r =", round(cor(x_sl, y_sl), 2))) +
   theme_minimal()
 ```
 :::
@@ -206,15 +210,16 @@ ggplot(data.frame(x, y), aes(x, y)) +
 #| echo: true
 #| fig-cap: "Diagrama de dispersión con recta de regresión"
 #| out.width: "65%"
-x <- rnorm(100)
-y <- 0.7 * x + rnorm(100, sd = 0.5)
-cor(x, y)
+set.seed(42)
+x_mem <- rnorm(100)
+y_mem <- 0.7 * x_mem + rnorm(100, sd = 0.5)
+cor(x_mem, y_mem)
 
-ggplot(data.frame(x, y), aes(x, y)) +
+ggplot(data.frame(x_mem, y_mem), aes(x_mem, y_mem)) +
   geom_point(alpha = 0.6, size = 2, color = "#3366cc") +
   geom_smooth(method = "lm", se = TRUE,
               color = "#F66733", fill = "#F66733", alpha = 0.2) +
-  labs(title = "Correlación entre dos variables simuladas") +
+  labs(title = paste("r =", round(cor(x_mem, y_mem), 2))) +
   theme_minimal()
 ```
 
@@ -225,7 +230,7 @@ ggplot(data.frame(x, y), aes(x, y)) +
 `#text(size: 0.85em)[`{=typst}
 :::
 
-**Interpretación**: Un valor de $r = 0.70$ indica una [correlación positiva fuerte]{.naranja}. Esto significa que cuando una variable aumenta, la otra tiende a aumentar también, aunque existe una dispersión notable en torno a la recta de regresión.
+**Interpretación**: Un valor de $r = `r round(r_val, 2)`$ indica una [correlación positiva fuerte]{.naranja}. Esto significa que cuando una variable aumenta, la otra tiende a aumentar también, aunque existe una dispersión notable en torno a la recta de regresión.
 
 :::{.content-visible when-meta="es-slides"}
 `]`{=typst}

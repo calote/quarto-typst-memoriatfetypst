@@ -745,7 +745,7 @@ open tfe_ejemplo01.pdf
 
 ---
 
-## Doble uso: un contenido, dos formatos (memoria + transparencias)
+## Doble uso: un contenido, dos formatos
 
 El directorio [`tests/ejemploconslides/`](tests/ejemploconslides/) demuestra cómo generar **dos documentos distintos a partir de un único fichero de contenido**: un PDF en formato A4 para que el alumno imprima y estudie, y un PDF de transparencias para que el profesor proyecte en clase.
 
@@ -818,6 +818,7 @@ format:
       es-memoria: false
       es-slides: true
       subtitle: "Asignatura: Estadística Aplicada"
+    keep-typ: true
     aspect-ratio: "16-9"
     font-size: "18pt"
     section-level: 3
@@ -827,7 +828,7 @@ format:
   html:
     output-file: a_ejemplo-unificado
     metadata:
-      es-memoria: false
+      es-memoria: true
       es-slides: false
     toc: true
     embed-resources: true
@@ -849,7 +850,7 @@ quarto render a_ejemplo-unificado.qmd --to qmd-ptm-ty-slides-typst
 quarto render a_ejemplo-unificado.qmd --to html
 ```
 
-> **Nota:** Un solo `quarto render a_ejemplo-unificado.qmd` (multi‑formato) **no** funciona correctamente: Pandoc procesa todos los formatos compartiendo un único fichero `.typ` intermedio, por lo que la última pasada lo sobrescribe y corrompe los formatos anteriores. Usa `--to` por formato.
+> **Nota:** Un solo `quarto render a_ejemplo-unificado.qmd` (multi‑formato) antes no funcionaba correctamente porque todos los formatos Typst compartían un único `.typ` intermedio. Tras la corrección con `keep-typ: true` en el formato slides, ahora funciona bien. No obstante, sigue siendo recomendable renderizar por separado con `--to` por seguridad y claridad.
 
 Resultados:
 - 📄 [a_ejemplo-unificado-a4.pdf](tests/ejemploconslides/a_ejemplo-unificado-a4.pdf) — 641 KB, 8 páginas A4
@@ -880,7 +881,7 @@ Tanto el envoltorio dedicado (`a_ejemplo-slides.qmd`) como el unificado (`a_ejem
 - Tablas de clasificación de variables.
 - Citas bibliográficas [@Wickham2017; @R-ggplot2; @knuth84].
 - Spans coloreados con clases `{.naranja}` y `{.rosado}`.
-- Dos columnas (`.cols`) en la sección de correlación, visible solo en slides.
+- Dos columnas (`layout-ncol=2`) en la sección de correlación, visible solo en slides.
 - Saltos de página (`#pagebreak()`) visibles solo en el formato A4.
 
 ### Renderizar los PDFs

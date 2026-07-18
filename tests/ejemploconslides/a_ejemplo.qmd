@@ -32,7 +32,7 @@ format:
       - eliminar-separadores.lua
   html:
     metadata:
-      es-memoria: false
+      es-memoria: true
       es-slides: false
     toc: true
     embed-resources: true

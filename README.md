@@ -738,7 +738,7 @@ open tfe_ejemplo01.pdf
 
 ---
 
-## Dual use: one source, two formats (print + slides)
+## Dual use: one source, two formats
 
 The [`tests/ejemploconslides/`](tests/ejemploconslides/) directory demonstrates how to produce **two different documents from a single content file**: an A4 PDF for students to print and study from, and a slides PDF for the lecturer to project in class.
 
@@ -811,6 +811,7 @@ format:
       es-memoria: false
       es-slides: true
       subtitle: "Asignatura: Estadística Aplicada"
+    keep-typ: true
     aspect-ratio: "16-9"
     font-size: "18pt"
     section-level: 3
@@ -820,7 +821,7 @@ format:
   html:
     output-file: a_ejemplo-unificado
     metadata:
-      es-memoria: false
+      es-memoria: true
       es-slides: false
     toc: true
     embed-resources: true
@@ -842,7 +843,7 @@ quarto render a_ejemplo-unificado.qmd --to qmd-ptm-ty-slides-typst
 quarto render a_ejemplo-unificado.qmd --to html
 ```
 
-> **Note:** A single `quarto render a_ejemplo-unificado.qmd` (multi‑format) does **not** work reliably: Pandoc processes all formats sharing a single intermediate `.typ` file, so the last Pandoc pass overwrites it and corrupts earlier formats. Use the `--to` flag per format instead.
+> **Note:** A single `quarto render a_ejemplo-unificado.qmd` (multi‑format) previously did not work reliably because all Typst formats shared a single intermediate `.typ` file. Since the fix with `keep-typ: true` in the slides format, it now works. Rendering each format separately with `--to` is still recommended for safety and clarity.
 
 Results:
 - 📄 [a_ejemplo-unificado-a4.pdf](tests/ejemploconslides/a_ejemplo-unificado-a4.pdf) — 641 KB, 8 A4 pages
@@ -873,7 +874,7 @@ Both dedicated (`a_ejemplo-slides.qmd`) and unified (`a_ejemplo-unificado.qmd`) 
 - Variable classification tables.
 - Bibliographic citations [@Wickham2017; @R-ggplot2; @knuth84].
 - Coloured spans using `{.naranja}` and `{.rosado}` classes.
-- Two-column layout (`.cols`) in the correlation section, visible only in slides.
+- Two-column layout (`layout-ncol=2`) in the correlation section, visible only in slides.
 - Page breaks (`#pagebreak()`) visible only in the A4 format.
 
 ### Render the PDFs

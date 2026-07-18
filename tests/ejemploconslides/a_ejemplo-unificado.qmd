@@ -45,6 +45,7 @@ format:
 
   qmd-ptm-ty-slides-typst:
     output-file: a_ejemplo-unificado-slides
+    keep-typ: true
     metadata:
       formato-typst-trans: true
       es-memoria: false
@@ -76,7 +77,7 @@ format:
   html:
     output-file: a_ejemplo-unificado
     metadata:
-      es-memoria: false
+      es-memoria: true
       es-slides: false
     toc: true
     embed-resources: true
