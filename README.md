@@ -760,6 +760,7 @@ tests/ejemploconslides/
 ├── _contenido.qmd                 # ONE file the teacher edits
 ├── a_ejemplo.qmd                  # wrapper → A4 print document
 ├── a_ejemplo-slides.qmd           # wrapper → slides presentation
+├── a_ejemplo-unificado.qmd        # wrapper → all three formats at once
 ├── eliminar-separadores.lua       # filter: removes --- and pauses in A4 mode
 ├── fontsize-noop.lua              # filter: no-op for {{< fontsize >}} and {{< pause >}} in A4
 ├── color-spans-typst.lua          # filter: colours .naranja, .rosado, .verde spans in Typst
@@ -784,6 +785,84 @@ Conditional formatting marks in `_contenido.qmd` adapt the output to each format
 | `:::{.content-visible when-meta="es-slides"}` | Hidden | Visible |
 | `{.naranja}`, `{.rosado}`, `{.verde}` | Coloured by `color-spans-typst.lua` | Coloured by `color-spans-typst.lua` |
 
+### Unified file: one source, three formats
+
+Besides the two dedicated wrappers, `a_ejemplo-unificado.qmd` bundles **all three formats** (A4, slides, HTML) in a single file. The YAML header declares each format under `format:` with its own `output-file` and `metadata` flags (render each with `--to`, see below):
+
+```yaml
+format:
+  memoriatfetypst-typst:
+    output-file: a_ejemplo-unificado-a4
+    metadata:
+      es-memoria: true
+      es-slides: false
+    portada: false
+    centrar-matematicas: true
+    cabecera-capitulo: "estilo03"
+    nombre-capitulo: "--"
+    papersize: a4
+    margin: {x: 1.5cm, y: 1.5cm}
+    filters:
+      - fontsize-noop.lua
+      - eliminar-separadores.lua
+  qmd-ptm-ty-slides-typst:
+    output-file: a_ejemplo-unificado-slides
+    metadata:
+      es-memoria: false
+      es-slides: true
+      subtitle: "Asignatura: Estadística Aplicada"
+    aspect-ratio: "16-9"
+    font-size: "18pt"
+    section-level: 3
+    header-color: "#003f72"
+    toc-slide: true
+    slide-numbering: true
+  html:
+    output-file: a_ejemplo-unificado
+    metadata:
+      es-memoria: false
+      es-slides: false
+    toc: true
+    embed-resources: true
+```
+
+Key points:
+- Each format sets `metadata` flags (`es-memoria`/`es-slides`) that drive the `{.content-visible when-meta=}` blocks in `_contenido.qmd`.
+- The `fontsize-noop.lua` and `eliminar-separadores.lua` filters are only applied under `memoriatfetypst-typst` (A4 mode).
+- Shared settings (`bibliography`, top-level `filters`) live at the root.
+- The HTML format provides an accessible web version with embedded resources.
+
+Render each format separately with `--to`:
+
+```bash
+cd tests/ejemploconslides/
+
+quarto render a_ejemplo-unificado.qmd --to memoriatfetypst-typst
+quarto render a_ejemplo-unificado.qmd --to qmd-ptm-ty-slides-typst
+quarto render a_ejemplo-unificado.qmd --to html
+```
+
+> **Note:** A single `quarto render a_ejemplo-unificado.qmd` (multi‑format) does **not** work reliably: Pandoc processes all formats sharing a single intermediate `.typ` file, so the last Pandoc pass overwrites it and corrupts earlier formats. Use the `--to` flag per format instead.
+
+Results:
+- 📄 [a_ejemplo-unificado-a4.pdf](tests/ejemploconslides/a_ejemplo-unificado-a4.pdf) — 641 KB, 8 A4 pages
+- 📄 [a_ejemplo-unificado-slides.pdf](tests/ejemploconslides/a_ejemplo-unificado-slides.pdf) — 721 KB, 21 slides 16:9
+- 🌐 [a_ejemplo-unificado.html](tests/ejemploconslides/a_ejemplo-unificado.html) — 1.4 MB
+
+### Bibliography title in slides
+
+The slides format uses Typst's native `bibliography()` function, whose default title is language‑sensitive (`"Bibliografía"` for Spanish). To override it to `"Referencias"` (matching the A4 format), inject a `{=typst}` raw block at the top of the wrapper `.qmd`:
+
+```markdown
+```{=typst}
+#set bibliography(title: "Referencias")
+```
+```
+
+This `set` rule enters scope before `#bibliography()` (placed at the end of the body by Quarto), so the bibliography section reads `"Referencias"` instead of `"Bibliografía"`.
+
+Both dedicated (`a_ejemplo-slides.qmd`) and unified (`a_ejemplo-unificado.qmd`) wrappers include this block.
+
 ### Example content
 
 `_contenido.qmd` is a generic topic on **Data Analysis with R** that includes:
@@ -807,12 +886,23 @@ quarto render a_ejemplo.qmd
 
 # PDF for the lecturer (slides)
 quarto render a_ejemplo-slides.qmd
+
+# Unified wrapper: render each format separately
+quarto render a_ejemplo-unificado.qmd --to memoriatfetypst-typst
+quarto render a_ejemplo-unificado.qmd --to qmd-ptm-ty-slides-typst
+quarto render a_ejemplo-unificado.qmd --to html
 ```
 
-Results:
+Results (separate wrappers):
 
-- 📄 [a_ejemplo.pdf](tests/ejemploconslides/a_ejemplo.pdf) — 643 KB, 10 A4 pages
-- 📄 [a_ejemplo-slides.pdf](tests/ejemploconslides/a_ejemplo-slides.pdf) — 724 KB, 20 slides 16:9
+- 📄 [a_ejemplo.pdf](tests/ejemploconslides/a_ejemplo.pdf) — 641 KB, 8 A4 pages
+- 📄 [a_ejemplo-slides.pdf](tests/ejemploconslides/a_ejemplo-slides.pdf) — 721 KB, 21 slides 16:9
+
+Results (unified wrapper):
+
+- 📄 [a_ejemplo-unificado-a4.pdf](tests/ejemploconslides/a_ejemplo-unificado-a4.pdf) — 641 KB, 8 A4 pages
+- 📄 [a_ejemplo-unificado-slides.pdf](tests/ejemploconslides/a_ejemplo-unificado-slides.pdf) — 721 KB, 21 slides 16:9
+- 🌐 [a_ejemplo-unificado.html](tests/ejemploconslides/a_ejemplo-unificado.html) — 1.4 MB
 
 ### Download the example as ZIP
 
@@ -864,7 +954,7 @@ Each feature has an associated regression test that verifies it renders without 
 | Sidebar first page | Sidebar restricted to first page only | [`test-sidebar-first-page.qmd`](tests/regresion/test-sidebar-first-page.qmd) | [📄 PDF](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/regresion/test-sidebar-first-page.pdf) |
 | Typst raw block | Typst raw code blocks (line numbering, backgrounds) | [`test-typst-raw-block.qmd`](tests/regresion/test-typst-raw-block.qmd) | [📄 PDF](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/regresion/test-typst-raw-block.pdf) |
 | Watermark brand | Watermark text overlay + vertical brand mark | [`test-watermark-brand.qmd`](tests/regresion/test-watermark-brand.qmd) | [📄 PDF](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/regresion/test-watermark-brand.pdf) |
-| Dual use A4 + slides | One source, two formats: A4 PDF for printing + slides PDF for class | [`_contenido.qmd`](tests/ejemploconslides/_contenido.qmd) | [📄 A4](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/ejemploconslides/a_ejemplo.pdf) · [📄 Slides](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/ejemploconslides/a_ejemplo-slides.pdf) |
+| Dual use A4 + slides + HTML | One source, three formats: A4 PDF, slides PDF, HTML — with a unified wrapper | [`a_ejemplo-unificado.qmd`](tests/ejemploconslides/a_ejemplo-unificado.qmd) | [📄 A4](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/ejemploconslides/a_ejemplo-unificado-a4.pdf) · [📄 Slides](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/ejemploconslides/a_ejemplo-unificado-slides.pdf) · [🌐 HTML](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/ejemploconslides/a_ejemplo-unificado.html) |
 
 Run the tests with:
 

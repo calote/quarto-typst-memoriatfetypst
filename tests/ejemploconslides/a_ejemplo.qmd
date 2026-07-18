@@ -4,11 +4,12 @@ author: "Prof. Pedro L. Luque"
 lang: es
 date: today
 date-format: full
-formato-typst-a4: true
-es-memoria: true
-es-slides: false
 format:
   memoriatfetypst-typst:
+    metadata:
+      formato-typst-a4: true
+      es-memoria: true
+      es-slides: false
     portada: false
     centrar-matematicas: true
     toc: false
@@ -30,6 +31,9 @@ format:
       - fontsize-noop.lua
       - eliminar-separadores.lua
   html:
+    metadata:
+      es-memoria: false
+      es-slides: false
     toc: true
     embed-resources: true
 knitr:

@@ -5,11 +5,12 @@ subtitle: "Asignatura: Estadística Aplicada"
 date: "2026-07-17"
 institute: "Universidad de Sevilla"
 lang: es
-formato-typst-trans: true
-es-memoria: false
-es-slides: true
 format:
   qmd-ptm-ty-slides-typst:
+    metadata:
+      formato-typst-trans: true
+      es-memoria: false
+      es-slides: true
     aspect-ratio: "16-9"
     font-size: "18pt"
     section-level: 3
@@ -38,5 +39,9 @@ filters:
   - color-spans-typst.lua
 bibliography: referencias.bib
 ---
+
+```{=typst}
+#set bibliography(title: "Referencias")
+```
 
 {{< include _contenido.qmd >}}

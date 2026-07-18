@@ -225,4 +225,4 @@ ggplot(data.frame(x, y), aes(x, y)) +
 `]`{=typst}
 :::
 
-## Referencias
+

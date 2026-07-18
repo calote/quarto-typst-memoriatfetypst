@@ -27,7 +27,6 @@ format:
     margin:
       x: 1.5cm
       y: 1.5cm
-    keep-typ: true
     fig-format: png
     include-in-header:
       text: |
@@ -62,7 +61,6 @@ format:
     accent-color: "#c0392b"
     code-bg-color: "#dce8ff"
     output-bg-color: none
-    keep-typ: true
     slide-numbering: true
     toc-slide: true
     toc-levels: 3
@@ -87,6 +85,7 @@ format:
 ```{=typst}
 #show link: set text(fill: orange)
 #show ref: set text(fill: rgb("#cc0066"))
+#set bibliography(title: "Referencias")
 ```
 
 {{< include _contenido.qmd >}}
