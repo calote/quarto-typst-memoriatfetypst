@@ -8,12 +8,16 @@ contributes:
   formats:
     typst:
       toc: false
-      handout: false            # true → modo handout
+      # handout-mode: false       # true → modo handout (se omite del default; false lo maneja el filtro Lua)
+      center-equations: true    # true → centra $$...$$ corrigiendo sangría de listas (default activo)
       touying-slides-format: true  # marcador interno: detectado por shortcodes.lua: cada slide muestra solo el paso final (colapsa los #pause)
       section-level: 2          # Nivel mínimo para slides de contenido (los niveles menores → section-slide)
                                # section-level: 2 → H1=sección, H2–H5=título (defecto)
                                # section-level: 3 → H1–H2=sección, H3–H5=título
       slide-numbering: false     # Activa "1.2.3 Título" en cada transparencia
+      # slide-numbering-min-level: 1   # Nivel mínimo de heading que muestra numeración.
+                                # 2 → los H1 no muestran número y los niveles inferiores
+                                # se numeran sin el primer componente ("1.2.3" → "2.3")
       toc-slide: false           # Inserta una diapositiva de tabla de contenidos
       toc-levels: 1              # Niveles de heading incluidos en el TOC (1=solo #, 2=# y ##, ...)
       toc-font-size: "1em"       # Tamaño de fuente del TOC (p.ej. "0.8em")
@@ -35,6 +39,7 @@ contributes:
       filters:
         - typst-classes.lua   # Convierte {.alert}, {.emph}, etc. a funciones Typst 
         - slides-headings.lua
+        - boxed-filter.lua
       execute:
         echo: false
         warning: false

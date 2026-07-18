@@ -68,12 +68,12 @@ format:
     toc-font-size: "1em"
     toc-title: "Índice"
     fig-format: png
+    slide-numbering-min-level: 2   # H1 sin número; niveles inferiores sin el "1." inicial
     knitr:
       opts_chunk:
         fig.width: 12
         fig.height: 10
         dpi: 300
-
   html:
     output-file: a_ejemplo-unificado
     metadata:

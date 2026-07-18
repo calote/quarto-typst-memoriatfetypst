@@ -322,9 +322,62 @@ local function process_cols(block)
   return result
 end
 
+-- ── Búsqueda recursiva de .cols ───────────────────────────────────────────────
+--
+-- Los filtros internos de Quarto (content-meta, shortcodes, ...) se ejecutan
+-- ANTES que este filtro y, al resolver divs como .content-visible, dejan
+-- "cáscaras" de divs inertes (sin clases, id ni atributos) envolviendo el
+-- contenido. Un .cols que en el .qmd va dentro de uno de esos divs llega aquí
+-- enterrado varios niveles y process_cols() no lo vería en el nivel superior
+-- (las columnas quedarían apiladas en vertical en la diapositiva).
+--
+-- process_cols_deep() desciende por el árbol:
+--   - .cols                     → se convierte en #grid (vía process_cols)
+--   - ConditionalBlock          → Quarto vacía el contenido oculto antes de
+--                                 que corran los filtros de usuario; empaljar
+--                                 los hijos equivale exactamente a lo que hará
+--                                 su render() después → seguro y necesario para
+--                                 que .cols anidados dentro de .content-visible
+--                                 lleguen a process_cols
+--   - div inerte (sin clases/id/atributos) → se desenvuelve igualmente
+--   - cualquier otro div        → se devuelve intacto (no se tocan los divs con
+--                                 significado para Quarto: .cell, callouts, ...)
+local function process_cols_deep(block)
+  if block.t == "Div" then
+    if block.classes:includes("cols") then
+      return process_cols(block)
+    end
+    local no_id = (block.identifier == nil or block.identifier == "")
+    local ctype = block.attributes and block.attributes["__quarto_custom_type"]
+    local is_conditional = (ctype == "ConditionalBlock")
+    -- Consideramos "transparente" un div que no tiene clases propias y no es
+    -- un nodo custom de Quarto con semántica especial (callout, float, etc.).
+    -- Los ConditionalBlock (content-visible/hidden) son seguros de desenvolver
+    -- porque Quarto ya vació el contenido oculto antes de este filtro.
+    -- El node.node interno (div sin clases pero con attrs __quarto_custom*)
+    -- que actúa de contenedor del slot también se desenvuelve: su contenido
+    -- es el que nos importa (puede contener .cols).
+    local is_special = (ctype ~= nil and not is_conditional)
+    if #block.classes == 0 and no_id and not is_special then
+      local result = pandoc.List()
+      for _, child in ipairs(block.content) do
+        for _, pb in ipairs(process_cols_deep(child)) do
+          result:insert(pb)
+        end
+      end
+      return result
+    end
+  end
+  return pandoc.List { block }
+end
+
 -- ── Contador jerárquico ───────────────────────────────────────────────────────
 
 local counters = {0, 0, 0, 0, 0}
+
+-- Nivel mínimo de heading que muestra numeración (se ajusta en Pandoc() con
+-- el meta 'slide-numbering-min-level'). 1 = todos los niveles numerados.
+local numbering_min_level = 1
 
 local function bump(lvl)
   counters[lvl] = counters[lvl] + 1
@@ -332,15 +385,17 @@ local function bump(lvl)
 end
 
 local function make_prefix(lvl)
+  if lvl < numbering_min_level then return "" end
   local parts = {}
-  for l = 1, lvl do table.insert(parts, tostring(counters[l])) end
+  for l = numbering_min_level, lvl do table.insert(parts, tostring(counters[l])) end
   return table.concat(parts, ".") .. " "
 end
 
 -- Versión del cálculo de prefijo para el pre-paso (usa tabla local)
 local function make_prefix_with(ctrs, lvl)
+  if lvl < numbering_min_level then return "" end
   local parts = {}
-  for l = 1, lvl do table.insert(parts, tostring(ctrs[l])) end
+  for l = numbering_min_level, lvl do table.insert(parts, tostring(ctrs[l])) end
   return table.concat(parts, ".") .. " "
 end
 
@@ -349,7 +404,17 @@ end
 function Pandoc(doc)
   local numbering  = meta_bool(doc.meta, "slide-numbering", false)
   local show_toc   = meta_bool(doc.meta, "toc-slide", false)
-  local is_handout = meta_bool(doc.meta, "handout", false)
+  local is_handout = meta_bool(doc.meta, "handout-mode", false)
+
+  -- ── Nivel mínimo de heading que recibe numeración ───────────────────────────
+  -- slide-numbering-min-level: 2 → los H1 no muestran número y los niveles
+  -- inferiores se numeran sin el primer componente ("1.2.3" → "2.3").
+  if doc.meta["slide-numbering-min-level"] then
+    local v = tonumber(pandoc.utils.stringify(doc.meta["slide-numbering-min-level"]))
+    if v then
+      numbering_min_level = math.max(1, math.min(5, math.floor(v)))
+    end
+  end
 
   -- ── slide-level: nivel mínimo para slides de contenido ──────────────────────
   -- Niveles 1 .. slide_level-1  →  section-slide (fondo de color)
@@ -527,7 +592,7 @@ function Pandoc(doc)
           new_blocks:insert(pandoc.RawBlock("typst", anchor))
         end
         for _, cb in ipairs(segment) do
-          for _, pb in ipairs(process_cols(cb)) do
+          for _, pb in ipairs(process_cols_deep(cb)) do
             for _, wb in ipairs(wrap_code_block(pb, code_bg, output_bg, code_text)) do
               new_blocks:insert(wb)
             end
@@ -621,11 +686,18 @@ function Pandoc(doc)
       else
         anchor = '\n#only(1)[#metadata(none) <' .. lbl .. '>]'
       end
+      -- Advertir en consola si el heading no tiene contenido (generará transparencia en blanco)
+      if #slide_content == 0 then
+        io.stderr:write(
+          "[touying-slides] AVISO: transparencia en blanco — \"" ..
+          raw_title .. "\" (H" .. lvl .. ") no tiene contenido antes del siguiente heading.\n"
+        )
+      end
       emit_content_slides(slide_content, title_typst, anchor)
 
     else
       -- Bloque genérico: procesar .cols y código coloreado
-      for _, pb in ipairs(process_cols(block)) do
+      for _, pb in ipairs(process_cols_deep(block)) do
         for _, wb in ipairs(wrap_code_block(pb, code_bg, output_bg, code_text)) do
           new_blocks:insert(wb)
         end

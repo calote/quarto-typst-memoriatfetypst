@@ -1,6 +1,6 @@
-# Análisis de Datos con R
+# Fundamentos de Análisis de Datos con R
 
-## 1. Introducción
+## Introducción
 
 ### ¿Qué es el Análisis de Datos?
 
@@ -33,7 +33,7 @@ Las variables se clasifican según la [naturaleza de los datos]{.naranja}:
 
 Es crucial identificar el tipo de variable antes de elegir el método de análisis o la representación gráfica adecuada. Un error común es tratar variables [ordinales como si fueran continuas]{.rosado}, lo que puede llevar a conclusiones erróneas.
 
-## 2. Estadística Descriptiva
+## Estadística Descriptiva
 
 ### Medidas de Tendencia Central
 
@@ -148,7 +148,7 @@ y_cor <- 0.7 * x_cor + rnorm(100, sd = 0.5)
 r_val <- cor(x_cor, y_cor)
 ```
 
-## 3. Correlación
+## Correlación
 
 ### Coeficiente de Correlación Lineal
 
@@ -168,10 +168,20 @@ Sus valores oscilan entre $-1$ y $+1$:
 
 ---
 
-:::::{.content-visible when-meta="es-slides"}
-:::: {layout-ncol=2}
+<!-- NOTA: para columnas en las transparencias se usa el mecanismo propio de la
+     extensión (.cols/.col), no `layout-ncol=2`: Quarto extrae el código fuente
+     de las celdas con `echo: true` fuera del #grid en la salida Typst, y las
+     figuras deben tener un tamaño que quepa en la slide (un desbordamiento
+     rompe la paginación de Touying y los #pause). -->
 
-::: {#first-column}
+::::::{.content-visible when-meta="es-slides"}
+
+
+:::::{.cols gutter="0.1em"}
+::::{.col}
+
+{{< fontsize 0.75em >}}
+
 **Correlación entre dos variables**
 ```{r}
 #| echo: true
@@ -181,13 +191,14 @@ y_sl <- 0.7 * x_sl + rnorm(100, sd = 0.5)
 cor(x_sl, y_sl)
 ```
 
+{{< fontsize 1em >}}
 
-:::
+::::
 
-::: {#second-column}
+::::{.col}
 ```{r}
 #| echo: false
-#| out.width: "65%"
+#| out.width: "55%"
 ggplot(data.frame(x_sl, y_sl), aes(x_sl, y_sl)) +
   geom_point(alpha = 0.6, size = 2, color = "#3366cc") +
   geom_smooth(method = "lm", se = TRUE,
@@ -195,13 +206,15 @@ ggplot(data.frame(x_sl, y_sl), aes(x_sl, y_sl)) +
   labs(title = paste("r =", round(cor(x_sl, y_sl), 2))) +
   theme_minimal()
 ```
-:::
-
 ::::
+
+:::::
+
+
 
 {{< pause >}}
 
-:::::
+::::::
 
 
 :::{.content-visible when-meta="es-memoria"}
