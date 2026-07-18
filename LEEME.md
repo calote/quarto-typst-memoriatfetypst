@@ -861,11 +861,11 @@ Resultados:
 
 El formato slides usa la función `bibliography()` nativa de Typst, cuyo título predeterminado depende del idioma (`"Bibliografía"` en español). Para cambiarlo a `"Referencias"` (coincidiendo con el formato A4), se inyecta un bloque raw `{=typst}` al inicio del `.qmd` envoltorio:
 
-```markdown
+````markdown
 ```{=typst}
 #set bibliography(title: "Referencias")
 ```
-```
+````
 
 Esta regla `set` está en ámbito antes de `#bibliography()` (colocada al final del body por Quarto), por lo que la sección de bibliografía aparece como `"Referencias"` en lugar de `"Bibliografía"`.
 
