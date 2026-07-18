@@ -2,7 +2,7 @@
 // Plantilla principal para touying-slides
 // Integra el paquete Touying con el tema "metropolis"
 
-#import "@preview/touying:0.6.1": *
+#import "@preview/touying:0.6.3": *
 #import themes.metropolis: *
 
 // ── Función principal del documento ──────────────────────────────────────────
@@ -25,6 +25,9 @@
   // Opciones visuales
   aspect-ratio: "16-9",
   handout: false,            // true → modo handout: colapsa los #pause, solo el paso final
+  center-equations: true,    // true → centra ecuaciones en bloque ($$...$$) corrigiendo sangría de listas
+  font-size: 20pt,           // tamaño de fuente global; coincide con el default de metropolis
+                             // Se pasa como parámetro para evitar generarlo en el body y crear slides en blanco
   header-color: rgb("#003f72"),   // fondo barra de título (secondary)
   section-color: none,            // fondo sección H1 (neutral-dark); si none → header-color
   accent-color: rgb("#eb811b"),   // barra de progreso y acento (primary)
@@ -53,10 +56,18 @@
     ),
   )
 
+  // Aplicar el tamaño de fuente directamente en la función (como set rule en el scope
+  // de código), envolviendo todo el contenido posterior (title-slide + body) en un
+  // nodo Styled. Touying 0.6.3 procesa correctamente los nodos Styled que contienen
+  // slide-wrappers sin generar slides en blanco.
+  // NOTA: center-equations se gestiona externamente en typst-show.typ (antes del
+  //       #show: slides.with(...)) para evitar también la generación de slides vacíos.
+  set text(size: font-size)
+
   // Diapositiva de título automática
   title-slide()
 
-  // Resto del contenido (las diapositivas generadas por el filtro Lua)
+  // Resto del contenido (las diapositivas generadas por el filtro Lua).
   body
 }
 

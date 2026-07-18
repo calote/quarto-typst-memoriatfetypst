@@ -763,7 +763,7 @@ Tradicionalmente esto implica mantener dos documentos paralelos que se desincron
 tests/ejemploconslides/
 ├── _extensions/
 │   ├── memoriatfetypst/          # extensión para formato A4
-│   └── qmd-ptm-ty-slides/        # extensión para formato transparencias
+│   └── qmd-ptm-ty-slides/        # extensión para formato transparencias ([repo](https://github.com/calote/qmd-ptm-ty-slides))
 ├── _contenido.qmd                 # ÚNICO fichero que edita el docente
 ├── a_ejemplo.qmd                  # envoltorio → memoria A4
 ├── a_ejemplo-slides.qmd           # envoltorio → transparencias

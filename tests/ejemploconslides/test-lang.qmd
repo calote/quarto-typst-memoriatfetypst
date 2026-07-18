@@ -1,0 +1,61 @@
+---
+title: "Test: lang, figure, table, theorem in slides"
+author: "Test Suite"
+lang: es
+date: today
+bibliography: referencias.bib
+format:
+  memoriatfetypst-typst:
+    output-file: test-lang-a4
+    toc: false
+    portada: false
+    nombre-capitulo: "--"
+    cabecera-capitulo: "estilo03"
+    papersize: a4
+    margin: {x: 2cm, y: 2cm}
+    theorem-appearance: simple
+  qmd-ptm-ty-slides-typst:
+    output-file: test-lang-slides
+    aspect-ratio: "16-9"
+    font-size: "20pt"
+    slide-numbering: false
+    toc-slide: false
+execute:
+  warning: false
+  message: false
+---
+
+# Test de idioma y figuras
+
+## Figura con caption
+
+```{r}
+#| label: fig-test
+#| fig-cap: "**Ejemplo de figura**. Histograma de datos normales"
+#| echo: false
+set.seed(123)
+hist(rnorm(100), main = NA, xlab = "Valor")
+```
+
+## Tabla con caption
+
+```{r}
+#| label: tbl-test
+#| tbl-cap: "**Ejemplo de tabla**. Primeras filas del iris"
+#| echo: false
+knitr::kable(head(iris, 5))
+```
+
+## Teorema
+
+::: {#thm-test}
+##### Teorema Central del Límite
+
+Sea $X_1, X_2, \ldots, X_n$ una muestra aleatoria de una distribución con media $\mu$ y varianza $\sigma^2 < \infty$. Entonces:
+
+$$
+\sqrt{n}(\bar{X}_n - \mu) \xrightarrow{d} \mathcal{N}(0, \sigma^2)
+$$
+:::
+
+Referencia al @thm-test y a la @fig-test. Un ejemplo de cita bibliográfica sería: [@katsushika1831].

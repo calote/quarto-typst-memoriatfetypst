@@ -756,7 +756,7 @@ Traditionally this means maintaining two separate files that easily drift out of
 tests/ejemploconslides/
 ├── _extensions/
 │   ├── memoriatfetypst/          # A4 format extension
-│   └── qmd-ptm-ty-slides/        # slides format extension
+│   └── qmd-ptm-ty-slides/        # slides format extension ([repo](https://github.com/calote/qmd-ptm-ty-slides))
 ├── _contenido.qmd                 # ONE file the teacher edits
 ├── a_ejemplo.qmd                  # wrapper → A4 print document
 ├── a_ejemplo-slides.qmd           # wrapper → slides presentation
