@@ -854,11 +854,11 @@ Results:
 
 The slides format uses Typst's native `bibliography()` function, whose default title is language‑sensitive (`"Bibliografía"` for Spanish). To override it to `"Referencias"` (matching the A4 format), inject a `{=typst}` raw block at the top of the wrapper `.qmd`:
 
-```markdown
+````markdown
 ```{=typst}
 #set bibliography(title: "Referencias")
 ```
-```
+````
 
 This `set` rule enters scope before `#bibliography()` (placed at the end of the body by Quarto), so the bibliography section reads `"Referencias"` instead of `"Bibliografía"`.
 
