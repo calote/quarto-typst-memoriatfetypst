@@ -42,7 +42,7 @@ local function latex_to_typst(mathstr, mathtype)
 end
 
 -- Parámetros configurables
-local INSET    = "7pt"
+local INSET    = "12pt"
 local BASELINE = "0.25em"  -- ajusta este valor según necesites
 
 -- local function make_rect(inner, is_inline)
