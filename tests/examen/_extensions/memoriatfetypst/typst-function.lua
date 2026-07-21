@@ -15,6 +15,12 @@ end
 -- https://github.com/quarto-ext/latex-environment
 local classFunctions = pandoc.MetaMap({})
 
+local ALIGN_CLASSES = {
+  center = "center",
+  right  = "right",
+  left   = "left",
+}
+
 -- helper that identifies arrays
 local function tisarray(t)
   local i = 0
@@ -50,6 +56,17 @@ end
 -- the latex-environment workflow
 local function writeFunctions(el)
   if quarto.doc.is_format('typst') then
+    for klass, align in pairs(ALIGN_CLASSES) do
+      if el.classes:includes(klass) then
+        local valign = el.attributes['align']
+        local align_expr = valign and (align .. " + " .. valign) or align
+        local beginFunc = '#align(' .. align_expr .. ')['
+        local blocks = pandoc.List({ pandoc.RawBlock('typst', beginFunc) })
+        blocks:extend(el.content)
+        blocks = endTypstBlock(blocks)
+        return blocks
+      end
+    end
     for k, v in pairs(classFunctions) do
       if el.classes:includes(k) then
         local beginFunc = '#' .. k
@@ -93,6 +110,12 @@ end
 
 local function writeSpanFunctions(el)
   if quarto.doc.is_format('typst') then
+    for klass, align in pairs(ALIGN_CLASSES) do
+      if el.attr.classes:includes(klass) then
+        local inner = pandoc.write(pandoc.Pandoc({ pandoc.Plain(el.content) }), "typst")
+        return pandoc.RawInline('typst', '#align(' .. align .. ')[' .. inner .. ']')
+      end
+    end
     for k, v in pairs(classFunctions) do
       if el.attr.classes:includes(k) then
         local beginFunc = '#' .. k

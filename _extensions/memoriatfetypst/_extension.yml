@@ -20,4 +20,5 @@ contributes:
         - typst-show.typ
       filters:
         - normalize-exercise-titles.lua
+        - typst-function.lua
         - boxed-filter.lua

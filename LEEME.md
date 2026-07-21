@@ -90,6 +90,7 @@ través de las [opciones YAML](#referencia-de-opciones-yaml).
 | **Apéndices** | Un shortcode `{{< appendix >}}` reinicia la numeración de figuras/tablas/encabezados a `A.1`, `A.2`, … con una página divisoria dedicada. |
 | **Matemáticas** | Sintaxis LaTeX (con `$$ … $$`), más re-centrado automático de ecuaciones en bloque dentro de listas, y un filtro Lua que convierte `\boxed{}` de LaTeX a cajas de Typst. |
 | **Teoremas** | `theorem-style: "modern"` opcional activa cajas coloreadas para teoremas (definition, theorem, lemma, corollary, example, exercise). Los entornos sin título ya no muestran paréntesis vacíos `()`. |
+| **Alineación** | Clases para Div (`:::{.center}`) y span (`[texto]{.center}`) con `center`, `right`, `left` — convertido a `#align(...)` en Typst. Atributo `align="horizon"` para centrado vertical combinado. |
 | **Bloques de código** | Cajas de colores diferenciadas para código R, Python, genérico y Markdown. |
 | **Referencias cruzadas** | Sintaxis estándar de Quarto para secciones, figuras (`@fig-…`), tablas (`@tbl-…`), ecuaciones (`@eq-…`) y teoremas (`@thm-…`). Los colores de enlaces, referencias y citas son personalizables (`link-color`, `internal-link-color`, `cite-color`). |
 | **Bibliografía** | BibLaTeX/BibTeX con estilos CSL `apa` y `chicago-author-date`, y opción para imprimir la bibliografía completa en una sola página. |
@@ -470,6 +471,38 @@ Argumentos disponibles:
 - **`solucion`**: `mostrar-cuadro` (bool o none)
 
 Si el argumento se omite o es `none`, utiliza la configuración YAML global. Si se establece explícitamente (`true`/`false`), lo sobrescribe para esa instancia específica.
+
+### Alineación de texto (center / right / left)
+
+El filtro `typst-function.lua` (activado por defecto desde v1.5.0) reconoce las clases CSS `.center`, `.right` y `.left` en Divs y spans, y las convierte a `#align(center)[...]`, `#align(right)[...]` y `#align(left)[...]` en Typst.
+
+```markdown
+:::{.center}
+Contenido centrado
+:::
+
+:::{.right}
+Contenido alineado a la derecha
+:::
+
+:::{.left}
+Contenido alineado a la izquierda
+:::
+```
+
+Alineación vertical opcional combinada con horizontal mediante el atributo `align`:
+
+```markdown
+:::{.center align="horizon"}
+Centrado horizontal y verticalmente
+:::
+```
+
+También funciona como span inline:
+
+```markdown
+Este texto va [centrado]{.center} en la línea.
+```
 
 #### Ejemplos completos
 
@@ -962,6 +995,7 @@ Cada característica de la plantilla tiene un test de regresión asociado que ve
 | Sidebar primera página | Barra lateral solo en la primera página | [`test-sidebar-first-page.qmd`](tests/regresion/test-sidebar-first-page.qmd) | [📄 PDF](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/regresion/test-sidebar-first-page.pdf) |
 | Typst raw block | Bloques de código Typst raw (numeración, fondos) | [`test-typst-raw-block.qmd`](tests/regresion/test-typst-raw-block.qmd) | [📄 PDF](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/regresion/test-typst-raw-block.pdf) |
 | Watermark brand | Marca de agua + marca vertical brand | [`test-watermark-brand.qmd`](tests/regresion/test-watermark-brand.qmd) | [📄 PDF](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/regresion/test-watermark-brand.pdf) |
+| Alineación | Alineación de texto: `center`, `right`, `left` vía clases en Div y span | [`test-alineacion.qmd`](tests/regresion/test-alineacion.qmd) | [📄 PDF](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/regresion/test-alineacion.pdf) |
 | Doble uso A4 + slides + HTML | Un contenido, tres formatos: PDF A4, PDF slides y HTML — con envoltorio unificado | [`a_ejemplo-unificado.qmd`](tests/ejemploconslides/a_ejemplo-unificado.qmd) | [📄 A4](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/ejemploconslides/a_ejemplo-unificado-a4.pdf) · [📄 Slides](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/ejemploconslides/a_ejemplo-unificado-slides.pdf) · [🌐 HTML](https://raw.githack.com/calote/quarto-typst-memoriatfetypst/main/tests/ejemploconslides/a_ejemplo-unificado.html) |
 
 Los tests se ejecutan con:
@@ -983,6 +1017,7 @@ _extensions/memoriatfetypst/
 ├── typst-show.typ                     # Puente de parámetros Quarto → Typst
 ├── shortcodes.lua                     # Shortcodes `appendix` y `pagebreak`
 ├── normalize-exercise-titles.lua      # Normaliza title: none → title: "" para bloques teorema
+├── typst-function.lua                 # Mapea clases CSS a funciones Typst; soporta alineación
 └── boxed-filter.lua                   # Filtro LaTeX \boxed{} → Typst #box()
 ```
 
@@ -1010,6 +1045,7 @@ _extensions/memoriatfetypst/
   detecta bloques Div con identificadores con prefijos de teorema y
   marca aquellos sin encabezado para el manejo de título vacío.
   Funciona junto con la normalización a nivel Typst en `typst-show.typ`.
+- **`typst-function.lua`** es un filtro Lua de Pandoc que lee los metadatos `functions` del YAML y convierte elementos Div/Span con clases CSS coincidentes en llamadas a funciones Typst (`#function[...]`). También maneja de forma nativa las clases de alineación `.center`, `.right`, `.left`, convirtiéndolas a `#align(center)[...]`, etc. Desde v1.5.0 está activado por defecto en `_extension.yml`.
 - **`boxed-filter.lua`** recorre el AST después de la conversión de
   Pandoc → Typst y reescribe cualquier nodo `Math` que contenga
   `\boxed{…}` en una llamada `#box()` / `#rect()` de Typst, ya que el

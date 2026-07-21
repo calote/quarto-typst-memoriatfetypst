@@ -1,0 +1,88 @@
+---
+title: "Test — Alineación (center / right / left)"
+author: "Test Suite"
+lang: es
+date: today
+date-format: full
+format:
+  memoriatfetypst-typst:
+    portada: false
+    toc: false
+    papersize: a4
+    cabecera-capitulo: "estilo03"
+    nombre-capitulo: "--"
+    referencias-nombre: "Referencias"
+    toccapitulos: false
+  html:
+    toc: true
+    embed-resources: true
+execute:
+  warning: false
+  message: false
+---
+
+Este documento verifica que los Divs y spans con clases `.center`, `.right` y `.left` se renderizan correctamente en Typst.
+
+## Alineación centrada
+
+:::{.center}
+Este texto debería aparecer centrado horizontalmente.
+:::
+
+:::{.center}
+Texto centrado con **negrita** y $E = mc^2$.
+:::
+
+:::{.center}
+Párrafo centrado con varias líneas.
+
+Segundo párrafo centrado.
+:::
+
+## Alineación a la derecha
+
+:::{.right}
+Este texto debería aparecer alineado a la derecha.
+:::
+
+:::{.right}
+Otro párrafo alineado a la derecha con una ecuación: $\int x\,dx = \frac{x^2}{2}$.
+:::
+
+## Alineación a la izquierda
+
+:::{.left}
+Este texto debería aparecer alineado a la izquierda (comportamiento por defecto).
+:::
+
+## Alineación vertical y horizontal combinada
+
+:::{.center align="horizon"}
+Centrado horizontal y verticalmente.
+:::
+
+## Spans inline con alineación
+
+Este span está [centrado]{.center} en medio del texto.
+
+Este span está [a la derecha]{.right} en medio del texto.
+
+Este span está [a la izquierda]{.left} en medio del texto.
+
+## Contenido mixto centrado
+
+:::{.center}
+- Elemento de lista centrado
+- Otro elemento centrado
+
+1. Elemento numerado centrado
+2. Segundo elemento numerado
+:::
+
+:::{.center}
+```{r}
+#| echo: false
+#| fig-cap: "**Gráfico centrado**. Histograma"
+hist(mtcars$mpg, main = NA, xlab = "mpg")
+```
+:::
